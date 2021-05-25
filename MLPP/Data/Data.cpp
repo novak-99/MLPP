@@ -140,6 +140,15 @@ namespace MLPP{
 
     // Images
     
+    void Data::getImage(std::string fileName, std::vector<double>& image){
+        std::ifstream img(fileName, std::ios::binary); 
+        if(!img.is_open()){
+            std::cout << "The file failed to open." << std::endl;
+        }
+        std::vector<double> v{std::istreambuf_iterator<char>{img}, {}}; 
+        image = v;
+    }
+    
     // TEXT-BASED & NLP
     std::string Data::toLower(std::string text){
         for(int i = 0; i < text.size(); i++){
