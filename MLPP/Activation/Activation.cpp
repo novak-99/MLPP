@@ -389,6 +389,24 @@ namespace MLPP{
         return a;
     }
 
+    std::vector<std::vector<double>> Activation::leakyReLU(std::vector<std::vector<double>> z, double c, bool deriv){
+        if(deriv){
+            std::vector<std::vector<double>> deriv;
+            deriv.resize(z.size());
+            for(int i = 0; i < z.size(); i++){
+                deriv[i] = leakyReLU(z[i], c, 1);
+            }
+            return deriv;
+        }
+        std::vector<std::vector<double>> a; 
+        a.resize(z.size());
+
+        for(int i = 0; i < a.size(); i++){
+            a[i] = leakyReLU(z[i], c);
+        }
+        return a;
+    }
+
     double Activation::ELU(double z, double c, bool deriv){
         if (deriv){
             if(z <= 0){
@@ -416,6 +434,24 @@ namespace MLPP{
             return deriv;
         }
         std::vector<double> a; 
+        a.resize(z.size());
+
+        for(int i = 0; i < a.size(); i++){
+            a[i] = ELU(z[i], c);
+        }
+        return a;
+    }
+
+    std::vector<std::vector<double>> Activation::ELU(std::vector<std::vector<double>> z, double c, bool deriv){
+        if(deriv){
+            std::vector<std::vector<double>> deriv;
+            deriv.resize(z.size());
+            for(int i = 0; i < z.size(); i++){
+                deriv[i] = ELU(z[i], c, 1);
+            }
+            return deriv;
+        }
+        std::vector<std::vector<double>> a; 
         a.resize(z.size());
 
         for(int i = 0; i < a.size(); i++){

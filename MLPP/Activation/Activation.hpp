@@ -55,9 +55,11 @@ namespace MLPP{
 
             double leakyReLU(double z, double c, bool deriv = 0);
             std::vector<double> leakyReLU(std::vector<double> z, double c, bool deriv = 0);
+            std::vector<std::vector<double>> leakyReLU(std::vector<std::vector<double>> z, double c, bool deriv = 0);
 
             double ELU(double z, double c, bool deriv = 0);
             std::vector<double> ELU(std::vector<double> z, double c, bool deriv = 0);
+            std::vector<std::vector<double>> ELU(std::vector<std::vector<double>> z, double c, bool deriv = 0);
 
             double SELU(double z, double lambda, double c, bool deriv = 0);
             std::vector<double> SELU(std::vector<double> z, double lambda, double c, bool deriv = 0);
