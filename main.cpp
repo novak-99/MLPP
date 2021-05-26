@@ -224,14 +224,14 @@ int main() {
 
     // // DYNAMICALLY SIZED ANN
     // // Possible Weight Init Methods: Default, Uniform, HeNormal, HeUniform, XavierNormal, XavierUniform
-    // // Possible Activations: Linear, Sigmoid, Swish, CLogLog, Ar{Sinh, Cosh, Tanh, Csch, Sech, Coth},  GaussianCDF, GELU, UnitStep
+    // // Possible Activations: Linear, Sigmoid, Swish, Softplus, CLogLog, Ar{Sinh, Cosh, Tanh, Csch, Sech, Coth},  GaussianCDF, GELU, UnitStep
     // // Possible Loss Functions: MSE, RMSE, MBE, LogLoss, CrossEntropy, HingeLoss
     // std::vector<std::vector<double>> inputSet = {{0,0,1,1}, {0,1,0,1}};
     // std::vector<double> outputSet = {0,1,1,0};
     // ANN ann(alg.transpose(inputSet), outputSet);
     // ann.addLayer(10, "RELU", "Default", "Ridge", 0.0001);
     // ann.addLayer(10, "Sigmoid", "Default");
-    // ann.addOutputLayer("Sigmoid", "LogLoss", "XavierNormal");
+    // ann.addOutputLayer("Softplus", "LogLoss", "XavierNormal");
     // ann.gradientDescent(0.1, 80000, 0);
     // alg.printVector(ann.modelSetTest(alg.transpose(inputSet)));
     // std::cout << "ACCURACY: " << 100 * ann.score() << "%" << std::endl;
@@ -348,8 +348,20 @@ int main() {
     // OutlierFinder outlierFinder(2); // Any datapoint outside of 2 stds from the mean is marked as an outlier. 
     // alg.printVector(outlierFinder.modelTest(inputSet));
 
-    // // Testing for new Functions
+    // Testing for new Functions
+    double z_s = 4;
+    std::cout << avn.swish(z_s) << std::endl;
+    std::cout << avn.swish(z_s, 1) << std::endl;
+
+    std::vector<double> z_v = {4, 5};
+    alg.printVector(avn.swish(z_v));
+    alg.printVector(avn.swish(z_v, 1));
+
+    std::vector<std::vector<double>> Z_m = {{4, 5}};
+    alg.printMatrix(avn.swish(Z_m));
+    alg.printMatrix(avn.swish(Z_m, 1));
     // alg.printMatrix(alg.pinverse({{1,2}, {3,4}}));
+
     
     return 0;
 }

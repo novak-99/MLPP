@@ -276,39 +276,19 @@ namespace MLPP{
     }
 
     std::vector<double> Activation::swish(std::vector<double> z, bool deriv){
+        LinAlg alg;
         if(deriv){
-            std::vector<double> deriv;
-            deriv.resize(z.size());
-            for(int i = 0; i < z.size(); i++){
-                deriv[i] = swish(z[i], 1);
-            }
-            return deriv;
+            alg.addition(swish(z), alg.subtraction(sigmoid(z), alg.hadamard_product(sigmoid(z), swish(z))));
         }
-        std::vector<double> a; 
-        a.resize(z.size());
-
-        for(int i = 0; i < a.size(); i++){
-            a[i] = swish(z[i]);
-        }
-        return a;
+        return alg.hadamard_product(z, sigmoid(z));
     }
 
     std::vector<std::vector<double>> Activation::swish(std::vector<std::vector<double>> z, bool deriv){
+        LinAlg alg;
         if(deriv){
-            std::vector<std::vector<double>> deriv;
-            deriv.resize(z.size());
-            for(int i = 0; i < z.size(); i++){
-                deriv[i] = swish(z[i], 1);
-            }
-            return deriv;
+            alg.addition(swish(z), alg.subtraction(sigmoid(z), alg.hadamard_product(sigmoid(z), swish(z))));
         }
-        std::vector<std::vector<double>> a; 
-        a.resize(z.size());
-
-        for(int i = 0; i < a.size(); i++){
-            a[i] = swish(z[i]);
-        }
-        return a;
+        return alg.hadamard_product(z, sigmoid(z));
     }
 
     double Activation::RELU(double z, bool deriv){
