@@ -231,7 +231,7 @@ int main() {
     // ANN ann(alg.transpose(inputSet), outputSet);
     // ann.addLayer(10, "RELU", "Default", "Ridge", 0.0001);
     // ann.addLayer(10, "Sigmoid", "Default");
-    // ann.addOutputLayer("Softplus", "LogLoss", "XavierNormal");
+    // ann.addOutputLayer("Sigmoid", "LogLoss", "XavierNormal");
     // ann.gradientDescent(0.1, 80000, 0);
     // alg.printVector(ann.modelSetTest(alg.transpose(inputSet)));
     // std::cout << "ACCURACY: " << 100 * ann.score() << "%" << std::endl;
@@ -348,18 +348,19 @@ int main() {
     // OutlierFinder outlierFinder(2); // Any datapoint outside of 2 stds from the mean is marked as an outlier. 
     // alg.printVector(outlierFinder.modelTest(inputSet));
 
-    // Testing for new Functions
-    double z_s = 4;
-    std::cout << avn.sinh(z_s) << std::endl;
-    std::cout << avn.sinh(z_s, 1) << std::endl;
+    // // Testing for new Functions
+    // double z_s = 4;
+    // std::cout << avn.sigmoid(z_s) << std::endl;
+    // std::cout << avn.sigmoid(z_s, 1) << std::endl;
 
-    std::vector<double> z_v = {4, 5};
-    alg.printVector(avn.sinh(z_v));
-    alg.printVector(avn.sinh(z_v, 1));
+    // std::vector<double> z_v = {4, 5};
+    // alg.printVector(avn.sigmoid(z_v));
+    // alg.printVector(avn.sigmoid(z_v, 1));
 
-    std::vector<std::vector<double>> Z_m = {{4, 5}};
-    alg.printMatrix(avn.sinh(Z_m));
-    alg.printMatrix(avn.sinh(Z_m, 1));
+    // std::vector<std::vector<double>> Z_m = {{4, 5}};
+    // alg.printMatrix(avn.sigmoid(Z_m));
+    // alg.printMatrix(avn.sigmoid(Z_m, 1));
+
     // alg.printMatrix(alg.pinverse({{1,2}, {3,4}}));
 
     

@@ -38,33 +38,15 @@ namespace MLPP{
     }
 
     std::vector<double> Activation::sigmoid(std::vector<double> z, bool deriv){
-        if(deriv) {
-            LinAlg alg;
-            return alg.subtraction(sigmoid(z), alg.hadamard_product(sigmoid(z), sigmoid(z)));
-         }
-
-        std::vector<double> a;
-        a.resize(z.size());
-
-        for(int i = 0; i < z.size(); i++){
-            a[i] = sigmoid(z[i]);
-        }
-        return a;
+        LinAlg alg;
+        if(deriv) { return alg.subtraction(sigmoid(z), alg.hadamard_product(sigmoid(z), sigmoid(z))); }
+        return alg.elementWiseDivision(alg.onevec(z.size()), alg.addition(alg.onevec(z.size()), alg.exp(alg.scalarMultiply(-1, z))));
     }
 
     std::vector<std::vector<double>> Activation::sigmoid(std::vector<std::vector<double>> z, bool deriv){
-        if(deriv) {
-            LinAlg alg;
-            return alg.subtraction(sigmoid(z), alg.hadamard_product(sigmoid(z), sigmoid(z)));
-         }
-
-        std::vector<std::vector<double>> a;
-        a.resize(z.size());
-
-        for(int i = 0; i < z.size(); i++){
-            a[i] = sigmoid(z[i]);
-        }
-        return a;
+        LinAlg alg;
+        if(deriv) { return alg.subtraction(sigmoid(z), alg.hadamard_product(sigmoid(z), sigmoid(z))); }
+        return alg.elementWiseDivision(alg.onemat(z.size(), z[0].size()), alg.addition(alg.onemat(z.size(), z[0].size()), alg.exp(alg.scalarMultiply(-1, z))));
     }
 
     std::vector<double> Activation::softmax(std::vector<double> z){
