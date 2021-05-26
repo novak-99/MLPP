@@ -532,76 +532,32 @@ namespace MLPP{
     }
 
     std::vector<double> Activation::sinh(std::vector<double> z, bool deriv){
-        if(deriv){
-            std::vector<double> deriv;
-            deriv.resize(z.size());
-            for(int i = 0; i < z.size(); i++){
-                deriv[i] = sinh(z[i], 1);
-            }
-            return deriv;
-        }
-        std::vector<double> a;
-        a.resize(z.size());
-        for(int i = 0; i < z.size(); i++){
-            a[i] = sinh(z[i]);
-        }
-        return a;
+        if(deriv){ return cosh(z); }
+        LinAlg alg;
+        return alg.scalarMultiply(0.5, alg.subtraction(alg.exp(z), alg.exp(alg.scalarMultiply(-1, z))));
     }
 
     std::vector<std::vector<double>> Activation::sinh(std::vector<std::vector<double>> z, bool deriv){
-        if(deriv){
-            std::vector<std::vector<double>> deriv;
-            deriv.resize(z.size());
-            for(int i = 0; i < z.size(); i++){
-                deriv[i] = sinh(z[i], 1);
-            }
-            return deriv;
-        }
-        std::vector<std::vector<double>> a;
-        a.resize(z.size());
-        for(int i = 0; i < z.size(); i++){
-            a[i] = sinh(z[i]);
-        }
-        return a;
+        if(deriv){ return cosh(z); }
+        LinAlg alg;
+        return alg.scalarMultiply(0.5, alg.subtraction(alg.exp(z), alg.exp(alg.scalarMultiply(-1, z))));
     }
 
     double Activation::cosh(double z, bool deriv){
-        if(deriv){ return cosh(z); }
+        if(deriv){ return sinh(z); }
         return 0.5 * (exp(z) + exp(-z));
     }
 
     std::vector<double> Activation::cosh(std::vector<double> z, bool deriv){
-        if(deriv){
-            std::vector<double> deriv;
-            deriv.resize(z.size());
-            for(int i = 0; i < z.size(); i++){
-                deriv[i] = sinh(z[i], 1);
-            }
-            return deriv;
-        }
-        std::vector<double> a;
-        a.resize(z.size());
-        for(int i = 0; i < z.size(); i++){
-            a[i] = cosh(z[i]);
-        }
-        return a;
+        if(deriv){ return sinh(z); }
+        LinAlg alg;
+        return alg.scalarMultiply(0.5, alg.addition(alg.exp(z), alg.exp(alg.scalarMultiply(-1, z))));
     }
 
     std::vector<std::vector<double>> Activation::cosh(std::vector<std::vector<double>> z, bool deriv){
-        if(deriv){
-            std::vector<std::vector<double>> deriv;
-            deriv.resize(z.size());
-            for(int i = 0; i < z.size(); i++){
-                deriv[i] = cosh(z[i], 1);
-            }
-            return deriv;
-        }
-        std::vector<std::vector<double>> a;
-        a.resize(z.size());
-        for(int i = 0; i < z.size(); i++){
-            a[i] = cosh(z[i]);
-        }
-        return a;
+        if(deriv){ return sinh(z); }
+        LinAlg alg;
+        return alg.scalarMultiply(0.5, alg.addition(alg.exp(z), alg.exp(alg.scalarMultiply(-1, z))));
     }
 
     double Activation::tanh(double z, bool deriv){
