@@ -18,6 +18,8 @@ namespace MLPP{
         
             // Statistical Functions
             double mean(std::vector <double> x);
+            double median(std::vector<double> x);
+            std::vector<double> mode(std::vector<double> x);
             double variance(std::vector <double> x);
             double covariance(std::vector <double> x, std::vector <double> y);
             double correlation(std::vector <double> x, std::vector<double> y);

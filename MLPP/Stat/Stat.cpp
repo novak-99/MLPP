@@ -6,6 +6,9 @@
 
 #include "Stat.hpp"
 #include "Activation/Activation.hpp"
+#include "Data/Data.hpp"
+#include <algorithm>
+#include <map>
 #include <cmath>
 
 namespace MLPP{
@@ -23,6 +26,44 @@ namespace MLPP{
             sum += x[i];
         }
         return sum / x.size();
+    }
+
+    double Stat::median(std::vector<double> x){
+        double center = double(x.size())/double(2); 
+        std::vector<double> original_vec = x;
+        sort(x.begin(), x.end());
+        if(x.size() % 2 == 0){
+            return mean({x[center - 1], x[center]});
+        }
+        else{
+            return x[center - 1 + 0.5];
+        }
+        x = original_vec;
+    }
+
+    std::vector<double> Stat::mode(std::vector<double> x){
+        Data data;
+        std::vector<double> x_set = data.vecToSet(x);
+        std::map<double, int> element_num;
+        for(int i = 0; i < x_set.size(); i++){
+            element_num[x[i]] = 0;
+        }
+        for(int i = 0; i < x.size(); i++){
+            element_num[x[i]]++;
+        }
+        std::vector<double> modes;
+        double max_num = element_num[x_set[0]];
+        for(int i = 0; i < x_set.size(); i++){
+            if(element_num[x_set[i]] > max_num){
+                max_num = element_num[x_set[i]];
+                modes.clear();
+                modes.push_back(x_set[i]);
+            }
+            else if(element_num[x_set[i]] == max_num){
+                modes.push_back(x_set[i]);
+            }
+        }
+        return modes;
     }
 
     double Stat::variance(std::vector<double> x){

@@ -76,11 +76,13 @@ int main() {
     // std::vector<double> outputSet = {0,1,1,0};
 
     // // STATISTICS
-    // std::vector<double> x = {1,2,3,4,5,6,7,8,9,10};
+    // std::vector<double> x = {1,2,3,4,5,6,7,8,9,1};
     // std::vector<double> y = {10,9,8,7,6,5,4,3,2,1};
     // std::vector<double> w = {0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1};
 
     // std::cout << "Arithmetic Mean: " << stat.mean(x) << std::endl;
+    // std::cout << "Median: " << stat.median(x) << std::endl;
+    // alg.printVector(stat.mode(x));
     // std::cout << "Variance: " << stat.variance(x) << std::endl;
     // std::cout << "Covariance: " << stat.covariance(x, y) << std::endl;
     // std::cout << "Correlation: " << stat.correlation(x, y) << std::endl;
