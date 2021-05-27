@@ -101,6 +101,8 @@ namespace MLPP{
         std::vector<double> exp(std::vector<double> a);
 
         std::vector<double> erf(std::vector<double> a);
+
+        std::vector<double> exponentiate(std::vector<double> a, double p);
         
         double dot(std::vector<double> a, std::vector<double> b);
 
@@ -131,6 +133,7 @@ namespace MLPP{
 
         // TENSOR FUNCTIONS
         std::vector<double> flatten(std::vector<std::vector<std::vector<double>>> A);
+        
         void printTensor(std::vector<std::vector<std::vector<double>>> A);
 
         

@@ -636,6 +636,15 @@ namespace MLPP{
         return b;
     }
 
+    std::vector<double> LinAlg::exponentiate(std::vector<double> a, double p){
+        std::vector<double> b; 
+        b.resize(a.size());
+        for(int i = 0; i < b.size(); i++){
+            b[i] = pow(a[i], p); 
+        }
+        return b;
+    }
+
     double LinAlg::dot(std::vector<double> a, std::vector<double> b){
         double c = 0;
         for(int i = 0; i < a.size(); i++){

@@ -350,18 +350,18 @@ int main() {
 
     // // Testing new Functions
     // double z_s = 4;
-    // std::cout << avn.coth(z_s) << std::endl;
-    // std::cout << avn.coth(z_s, 1) << std::endl;
+    // std::cout << avn.arcosh(z_s) << std::endl;
+    // std::cout << avn.arcosh(z_s, 1) << std::endl;
 
     // std::vector<double> z_v = {4, 5};
-    // alg.printVector(avn.coth(z_v));
-    // alg.printVector(avn.coth(z_v, 1));
+    // alg.printVector(avn.arcosh(z_v));
+    // alg.printVector(avn.arcosh(z_v, 1));
 
     // std::vector<std::vector<double>> Z_m = {{4, 5}};
-    // alg.printMatrix(avn.coth(Z_m));
-    // alg.printMatrix(avn.coth(Z_m, 1));
+    // alg.printMatrix(avn.arcosh(Z_m));
+    // alg.printMatrix(avn.arcosh(Z_m, 1));
 
-    // // alg.printMatrix(alg.pinverse({{1,2}, {3,4}}));
+    // alg.printMatrix(alg.pinverse({{1,2}, {3,4}}));
 
     return 0;
 }
