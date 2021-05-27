@@ -58,6 +58,8 @@ namespace MLPP{
 
         std::vector<std::vector<double>> onemat(int n, int m);
 
+        std::vector<std::vector<double>> full(int n, int m, int k);
+
         std::vector<std::vector<double>> round(std::vector<std::vector<double>> A);
         
         std::vector<std::vector<double>> identity(double d);
@@ -102,7 +104,11 @@ namespace MLPP{
         
         double dot(std::vector<double> a, std::vector<double> b);
 
+        std::vector<double> zerovec(int n);
+
         std::vector<double> onevec(int n);
+
+        std::vector<double> full(int n, int k);
 
         double max(std::vector<double> a);
 

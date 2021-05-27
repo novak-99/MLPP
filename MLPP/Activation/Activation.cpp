@@ -570,78 +570,34 @@ namespace MLPP{
     }
 
     std::vector<double> Activation::csch(std::vector<double> z, bool deriv){
-        if(deriv){
-            std::vector<double> deriv;
-            deriv.resize(z.size());
-            for(int i = 0; i < z.size(); i++){
-                deriv[i] = csch(z[i], 1);
-            }
-            return deriv;
-        }
-        std::vector<double> a;
-        a.resize(z.size());
-        for(int i = 0; i < z.size(); i++){
-            a[i] = csch(z[i]);
-        }
-        return a;
+        LinAlg alg;
+        if(deriv){ return alg.hadamard_product(alg.scalarMultiply(-1, csch(z)), coth(z)); }
+        return alg.elementWiseDivision(alg.onevec(z.size()), sinh(z));
     }
 
     std::vector<std::vector<double>> Activation::csch(std::vector<std::vector<double>> z, bool deriv){
-        if(deriv){
-            std::vector<std::vector<double>> deriv;
-            deriv.resize(z.size());
-            for(int i = 0; i < z.size(); i++){
-                deriv[i] = csch(z[i], 1);
-            }
-            return deriv;
-        }
-        std::vector<std::vector<double>> a;
-        a.resize(z.size());
-        for(int i = 0; i < z.size(); i++){
-            a[i] = csch(z[i]);
-        }
-        return a;
+        LinAlg alg;
+        if(deriv){ return alg.hadamard_product(alg.scalarMultiply(-1, csch(z)), coth(z)); }
+        return alg.elementWiseDivision(alg.onemat(z.size(), z[0].size()), sinh(z));
     }
 
     double Activation::sech(double z, bool deriv){
         if(deriv){ return -sech(z) * tanh(z); }
-        return 2 / (exp(z) + exp(-z));
+        return 1 / cosh(z);
     }
 
     std::vector<double> Activation::sech(std::vector<double> z, bool deriv){
-        if(deriv){
-            std::vector<double> deriv;
-            deriv.resize(z.size());
-            for(int i = 0; i < z.size(); i++){
-                deriv[i] = sech(z[i], 1);
-            }
-            return deriv;
-        }
-        std::vector<double> a;
-        a.resize(z.size());
-        for(int i = 0; i < z.size(); i++){
-            a[i] = sech(z[i]);
-        }
-        return a;
+        LinAlg alg;
+        if(deriv){ return alg.hadamard_product(alg.scalarMultiply(-1, sech(z)), tanh(z)); }
+        return alg.elementWiseDivision(alg.onevec(z.size()), cosh(z));
 
         // return activation(z, deriv, static_cast<void (*)(double, bool)>(&sech));
     }
 
     std::vector<std::vector<double>> Activation::sech(std::vector<std::vector<double>> z, bool deriv){
-        if(deriv){
-            std::vector<std::vector<double>> deriv;
-            deriv.resize(z.size());
-            for(int i = 0; i < z.size(); i++){
-                deriv[i] = sech(z[i], 1);
-            }
-            return deriv;
-        }
-        std::vector<std::vector<double>> a;
-        a.resize(z.size());
-        for(int i = 0; i < z.size(); i++){
-            a[i] = sech(z[i]);
-        }
-        return a;
+        LinAlg alg;
+        if(deriv){ return alg.hadamard_product(alg.scalarMultiply(-1, sech(z)), tanh(z)); }
+        return alg.elementWiseDivision(alg.onemat(z.size(), z[0].size()), cosh(z));
 
         // return activation(z, deriv, static_cast<void (*)(double, bool)>(&sech));
     }
@@ -653,37 +609,15 @@ namespace MLPP{
     }
 
     std::vector<double> Activation::coth(std::vector<double> z, bool deriv){
-        if(deriv){
-            std::vector<double> deriv;
-            deriv.resize(z.size());
-            for(int i = 0; i < z.size(); i++){
-                deriv[i] = coth(z[i], 1);
-            }
-            return deriv;
-        }
-        std::vector<double> a;
-        a.resize(z.size());
-        for(int i = 0; i < z.size(); i++){
-            a[i] = coth(z[i]);
-        }
-        return a;
+        LinAlg alg;
+        if(deriv){ return alg.hadamard_product(alg.scalarMultiply(-1, csch(z)), csch(z)); }
+        return alg.elementWiseDivision(alg.onevec(z.size()), tanh(z));
     }
 
     std::vector<std::vector<double>> Activation::coth(std::vector<std::vector<double>> z, bool deriv){
-        if(deriv){
-            std::vector<std::vector<double>> deriv;
-            deriv.resize(z.size());
-            for(int i = 0; i < z.size(); i++){
-                deriv[i] = coth(z[i], 1);
-            }
-            return deriv;
-        }
-        std::vector<std::vector<double>> a;
-        a.resize(z.size());
-        for(int i = 0; i < z.size(); i++){
-            a[i] = coth(z[i]);
-        }
-        return a;
+        LinAlg alg;
+        if(deriv){ return alg.hadamard_product(alg.scalarMultiply(-1, csch(z)), csch(z)); }
+        return alg.elementWiseDivision(alg.onemat(z.size(), z[0].size()), tanh(z));
     }
 
     double Activation::arsinh(double z, bool deriv){

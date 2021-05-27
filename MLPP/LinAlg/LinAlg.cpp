@@ -300,17 +300,21 @@ namespace MLPP{
     }
 
     std::vector<std::vector<double>> LinAlg::onemat(int n, int m){
-        std::vector<std::vector<double>> onemat;
-        onemat.resize(n);
-        for(int i = 0; i < onemat.size(); i++){
-            onemat[i].resize(m);
+        return full(n, m, 1);
+    }
+
+    std::vector<std::vector<double>> LinAlg::full(int n, int m, int k){
+        std::vector<std::vector<double>> full;
+        full.resize(n);
+        for(int i = 0; i < full.size(); i++){
+            full[i].resize(m);
         }
-        for(int i = 0; i < onemat.size(); i++){
-            for(int j = 0; j < onemat[i].size(); j++){
-                onemat[i][j] = 1; 
+        for(int i = 0; i < full.size(); i++){
+            for(int j = 0; j < full[i].size(); j++){
+                full[i][j] = k; 
             }
         }
-        return onemat; 
+        return full; 
     }
 
     std::vector<std::vector<double>> LinAlg::round(std::vector<std::vector<double>> A){
@@ -640,13 +644,23 @@ namespace MLPP{
         return c;
     }
 
+    std::vector<double> LinAlg::zerovec(int n){
+        std::vector<double> zerovec; 
+        zerovec.resize(n);
+        return zerovec;
+    }
+
     std::vector<double> LinAlg::onevec(int n){
-        std::vector<double> onevec; 
-        onevec.resize(n);
-        for(int i = 0; i < onevec.size(); i++){
-            onevec[i] = 1;
+        return full(n, 1);
+    }
+
+    std::vector<double> LinAlg::full(int n, int k){
+        std::vector<double> full; 
+        full.resize(n);
+        for(int i = 0; i < full.size(); i++){
+            full[i] = k;
         }
-        return onevec;
+        return full;
     }
 
     double LinAlg::max(std::vector<double> a){

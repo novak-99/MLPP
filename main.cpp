@@ -9,7 +9,7 @@
 // POLYMORPHIC IMPLEMENTATION OF REGRESSION CLASSES
 // EXTEND SGD/MBGD SUPPORT FOR DYN. SIZED ANN 
 // STANDARDIZE ACTIVATIONS/OPTIMIZATIONS 
-// ADD LEAKYRELU, ELU TO ANN
+// ADD LEAKYRELU, ELU, SELU TO ANN
 
 // HYPOTHESIS TESTING CLASS 
 // GAUSS MARKOV CHECKER CLASS
@@ -348,21 +348,20 @@ int main() {
     // OutlierFinder outlierFinder(2); // Any datapoint outside of 2 stds from the mean is marked as an outlier. 
     // alg.printVector(outlierFinder.modelTest(inputSet));
 
-    // // Testing for new Functions
+    // // Testing new Functions
     // double z_s = 4;
-    // std::cout << avn.sigmoid(z_s) << std::endl;
-    // std::cout << avn.sigmoid(z_s, 1) << std::endl;
+    // std::cout << avn.coth(z_s) << std::endl;
+    // std::cout << avn.coth(z_s, 1) << std::endl;
 
     // std::vector<double> z_v = {4, 5};
-    // alg.printVector(avn.sigmoid(z_v));
-    // alg.printVector(avn.sigmoid(z_v, 1));
+    // alg.printVector(avn.coth(z_v));
+    // alg.printVector(avn.coth(z_v, 1));
 
     // std::vector<std::vector<double>> Z_m = {{4, 5}};
-    // alg.printMatrix(avn.sigmoid(Z_m));
-    // alg.printMatrix(avn.sigmoid(Z_m, 1));
+    // alg.printMatrix(avn.coth(Z_m));
+    // alg.printMatrix(avn.coth(Z_m, 1));
 
-    // alg.printMatrix(alg.pinverse({{1,2}, {3,4}}));
+    // // alg.printMatrix(alg.pinverse({{1,2}, {3,4}}));
 
-    
     return 0;
 }
