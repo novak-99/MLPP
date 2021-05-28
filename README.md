@@ -138,3 +138,9 @@ The result will be the model's predictions for the entire dataset.
     3. Mean Normalization
     4. One Hot Representation 
     5. Reverse One Hot Representation
+14. ***Utilities***
+    1. TP, FP, TN, FN function
+    2. Precision
+    3. Recall 
+    4. Accuracy
+    5. F1 score
