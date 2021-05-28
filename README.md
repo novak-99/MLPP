@@ -8,8 +8,8 @@ Machine learning is a vast and exiciting discipline, garnering attention from sp
 </p>
 
 ## Usage
-Please note that ML++ uses the ```std::vector<double>``` data type for emulating vectors, and the ```std::vector<std::vector<double>>``` data type for emulating matricies.
-<p> </p>
+<p> Please note that ML++ uses the ```std::vector<double>``` data type for emulating vectors, and the ```std::vector<std::vector<double>>``` data type for emulating matricies.</p>
+
 Begin by including the respective header file of your choice.
 ```cpp
 #include "MLPP/LinReg/LinReg.hpp"
