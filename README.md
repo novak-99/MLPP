@@ -8,10 +8,29 @@ Machine learning is a vast and exiciting discipline, garnering attention from sp
 </p>
 
 ## Usage
+Please note that ML++ uses the ```std::vector<double>``` data type for emulating vectors, and the ```std::vector<std::vector<double>>``` data type for emulating matricies.
 Begin by including the respective header file of your choice. 
 ```cpp
 #include "MLPP/LinReg/LinReg.hpp"
 ```
+Next, instantiate an object of the class. Don't forget to pass the input set, output set as parameters.
+```cpp
+LinReg model(inputSet, outputSet);
+```
+Next, call the optimizer that you would like to use. For iterative optimizers such as gradient descent, include the learning rate, epoch number, and whether or not to utilize the UI pannel. 
+```cpp
+model.gradientDescent(0.001, 1000, 0);
+```
+Great, you are now ready to test! To test a singular testing instance, utilize the following function:
+```cpp
+model.modelTest(testSetInstance);
+```
+This will return the model's singular prediction for that example. 
+To test an entire dataset of instances, use the following function: 
+```cpp
+model.modelSetTest(testSet);
+```
+The result will be the model's predictions for the entire dataset.
 
 
 ## Contents of the Library
