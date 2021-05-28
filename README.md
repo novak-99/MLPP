@@ -4,5 +4,5 @@ Machine learning is a vast and exiciting discipline, garnering attention from sp
 
 <p align="center">
     <img src="https://user-images.githubusercontent.com/78002988/119920911-f3338d00-bf21-11eb-89b3-c84bf7c9f4ac.gif" 
-    width = 800 height = 500>
+    width = 600 height = 400>
 </p>
