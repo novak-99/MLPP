@@ -5,5 +5,4 @@ Machine learning is a vast and exiciting discipline, garnering attention from sp
 <p align="center">
     <img src="https://raw.githubusercontent.com/novak-99/MLPP/main/cover_gif.gif" 
     width = 600 height = 400>
-    <br>
 </p>
