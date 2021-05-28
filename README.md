@@ -20,7 +20,7 @@ int main(){
 ...
 }
 ```
-Finally, after you have finished writing your file, compile it using g++. Be sure to have the MLPP.so file in a local directory.
+Finally, after you have concluded writing your file, compile it using g++. Be sure to have the MLPP.so file in a local directory.
 ```
 g++ main.cpp MLPP.so --std=c++17
 ```
