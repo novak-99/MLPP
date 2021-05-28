@@ -8,7 +8,7 @@ Machine learning is a vast and exiciting discipline, garnering attention from sp
 </p>
 
 ## Contents of the Library
-***Regression***
+1. ***Regression***
     1. Linear Regression 
     2. Logistic Regression
     3. Softmax Regression
