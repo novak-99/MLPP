@@ -55,3 +55,23 @@ Machine learning is a vast and exiciting discipline, garnering attention from sp
         - Xavier Uniform
         - He Normal
         - He Uniform
+3. ***Prebuilt Neural Networks***
+    1. Multilayer Peceptron
+    2. Autoencoder
+    3. Softmax Network
+4. ***Natural Language Processing***
+    1. Word2Vec (Continous Bag of Words, Skip-N Gram)
+    2. Stemming
+    3. Bag of Words
+    4. TFIDF
+    5. Tokenization 
+    6. Auxiliary Text Processing Functions
+5. ***Computer Vision***
+    1. The Convolution Operation
+    2. Max, Min, Average Pooling
+    3. Global Max, Min, Average Pooling
+    4. Prebuilt Feature Detectors
+        - Horizontal/Vertical Prewitt Filter
+        - Horizontal/Vertical Sobel Filter
+        - Horizontal/Vertical Scharr Filter
+        - Horizontal/Vertical Roberts Filter
