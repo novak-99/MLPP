@@ -14,7 +14,7 @@ Begin by including the respective header file of your choice.
 ```cpp
 #include "MLPP/LinReg/LinReg.hpp"
 ```
-Next, instantiate an object of the class. Don't forget to pass the input set, output set as parameters.
+Next, instantiate an object of the class. Don't forget to pass the input set and output set as parameters.
 ```cpp
 LinReg model(inputSet, outputSet);
 ```
