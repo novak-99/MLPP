@@ -15,3 +15,12 @@ Machine learning is a vast and exiciting discipline, garnering attention from sp
     4. Exponential Regression
     5. Probit Regression
     6. CLogLog Regression
+2. ***Deep, Dynamically Size Neural Networks***
+    1. Possible Loss Functions
+        - MSE
+        - RMSE 
+        - MAE
+        - MBE
+        - Log Loss
+        - Cross Entropy
+        - Hinge Loss
