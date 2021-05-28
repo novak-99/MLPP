@@ -7,6 +7,33 @@ Machine learning is a vast and exiciting discipline, garnering attention from sp
     width = 600 height = 400>
 </p>
 
+## Usage
+Please note that ML++ uses the ```std::vector<double>``` data type for emulating vectors, and the ```std::vector<std::vector<double>>``` data type for emulating matricies.
+
+Begin by including the respective header file of your choice.
+```cpp
+#include "MLPP/LinReg/LinReg.hpp"
+```
+Next, instantiate an object of the class. Don't forget to pass the input set and output set as parameters.
+```cpp
+LinReg model(inputSet, outputSet);
+```
+Now call the optimizer that you would like to use. For iterative optimizers such as gradient descent, include the learning rate, epoch number, and whether or not to utilize the UI pannel. 
+```cpp
+model.gradientDescent(0.001, 1000, 0);
+```
+Great, you are now ready to test! To test a singular testing instance, utilize the following function:
+```cpp
+model.modelTest(testSetInstance);
+```
+This will return the model's singular prediction for that example. 
+To test an entire dataset of instances, use the following function: 
+```cpp
+model.modelSetTest(testSet);
+```
+The result will be the model's predictions for the entire dataset.
+
+
 ## Contents of the Library
 1. ***Regression***
     1. Linear Regression 
@@ -15,6 +42,7 @@ Machine learning is a vast and exiciting discipline, garnering attention from sp
     4. Exponential Regression
     5. Probit Regression
     6. CLogLog Regression
+    7. Tanh Regression
 2. ***Deep, Dynamically Sized Neural Networks***
     1. Possible Activation Functions
         - Linear
@@ -75,3 +103,19 @@ Machine learning is a vast and exiciting discipline, garnering attention from sp
         - Horizontal/Vertical Sobel Filter
         - Horizontal/Vertical Scharr Filter
         - Horizontal/Vertical Roberts Filter
+6. ***Principal Component Analysis***
+7. ***Naive Bayes Classifiers***
+    1. Multinomial Naive Bayes
+    2. Bernoulli Naive Bayes 
+    3. Gaussian Naive Bayes
+8. ***K-Means***
+9. ***k-Nearest Neighbors***
+10. ***Outlier Finder (Using z-scores)***
+11. ***Linear Algebra Module***
+12. ***Statistics Module***
+13. ***Data Processing Module***
+    1. Setting and Printing Datasets 
+    2. Feature Scaling 
+    3. Mean Normalization
+    4. One Hot Representation 
+    5. Reverse One Hot Representation
