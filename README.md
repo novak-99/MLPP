@@ -1,11 +1,29 @@
 # ML++
 
-Machine learning is a vast and exiciting discipline, garnering attention from specialists of many fields. Unfortunately, for C++ programmers and enthusiasts, there appears to be a lack of support for this magnificient language in the field of machine learning. As a consequence, this library was created in order to fill that void and give C++ a true foothold in the ML sphere to act as a crossroad between low level developers and machine learning engineers. 
+Machine learning is a vast and exiciting discipline, garnering attention from specialists of many fields. Unfortunately, for C++ programmers and enthusiasts, there appears to be a lack of support for this magnificient language in the field of machine learning. To fill that void and give C++ a true foothold in the ML sphere, I created this library. My intent with this library is for it to act as a crossroad between low-level developers and machine learning engineers.
 
 <p align="center">
     <img src="https://user-images.githubusercontent.com/78002988/119920911-f3338d00-bf21-11eb-89b3-c84bf7c9f4ac.gif" 
     width = 600 height = 400>
 </p>
+
+## Installation
+Begin by downloading the header files for the ML++ library. You can do this by cloning the repository into a local directory and extracting the MLPP directory within it, as well as the "MLPP.so" file.
+```
+git clone https://github.com/novak-99/MLPP
+```
+After you have finished cloning it, maintain the ML++ source files in a local directory and include them in this fashion: 
+```cpp
+#include "MLPP/Stat/Stat.hpp" // Including the ML++ statistics module. 
+
+int main(){
+...
+}
+```
+Finally, after you have finished writing your file, compile it using g++. Be sure to have the MLPP.so file in a local directory.
+```
+g++ main.cpp MLPP.so --std=c++17
+```
 
 ## Usage
 Please note that ML++ uses the ```std::vector<double>``` data type for emulating vectors, and the ```std::vector<std::vector<double>>``` data type for emulating matricies.
@@ -27,6 +45,7 @@ Great, you are now ready to test! To test a singular testing instance, utilize t
 model.modelTest(testSetInstance);
 ```
 This will return the model's singular prediction for that example. 
+
 To test an entire dataset of instances, use the following function: 
 ```cpp
 model.modelSetTest(testSet);
