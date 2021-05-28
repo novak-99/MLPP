@@ -16,7 +16,28 @@ Machine learning is a vast and exiciting discipline, garnering attention from sp
     5. Probit Regression
     6. CLogLog Regression
 2. ***Deep, Dynamically Size Neural Networks***
-    1. Possible Loss Functions
+    1. Possible Activation Functions
+        - Linear
+        - Sigmoid
+        - Swish
+        - Softplus
+        - CLogLog
+        - Gaussian CDF
+        - GELU
+        - Unit Step 
+        - Sinh
+        - Cosh
+        - Tanh
+        - Csch
+        - Sech
+        - Coth
+        - Arsinh
+        - Arcosh
+        - Artanh
+        - Arcsch
+        - Arsech
+        - Arcoth
+    2. Possible Loss Functions
         - MSE
         - RMSE 
         - MAE
@@ -24,3 +45,13 @@ Machine learning is a vast and exiciting discipline, garnering attention from sp
         - Log Loss
         - Cross Entropy
         - Hinge Loss
+    3. Possible Regularization Methods
+        - Lasso
+        - Ridge
+        - ElasticNet
+    4. Possible Weight Initialization Methods
+        - Uniform 
+        - Xavier Normal
+        - Xavier Uniform
+        - He Normal
+        - He Uniform
