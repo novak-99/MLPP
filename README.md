@@ -12,7 +12,7 @@ Begin by downloading the header files for the ML++ library. You can do this by c
 ```
 git clone https://github.com/novak-99/MLPP
 ```
-After you have finished cloning it, maintain the ML++ source files in a local directory and include them in this fashion: 
+After doing so, maintain the ML++ source files in a local directory and include them in this fashion: 
 ```cpp
 #include "MLPP/Stat/Stat.hpp" // Including the ML++ statistics module. 
 
