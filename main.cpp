@@ -349,17 +349,17 @@ int main() {
     // alg.printVector(outlierFinder.modelTest(inputSet));
 
     // // Testing new Functions
-    // double z_s = 4;
-    // std::cout << avn.arcosh(z_s) << std::endl;
-    // std::cout << avn.arcosh(z_s, 1) << std::endl;
+    // double z_s = 0.001;
+    // std::cout << avn.arcsch(z_s) << std::endl;
+    // std::cout << avn.arcsch(z_s, 1) << std::endl;
 
-    // std::vector<double> z_v = {4, 5};
-    // alg.printVector(avn.arcosh(z_v));
-    // alg.printVector(avn.arcosh(z_v, 1));
+    // std::vector<double> z_v = {0.001, 5};
+    // alg.printVector(avn.arcsch(z_v));
+    // alg.printVector(avn.arcsch(z_v, 1));
 
-    // std::vector<std::vector<double>> Z_m = {{4, 5}};
-    // alg.printMatrix(avn.arcosh(Z_m));
-    // alg.printMatrix(avn.arcosh(Z_m, 1));
+    // std::vector<std::vector<double>> Z_m = {{0.001, 5}};
+    // alg.printMatrix(avn.arcsch(Z_m));
+    // alg.printMatrix(avn.arcsch(Z_m, 1));
 
     // alg.printMatrix(alg.pinverse({{1,2}, {3,4}}));
 

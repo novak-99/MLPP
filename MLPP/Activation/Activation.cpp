@@ -665,38 +665,14 @@ namespace MLPP{
 
     std::vector<double> Activation::artanh(std::vector<double> z, bool deriv){
         LinAlg alg;
-        if(deriv){
-            std::vector<double> deriv;
-            deriv.resize(z.size());
-            for(int i = 0; i < z.size(); i++){
-                deriv[i] = artanh(z[i], 1);
-            }
-            return deriv;
-        }
-        std::vector<double> a;
-        a.resize(z.size());
-        for(int i = 0; i < z.size(); i++){
-            a[i] = artanh(z[i]);
-        }
-        return a;
+        if(deriv){ return alg.elementWiseDivision(alg.onevec(z.size()),  alg.subtraction(alg.onevec(z.size()), alg.hadamard_product(z, z))); }
+        return alg.scalarMultiply(0.5, alg.log(alg.elementWiseDivision(alg.addition(alg.onevec(z.size()), z), alg.subtraction(alg.onevec(z.size()), z))));
     }
 
     std::vector<std::vector<double>> Activation::artanh(std::vector<std::vector<double>> z, bool deriv){
         LinAlg alg;
-        if(deriv){
-            std::vector<std::vector<double>> deriv;
-            deriv.resize(z.size());
-            for(int i = 0; i < z.size(); i++){
-                deriv[i] = artanh(z[i], 1);
-            }
-            return deriv;
-        }
-        std::vector<std::vector<double>> a;
-        a.resize(z.size());
-        for(int i = 0; i < z.size(); i++){
-            a[i] = artanh(z[i]);
-        }
-        return a;
+        if(deriv){ return alg.elementWiseDivision(alg.onemat(z.size(), z[0].size()),  alg.subtraction(alg.onemat(z.size(), z[0].size()), alg.hadamard_product(z, z))); }
+        return alg.scalarMultiply(0.5, alg.log(alg.elementWiseDivision(alg.addition(alg.onemat(z.size(), z[0].size()), z), alg.subtraction(alg.onemat(z.size(), z[0].size()), z))));
     }
 
     double Activation::arcsch(double z, bool deriv){
@@ -708,20 +684,9 @@ namespace MLPP{
 
     std::vector<double> Activation::arcsch(std::vector<double> z, bool deriv){
         LinAlg alg;
-        if(deriv){
-            std::vector<double> deriv;
-            deriv.resize(z.size());
-            for(int i = 0; i < z.size(); i++){
-                deriv[i] = arcsch(z[i], 1);
-            }
-            return deriv;
-        }
-        std::vector<double> a;
-        a.resize(z.size());
-        for(int i = 0; i < z.size(); i++){
-            a[i] = arcsch(z[i]);
-        }
-        return a;
+        if(deriv){ return alg.elementWiseDivision(alg.full(z.size(), -1),  alg.hadamard_product(alg.hadamard_product(z, z), alg.exponentiate(alg.addition(alg.onevec(z.size()), alg.elementWiseDivision(alg.onevec(z.size()), alg.hadamard_product(z, z))), 0.5))); }
+        return alg.log(alg.addition(alg.exponentiate(alg.addition(alg.onevec(z.size()), alg.elementWiseDivision(alg.onevec(z.size()), alg.hadamard_product(z, z))), 0.5), alg.elementWiseDivision(alg.onevec(z.size()), z)));
+        
     }
 
     std::vector<std::vector<double>> Activation::arcsch(std::vector<std::vector<double>> z, bool deriv){
