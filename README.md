@@ -7,6 +7,13 @@ Machine learning is a vast and exiciting discipline, garnering attention from sp
     width = 600 height = 400>
 </p>
 
+## Usage
+Begin by including the respective header file of your choice. 
+```cpp
+#include "MLPP/LinReg/LinReg.hpp"
+```
+
+
 ## Contents of the Library
 1. ***Regression***
     1. Linear Regression 
