@@ -15,6 +15,7 @@ Machine learning is a vast and exiciting discipline, garnering attention from sp
     4. Exponential Regression
     5. Probit Regression
     6. CLogLog Regression
+    7. Tanh Regression
 2. ***Deep, Dynamically Sized Neural Networks***
     1. Possible Activation Functions
         - Linear
