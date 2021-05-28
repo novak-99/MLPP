@@ -80,7 +80,7 @@ Machine learning is a vast and exiciting discipline, garnering attention from sp
     1. Multinomial Naive Bayes
     2. Bernoulli Naive Bayes 
     3. Gaussian Naive Bayes
-8. ***KMeans***
+8. ***K-Means***
 9. ***k-Nearest Neighbors***
 10. ***Outlier Finder (Using z-scores)***
 11. ***Linear Algebra Module***
