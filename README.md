@@ -36,7 +36,7 @@ Next, instantiate an object of the class. Don't forget to pass the input set and
 ```cpp
 LinReg model(inputSet, outputSet);
 ```
-Now call the optimizer that you would like to use. For iterative optimizers such as gradient descent, include the learning rate, epoch number, and whether or not to utilize the UI pannel. 
+Afterwards, call the optimizer that you would like to use. For iterative optimizers such as gradient descent, include the learning rate, epoch number, and whether or not to utilize the UI pannel. 
 ```cpp
 model.gradientDescent(0.001, 1000, 0);
 ```
