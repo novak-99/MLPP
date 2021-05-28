@@ -75,3 +75,19 @@ Machine learning is a vast and exiciting discipline, garnering attention from sp
         - Horizontal/Vertical Sobel Filter
         - Horizontal/Vertical Scharr Filter
         - Horizontal/Vertical Roberts Filter
+6. ***Principal Component Analysis***
+7. ***Naive Bayes Classifiers***
+    1. Multinomial Naive Bayes
+    2. Bernoulli Naive Bayes 
+    3. Gaussian Naive Bayes
+8. ***KMeans***
+9. ***k-Nearest Neighbors***
+10. ***Outlier Finder (Using z-scores)***
+11. ***Linear Algebra Module***
+12. ***Statistics Module***
+13. ***Data Processing Module***
+    1. Setting and Printing Datasets 
+    2. Feature Scaling 
+    3. Mean Normalization
+    4. One Hot Representation 
+    5. Reverse One Hot Representation
