@@ -94,6 +94,7 @@ namespace MLPP{
     }
 
     void ProbitReg::SGD(double learning_rate, int max_epoch, bool UI){
+        // NOTE: ∂y_hat/∂z is sparse
         LinAlg alg;
         Activation avn;
         Reg regularization;
@@ -111,24 +112,15 @@ namespace MLPP{
             double z = propagate(inputSet[outputIndex]);
             cost_prev = Cost({y_hat}, {outputSet[outputIndex]});
 
+            double error = y_hat - outputSet[outputIndex];
 
-            for(int i = 0; i < k; i++){
-                    
-                // Calculating the weight gradients
-                
-                double w_gradient = (y_hat - outputSet[outputIndex]) * ((1 / sqrt(2 * M_PI)) * exp(-z * z / 2)) * inputSet[outputIndex][i];
-
-                std::cout << exp(-z * z / 2) << std::endl;
-                // Weight updation
-                weights[i] -= learning_rate * w_gradient;
-            }
+            // Weight Updation
+            weights = alg.subtraction(weights, alg.scalarMultiply(learning_rate * error * ((1 / sqrt(2 * M_PI)) * exp(-z * z / 2)), inputSet[outputIndex]));
             weights = regularization.regWeights(weights, lambda, alpha, reg);
             
-            // Calculating the bias gradients
-            double b_gradient = (y_hat - outputSet[outputIndex]);
-            
             // Bias updation
-            bias -= learning_rate * b_gradient * ((1 / sqrt(2 * M_PI)) * exp(-z * z / 2));
+            bias -= learning_rate * error * ((1 / sqrt(2 * M_PI)) * exp(-z * z / 2));
+
             y_hat = Evaluate({inputSet[outputIndex]});
                 
             if(UI) { 
