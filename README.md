@@ -46,7 +46,7 @@ model.modelTest(testSetInstance);
 ```
 This will return the model's singular prediction for that example. 
 
-To test an entire dataset of instances, use the following function: 
+To test an entire dataset of testing instances, use the following function: 
 ```cpp
 model.modelSetTest(testSet);
 ```
