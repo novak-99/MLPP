@@ -222,6 +222,14 @@ namespace MLPP{
         return deter;
     }
 
+    double LinAlg::trace(std::vector<std::vector<double>> A){
+        double trace = 0;
+        for(int i = 0; i < A.size(); i++){
+            trace += A[i][i];
+        }
+        return trace;
+    }
+
     std::vector<std::vector<double>> LinAlg::cofactor(std::vector<std::vector<double>> A, int n, int i, int j){
         std::vector<std::vector<double>> cof;
         cof.resize(A.size());

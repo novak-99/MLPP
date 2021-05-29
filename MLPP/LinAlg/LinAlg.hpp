@@ -45,6 +45,8 @@ namespace MLPP{
         std::vector<std::vector<double>> exponentiate(std::vector<std::vector<double>> A, double p);
         
         double det(std::vector<std::vector<double>> A, int d);
+
+        double trace(std::vector<std::vector<double>> A); 
         
         std::vector<std::vector<double>> cofactor(std::vector<std::vector<double>> A, int n, int i, int j);
         

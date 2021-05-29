@@ -34,6 +34,18 @@ namespace MLPP {
         activation_map["CLogLog"] = &Activation::cloglog;
         activationTest_map["CLogLog"] = &Activation::cloglog;
 
+        activation_map["GaussianCDF"] = &Activation::gaussianCDF;
+        activationTest_map["GaussianCDF"] = &Activation::gaussianCDF;
+
+        activation_map["RELU"] = &Activation::RELU;
+        activationTest_map["RELU"] = &Activation::RELU;
+
+        activation_map["GELU"] = &Activation::GELU;
+        activationTest_map["GELU"] = &Activation::GELU;
+
+        activation_map["UnitStep"] = &Activation::unitStep;
+        activationTest_map["UnitStep"] = &Activation::unitStep;
+
         activation_map["Sinh"] = &Activation::sinh;
         activationTest_map["Sinh"] = &Activation::sinh;
 
@@ -69,18 +81,6 @@ namespace MLPP {
 
         activation_map["Arcoth"] = &Activation::arcoth;
         activationTest_map["Arcoth"] = &Activation::arcoth;
-
-        activation_map["GaussianCDF"] = &Activation::gaussianCDF;
-        activationTest_map["GaussianCDF"] = &Activation::gaussianCDF;
-
-        activation_map["RELU"] = &Activation::RELU;
-        activationTest_map["RELU"] = &Activation::RELU;
-
-        activation_map["GELU"] = &Activation::GELU;
-        activationTest_map["GELU"] = &Activation::GELU;
-
-        activation_map["UnitStep"] = &Activation::unitStep;
-        activationTest_map["UnitStep"] = &Activation::unitStep;
     }
 
     void HiddenLayer::forwardPass(){

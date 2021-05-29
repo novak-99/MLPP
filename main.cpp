@@ -297,7 +297,7 @@ int main() {
 
     // auto [U, S, Vt] = alg.SVD(inputSet);
 
-    // // PCA done using Jacobi's method to approximate eigenvalues.
+    // // PCA done using Jacobi's method to approximate eigenvalues and eigenvectors.
     // PCA dr(inputSet, 1); // 1 dimensional representation. 
     // std::cout << std::endl;
     // std::cout << "Dimensionally reduced representation:" << std::endl;
@@ -361,6 +361,7 @@ int main() {
     // alg.printMatrix(avn.arcoth(Z_m));
     // alg.printMatrix(avn.arcoth(Z_m, 1));
 
+    // std::cout << alg.trace({{1,2}, {3,4}}) << std::endl;
     // alg.printMatrix(alg.pinverse({{1,2}, {3,4}}));
 
     return 0;
