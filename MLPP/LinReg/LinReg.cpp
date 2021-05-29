@@ -65,6 +65,7 @@ namespace MLPP{
     }
 
     void LinReg::SGD(double learning_rate, int max_epoch, bool UI){
+        LinAlg alg;
         Reg regularization;
         Utilities util;
         double cost_prev = 0;
@@ -79,24 +80,15 @@ namespace MLPP{
             double y_hat = Evaluate(inputSet[outputIndex]);
             cost_prev = Cost({y_hat}, {outputSet[outputIndex]});
 
+            double error = y_hat - outputSet[outputIndex];
 
-            for(int i = 0; i < k; i++){
-                    
-                // Calculating the weight gradients
-                
-                double w_gradient = (y_hat - outputSet[outputIndex]) * inputSet[outputIndex][i];
-                    
-
-                // Weight updation
-                weights[i] -= learning_rate * w_gradient;
-            }
+            // Weight updation
+            weights = alg.subtraction(weights, alg.scalarMultiply(learning_rate * error, inputSet[outputIndex]));
             weights = regularization.regWeights(weights, lambda, alpha, reg);
             
-            // Calculating the bias gradients
-            double b_gradient = (y_hat - outputSet[outputIndex]);
-            
             // Bias updation
-            bias -= learning_rate * b_gradient;
+            bias -= learning_rate * error;
+
             y_hat = Evaluate({inputSet[outputIndex]});
                 
             if(UI) { 
