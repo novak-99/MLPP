@@ -704,38 +704,14 @@ namespace MLPP{
 
     std::vector<double> Activation::arsech(std::vector<double> z, bool deriv){
         LinAlg alg;
-        if(deriv){
-            std::vector<double> deriv;
-            deriv.resize(z.size());
-            for(int i = 0; i < z.size(); i++){
-                deriv[i] = arsech(z[i], 1);
-            }
-            return deriv;
-        }
-        std::vector<double> a;
-        a.resize(z.size());
-        for(int i = 0; i < z.size(); i++){
-            a[i] = arsech(z[i]);
-        }
-        return a;
+        if(deriv){ return alg.elementWiseDivision(alg.full(z.size(), -1), alg.hadamard_product(z, alg.exponentiate(alg.subtraction(alg.onevec(z.size()), alg.hadamard_product(z, z)), 0.5))); }
+        return alg.log(alg.addition(alg.elementWiseDivision(alg.onevec(z.size()), z), alg.hadamard_product(alg.addition(alg.elementWiseDivision(alg.onevec(z.size()), z), alg.onevec(z.size())), alg.subtraction(alg.elementWiseDivision(alg.onevec(z.size()), z), alg.onevec(z.size())))));
     }
 
     std::vector<std::vector<double>> Activation::arsech(std::vector<std::vector<double>> z, bool deriv){
         LinAlg alg;
-        if(deriv){
-            std::vector<std::vector<double>> deriv;
-            deriv.resize(z.size());
-            for(int i = 0; i < z.size(); i++){
-                deriv[i] = arsech(z[i], 1);
-            }
-            return deriv;
-        }
-        std::vector<std::vector<double>> a;
-        a.resize(z.size());
-        for(int i = 0; i < z.size(); i++){
-            a[i] = arsech(z[i]);
-        }
-        return a;
+        if(deriv){ return alg.elementWiseDivision(alg.full(z.size(), z[0].size(), -1), alg.hadamard_product(z, alg.exponentiate(alg.subtraction(alg.onemat(z.size(), z[0].size()), alg.hadamard_product(z, z)), 0.5))); }
+        return alg.log(alg.addition(alg.elementWiseDivision(alg.onemat(z.size(), z[0].size()), z), alg.hadamard_product(alg.addition(alg.elementWiseDivision(alg.onemat(z.size(), z[0].size()), z), alg.onemat(z.size(), z[0].size())), alg.subtraction(alg.elementWiseDivision(alg.onemat(z.size(), z[0].size()), z), alg.onemat(z.size(), z[0].size())))));
     }
 
     double Activation::arcoth(double z, bool deriv){
@@ -745,40 +721,16 @@ namespace MLPP{
         return 0.5 * log((1 + z)/(z - 1));
     }
 
-    std::vector<std::vector<double>> Activation::arcoth(std::vector<std::vector<double>> z, bool deriv){
-        LinAlg alg;
-        if(deriv){
-            std::vector<std::vector<double>> deriv;
-            deriv.resize(z.size());
-            for(int i = 0; i < z.size(); i++){
-                deriv[i] = arcoth(z[i], 1);
-            }
-            return deriv;
-        }
-        std::vector<std::vector<double>> a;
-        a.resize(z.size());
-        for(int i = 0; i < z.size(); i++){
-            a[i] = arcoth(z[i]);
-        }
-        return a;
-    }
-
     std::vector<double> Activation::arcoth(std::vector<double> z, bool deriv){
         LinAlg alg;
-        if(deriv){
-            std::vector<double> deriv;
-            deriv.resize(z.size());
-            for(int i = 0; i < z.size(); i++){
-                deriv[i] = arcoth(z[i], 1);
-            }
-            return deriv;
-        }
-        std::vector<double> a;
-        a.resize(z.size());
-        for(int i = 0; i < z.size(); i++){
-            a[i] = arcoth(z[i]);
-        }
-        return a;
+        if(deriv){ return alg.elementWiseDivision(alg.onevec(z.size()), alg.subtraction(alg.onevec(z.size()), alg.hadamard_product(z, z))); }
+        return alg.scalarMultiply(0.5, alg.log(alg.elementWiseDivision(alg.addition(alg.onevec(z.size()), z), alg.subtraction(z, alg.onevec(z.size())))));
+    }
+
+    std::vector<std::vector<double>> Activation::arcoth(std::vector<std::vector<double>> z, bool deriv){
+        LinAlg alg;
+        if(deriv){ return alg.elementWiseDivision(alg.onemat(z.size(), z[0].size()), alg.subtraction(alg.onemat(z.size(), z[0].size()), alg.hadamard_product(z, z))); }
+        return alg.scalarMultiply(0.5, alg.log(alg.elementWiseDivision(alg.addition(alg.onemat(z.size(), z[0].size()), z), alg.subtraction(z, alg.onemat(z.size(), z[0].size())))));
     }
 
     // TO DO: Implement this template activation
