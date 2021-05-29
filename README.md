@@ -70,6 +70,7 @@ The result will be the model's predictions for the entire dataset.
         - Softplus
         - CLogLog
         - Gaussian CDF
+        - RELU
         - GELU
         - Unit Step 
         - Sinh
