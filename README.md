@@ -8,7 +8,7 @@ Machine learning is a vast and exiciting discipline, garnering attention from sp
 </p>
 
 ## Installation
-Begin by downloading the header files for the ML++ library. You can do this by cloning the repository into a local directory and extracting the MLPP directory within it, as well as the "MLPP.so" file.
+Begin by downloading the header files for the ML++ library. You can do this by cloning the repository and extracting the MLPP directory within it, as well as the "MLPP.so" file.
 ```
 git clone https://github.com/novak-99/MLPP
 ```
@@ -20,7 +20,7 @@ int main(){
 ...
 }
 ```
-Finally, after you have concluded writing your file, compile it using g++. Be sure to have the MLPP.so file in a local directory.
+Finally, after you have concluded creating a project, compile it using g++. Be sure to store the MLPP.so file in a local directory.
 ```
 g++ main.cpp MLPP.so --std=c++17
 ```
@@ -46,7 +46,7 @@ model.modelTest(testSetInstance);
 ```
 This will return the model's singular prediction for that example. 
 
-To test an entire dataset of instances, use the following function: 
+To test an entire test set, use the following function: 
 ```cpp
 model.modelSetTest(testSet);
 ```
