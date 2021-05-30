@@ -34,7 +34,7 @@ class AutoEncoder{
             void forwardPass();
 
             std::vector<std::vector<double>> inputSet;
-            std::vector<std::vector<double>> y_hat; // This is your latent representation
+            std::vector<std::vector<double>> y_hat;
         
             std::vector<std::vector<double>> weights1;
             std::vector<std::vector<double>> weights2;

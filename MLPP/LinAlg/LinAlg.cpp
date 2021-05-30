@@ -593,6 +593,10 @@ namespace MLPP{
         return a;
     }
 
+    std::vector<double> LinAlg::solve(std::vector<std::vector<double>> A, std::vector<double> b){
+        return mat_vec_mult(inverse(A), b);
+    }
+
     void LinAlg::printMatrix(std::vector<std::vector<double>> A){
         for(int i = 0; i < A.size(); i++){
             for(int j = 0; j < A[i].size(); j++){

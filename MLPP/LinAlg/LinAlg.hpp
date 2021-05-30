@@ -83,6 +83,8 @@ namespace MLPP{
         double sum_elements(std::vector<std::vector<double>> A);
 
         std::vector<double> flatten(std::vector<std::vector<double>> A);
+
+        std::vector<double> solve(std::vector<std::vector<double>> A, std::vector<double> b);
         
         void printMatrix(std::vector<std::vector<double>> A);
         
