@@ -76,7 +76,7 @@ namespace MLPP{
 
     std::vector<std::vector<double>> LinAlg::kronecker_product(std::vector<std::vector<double>> A, std::vector<std::vector<double>> B){
         std::vector<std::vector<double>> C;
-        
+
         // [1,1,1,1]   [1,2,3,4,5]
         // [1,1,1,1]   [1,2,3,4,5]    
         //             [1,2,3,4,5]
@@ -213,6 +213,24 @@ namespace MLPP{
             }
         }
         return A; 
+    }
+
+    std::vector<std::vector<double>> LinAlg::sqrt(std::vector<std::vector<double>> A){
+        return exponentiate(A, 0.5); 
+    }
+
+    std::vector<std::vector<double>> LinAlg::matrixPower(std::vector<std::vector<double>> A, int n){
+        std::vector<std::vector<double>> B = identity(A.size());
+        if(n == 0){
+            return identity(A.size());
+        }
+        else if(n < 0){
+            A = inverse(A);
+        }
+        for(int i = 0; i < abs(n); i++){
+            B = matmult(B, A);
+        }
+        return B;
     }
 
     double LinAlg::det(std::vector<std::vector<double>> A, int d){
@@ -352,6 +370,22 @@ namespace MLPP{
             }
         }
         return full; 
+    }
+
+    double LinAlg::max(std::vector<std::vector<double>> A){
+        std::vector<double> max_elements;
+        for(int i = 0; i < A.size(); i++){
+            max_elements.push_back(max(A[i]));
+        }
+        return max(max_elements);
+    }
+
+    double LinAlg::min(std::vector<std::vector<double>> A){
+        std::vector<double> max_elements;
+        for(int i = 0; i < A.size(); i++){
+            max_elements.push_back(min(A[i]));
+        }
+        return min(max_elements);
     }
 
     std::vector<std::vector<double>> LinAlg::round(std::vector<std::vector<double>> A){
@@ -529,7 +563,7 @@ namespace MLPP{
         auto [left_eigenvecs, eigenvals] = eig(matmult(A, transpose(A)));
         auto [right_eigenvecs, right_eigenvals] = eig(matmult(transpose(A), A));
 
-        std::vector<std::vector<double>> singularvals = exponentiate(eigenvals, 0.5);
+        std::vector<std::vector<double>> singularvals = sqrt(eigenvals);
         std::vector<std::vector<double>> sigma = zeromat(A.size(), A[0].size());
          for(int i = 0; i < singularvals.size(); i++){
             for(int j = 0; j < singularvals[i].size(); j++){
@@ -682,6 +716,10 @@ namespace MLPP{
         return b;
     }
 
+    std::vector<double> LinAlg::sqrt(std::vector<double> a){
+        return exponentiate(a, 0.5);
+    }
+
     double LinAlg::dot(std::vector<double> a, std::vector<double> b){
         double c = 0;
         for(int i = 0; i < a.size(); i++){
@@ -763,7 +801,7 @@ namespace MLPP{
     }
 
     double LinAlg::cosineSimilarity(std::vector<double> a, std::vector<double> b){
-        return dot(a, b) / (sqrt(norm_sq(a)) * sqrt(norm_sq(b)));
+        return dot(a, b) / (std::sqrt(norm_sq(a)) * std::sqrt(norm_sq(b)));
     }
 
     void LinAlg::printVector(std::vector<double> a){

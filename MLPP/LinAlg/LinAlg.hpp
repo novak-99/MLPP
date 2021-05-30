@@ -43,6 +43,10 @@ namespace MLPP{
         std::vector<std::vector<double>> erf(std::vector<std::vector<double>> A);
 
         std::vector<std::vector<double>> exponentiate(std::vector<std::vector<double>> A, double p);
+
+        std::vector<std::vector<double>> sqrt(std::vector<std::vector<double>> A);
+
+        std::vector<std::vector<double>> matrixPower(std::vector<std::vector<double>> A, int n);
         
         double det(std::vector<std::vector<double>> A, int d);
 
@@ -61,6 +65,10 @@ namespace MLPP{
         std::vector<std::vector<double>> onemat(int n, int m);
 
         std::vector<std::vector<double>> full(int n, int m, int k);
+
+        double max(std::vector<std::vector<double>> A);
+
+        double min(std::vector<std::vector<double>> A);
 
         std::vector<std::vector<double>> round(std::vector<std::vector<double>> A);
         
@@ -105,6 +113,8 @@ namespace MLPP{
         std::vector<double> erf(std::vector<double> a);
 
         std::vector<double> exponentiate(std::vector<double> a, double p);
+
+        std::vector<double> sqrt(std::vector<double> a);
         
         double dot(std::vector<double> a, std::vector<double> b);
 

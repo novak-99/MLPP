@@ -365,6 +365,7 @@ int main() {
     // alg.printMatrix(alg.pinverse({{1,2}, {3,4}}));
     // alg.printMatrix(alg.diag({1,2,3,4,5}));
     // alg.printMatrix(alg.kronecker_product({{1,2,3,4,5}}, {{6,7,8,9,10}}));
+    // alg.printMatrix(alg.matrixPower({{5,5},{5,5}}, 2));
 
     return 0;
 }

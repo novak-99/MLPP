@@ -627,14 +627,14 @@ namespace MLPP{
 
     std::vector<double> Activation::arsinh(std::vector<double> z, bool deriv){
         LinAlg alg;
-        if(deriv){ return alg.elementWiseDivision(alg.onevec(z.size()), alg.exponentiate(alg.addition(alg.hadamard_product(z, z), alg.onevec(z.size())), 0.5)); }
-        return alg.log(alg.addition(z, alg.exponentiate(alg.addition(alg.hadamard_product(z, z), alg.onevec(z.size())), 0.5)));
+        if(deriv){ return alg.elementWiseDivision(alg.onevec(z.size()), alg.sqrt(alg.addition(alg.hadamard_product(z, z), alg.onevec(z.size())))); }
+        return alg.log(alg.addition(z, alg.sqrt(alg.addition(alg.hadamard_product(z, z), alg.onevec(z.size())))));
     }
 
     std::vector<std::vector<double>> Activation::arsinh(std::vector<std::vector<double>> z, bool deriv){
         LinAlg alg;
-        if(deriv){ return alg.elementWiseDivision(alg.onemat(z.size(), z[0].size()), alg.exponentiate(alg.addition(alg.hadamard_product(z, z), alg.onemat(z.size(), z[0].size())), 0.5)); }
-        return alg.log(alg.addition(z, alg.exponentiate(alg.addition(alg.hadamard_product(z, z), alg.onemat(z.size(), z[0].size())), 0.5)));
+        if(deriv){ return alg.elementWiseDivision(alg.onemat(z.size(), z[0].size()), alg.sqrt(alg.addition(alg.hadamard_product(z, z), alg.onemat(z.size(), z[0].size())))); }
+        return alg.log(alg.addition(z, alg.sqrt(alg.addition(alg.hadamard_product(z, z), alg.onemat(z.size(), z[0].size())))));
     }
 
     double Activation::arcosh(double z, bool deriv){
@@ -646,14 +646,14 @@ namespace MLPP{
 
     std::vector<double> Activation::arcosh(std::vector<double> z, bool deriv){
         LinAlg alg;
-        if(deriv){ return alg.elementWiseDivision(alg.onevec(z.size()), alg.exponentiate(alg.subtraction(alg.hadamard_product(z, z), alg.onevec(z.size())), 0.5)); }
-        return alg.log(alg.addition(z, alg.exponentiate(alg.subtraction(alg.hadamard_product(z, z), alg.onevec(z.size())), 0.5)));
+        if(deriv){ return alg.elementWiseDivision(alg.onevec(z.size()), alg.sqrt(alg.subtraction(alg.hadamard_product(z, z), alg.onevec(z.size())))); }
+        return alg.log(alg.addition(z, alg.sqrt(alg.subtraction(alg.hadamard_product(z, z), alg.onevec(z.size())))));
     }
 
     std::vector<std::vector<double>> Activation::arcosh(std::vector<std::vector<double>> z, bool deriv){
         LinAlg alg;
-        if(deriv){ return alg.elementWiseDivision(alg.onemat(z.size(), z[0].size()), alg.exponentiate(alg.subtraction(alg.hadamard_product(z, z), alg.onemat(z.size(), z[0].size())), 0.5)); }
-        return alg.log(alg.addition(z, alg.exponentiate(alg.subtraction(alg.hadamard_product(z, z), alg.onemat(z.size(), z[0].size())), 0.5)));
+        if(deriv){ return alg.elementWiseDivision(alg.onemat(z.size(), z[0].size()), alg.sqrt(alg.subtraction(alg.hadamard_product(z, z), alg.onemat(z.size(), z[0].size())))); }
+        return alg.log(alg.addition(z, alg.sqrt(alg.subtraction(alg.hadamard_product(z, z), alg.onemat(z.size(), z[0].size())))));
     }
 
     double Activation::artanh(double z, bool deriv){
@@ -684,14 +684,14 @@ namespace MLPP{
 
     std::vector<double> Activation::arcsch(std::vector<double> z, bool deriv){
         LinAlg alg;
-        if(deriv){ return alg.elementWiseDivision(alg.full(z.size(), -1),  alg.hadamard_product(alg.hadamard_product(z, z), alg.exponentiate(alg.addition(alg.onevec(z.size()), alg.elementWiseDivision(alg.onevec(z.size()), alg.hadamard_product(z, z))), 0.5))); }
-        return alg.log(alg.addition(alg.exponentiate(alg.addition(alg.onevec(z.size()), alg.elementWiseDivision(alg.onevec(z.size()), alg.hadamard_product(z, z))), 0.5), alg.elementWiseDivision(alg.onevec(z.size()), z)));
+        if(deriv){ return alg.elementWiseDivision(alg.full(z.size(), -1),  alg.hadamard_product(alg.hadamard_product(z, z), alg.sqrt(alg.addition(alg.onevec(z.size()), alg.elementWiseDivision(alg.onevec(z.size()), alg.hadamard_product(z, z)))))); }
+        return alg.log(alg.addition(alg.sqrt(alg.addition(alg.onevec(z.size()), alg.elementWiseDivision(alg.onevec(z.size()), alg.hadamard_product(z, z)))), alg.elementWiseDivision(alg.onevec(z.size()), z)));
     }
 
     std::vector<std::vector<double>> Activation::arcsch(std::vector<std::vector<double>> z, bool deriv){
         LinAlg alg;
-        if(deriv){ return alg.elementWiseDivision(alg.full(z.size(), z[0].size(), -1),  alg.hadamard_product(alg.hadamard_product(z, z), alg.exponentiate(alg.addition(alg.onemat(z.size(), z[0].size()), alg.elementWiseDivision(alg.onemat(z.size(), z[0].size()), alg.hadamard_product(z, z))), 0.5))); }
-        return alg.log(alg.addition(alg.exponentiate(alg.addition(alg.onemat(z.size(), z[0].size()), alg.elementWiseDivision(alg.onemat(z.size(), z[0].size()), alg.hadamard_product(z, z))), 0.5), alg.elementWiseDivision(alg.onemat(z.size(), z[0].size()), z)));
+        if(deriv){ return alg.elementWiseDivision(alg.full(z.size(), z[0].size(), -1),  alg.hadamard_product(alg.hadamard_product(z, z), alg.sqrt(alg.addition(alg.onemat(z.size(), z[0].size()), alg.elementWiseDivision(alg.onemat(z.size(), z[0].size()), alg.hadamard_product(z, z)))))); }
+        return alg.log(alg.addition(alg.sqrt(alg.addition(alg.onemat(z.size(), z[0].size()), alg.elementWiseDivision(alg.onemat(z.size(), z[0].size()), alg.hadamard_product(z, z)))), alg.elementWiseDivision(alg.onemat(z.size(), z[0].size()), z)));
     }
 
 
@@ -704,13 +704,13 @@ namespace MLPP{
 
     std::vector<double> Activation::arsech(std::vector<double> z, bool deriv){
         LinAlg alg;
-        if(deriv){ return alg.elementWiseDivision(alg.full(z.size(), -1), alg.hadamard_product(z, alg.exponentiate(alg.subtraction(alg.onevec(z.size()), alg.hadamard_product(z, z)), 0.5))); }
+        if(deriv){ return alg.elementWiseDivision(alg.full(z.size(), -1), alg.hadamard_product(z, alg.sqrt(alg.subtraction(alg.onevec(z.size()), alg.hadamard_product(z, z))))); }
         return alg.log(alg.addition(alg.elementWiseDivision(alg.onevec(z.size()), z), alg.hadamard_product(alg.addition(alg.elementWiseDivision(alg.onevec(z.size()), z), alg.onevec(z.size())), alg.subtraction(alg.elementWiseDivision(alg.onevec(z.size()), z), alg.onevec(z.size())))));
     }
 
     std::vector<std::vector<double>> Activation::arsech(std::vector<std::vector<double>> z, bool deriv){
         LinAlg alg;
-        if(deriv){ return alg.elementWiseDivision(alg.full(z.size(), z[0].size(), -1), alg.hadamard_product(z, alg.exponentiate(alg.subtraction(alg.onemat(z.size(), z[0].size()), alg.hadamard_product(z, z)), 0.5))); }
+        if(deriv){ return alg.elementWiseDivision(alg.full(z.size(), z[0].size(), -1), alg.hadamard_product(z, alg.sqrt(alg.subtraction(alg.onemat(z.size(), z[0].size()), alg.hadamard_product(z, z))))); }
         return alg.log(alg.addition(alg.elementWiseDivision(alg.onemat(z.size(), z[0].size()), z), alg.hadamard_product(alg.addition(alg.elementWiseDivision(alg.onemat(z.size(), z[0].size()), z), alg.onemat(z.size(), z[0].size())), alg.subtraction(alg.elementWiseDivision(alg.onemat(z.size(), z[0].size()), z), alg.onemat(z.size(), z[0].size())))));
     }
 
