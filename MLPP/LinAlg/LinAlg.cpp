@@ -76,12 +76,8 @@ namespace MLPP{
 
     std::vector<std::vector<double>> LinAlg::kronecker_product(std::vector<std::vector<double>> A, std::vector<std::vector<double>> B){
         std::vector<std::vector<double>> C;
-        // C.resize(A.size() * B.size());
-        // for(int i = 0; i < C.size(); i++){
-        //     C[i].resize(A[0].size() * B[0].size());
-        // }
-
-        // [1,2,3,4]   [1,2,3,4,5]
+        
+        // [1,1,1,1]   [1,2,3,4,5]
         // [1,1,1,1]   [1,2,3,4,5]    
         //             [1,2,3,4,5]
 
@@ -95,11 +91,11 @@ namespace MLPP{
         // Resulting matrix: A.size() * B.size()
         //                   A[0].size() * B[0].size()
 
-        for(int k = 0; k < A.size(); k++){
+        for(int i = 0; i < A.size(); i++){
             for(int j = 0; j < B.size(); j++){
                 std::vector<std::vector<double>> row;
-                for(int i = 0; i < A[0].size(); i++){
-                    row.push_back(scalarMultiply(A[k][i], B[j]));
+                for(int k = 0; k < A[0].size(); k++){
+                    row.push_back(scalarMultiply(A[i][k], B[j]));
                 } 
                 C.push_back(flatten(row));
             }
