@@ -74,6 +74,39 @@ namespace MLPP{
         return C;
     }
 
+    std::vector<std::vector<double>> LinAlg::kronecker_product(std::vector<std::vector<double>> A, std::vector<std::vector<double>> B){
+        std::vector<std::vector<double>> C;
+        // C.resize(A.size() * B.size());
+        // for(int i = 0; i < C.size(); i++){
+        //     C[i].resize(A[0].size() * B[0].size());
+        // }
+
+        // [1,2,3,4]   [1,2,3,4,5]
+        // [1,1,1,1]   [1,2,3,4,5]    
+        //             [1,2,3,4,5]
+
+        // [1,2,3,4,5] [1,2,3,4,5] [1,2,3,4,5] [1,2,3,4,5]
+        // [1,2,3,4,5] [1,2,3,4,5] [1,2,3,4,5] [1,2,3,4,5]
+        // [1,2,3,4,5] [1,2,3,4,5] [1,2,3,4,5] [1,2,3,4,5]
+        // [1,2,3,4,5] [1,2,3,4,5] [1,2,3,4,5] [1,2,3,4,5]
+        // [1,2,3,4,5] [1,2,3,4,5] [1,2,3,4,5] [1,2,3,4,5]
+        // [1,2,3,4,5] [1,2,3,4,5] [1,2,3,4,5] [1,2,3,4,5]
+
+        // Resulting matrix: A.size() * B.size()
+        //                   A[0].size() * B[0].size()
+
+        for(int k = 0; k < A.size(); k++){
+            for(int j = 0; j < B.size(); j++){
+                std::vector<std::vector<double>> row;
+                for(int i = 0; i < A[0].size(); i++){
+                    row.push_back(scalarMultiply(A[k][i], B[j]));
+                } 
+                C.push_back(flatten(row));
+            }
+        }
+        return C;    
+    }
+
     std::vector<std::vector<double>> LinAlg::elementWiseDivision(std::vector<std::vector<double>> A, std::vector<std::vector<double>> B){
         std::vector<std::vector<double>> C;
         C.resize(A.size());

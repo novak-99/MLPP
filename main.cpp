@@ -364,6 +364,7 @@ int main() {
     // std::cout << alg.trace({{1,2}, {3,4}}) << std::endl;
     // alg.printMatrix(alg.pinverse({{1,2}, {3,4}}));
     // alg.printMatrix(alg.diag({1,2,3,4,5}));
+    // alg.printMatrix(alg.kronecker_product({{1,2,3,4,5}}, {{6,7,8,9,10}}));
 
     return 0;
 }
