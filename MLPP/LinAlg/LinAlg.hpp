@@ -80,7 +80,7 @@ namespace MLPP{
         
         // VECTOR FUNCTIONS
 
-        std::vector<std::vector<double>> vecmult(std::vector<double> a, std::vector<double> b); // This multiplies a, bT 
+        std::vector<std::vector<double>> outerProduct(std::vector<double> a, std::vector<double> b); // This multiplies a, bT 
         
         std::vector<double> hadamard_product(std::vector<double> a, std::vector<double> b);
 
@@ -111,6 +111,8 @@ namespace MLPP{
         std::vector<double> zerovec(int n);
 
         std::vector<double> onevec(int n);
+
+        std::vector<std::vector<double>> diag(std::vector<double> a);
 
         std::vector<double> full(int n, int k);
 

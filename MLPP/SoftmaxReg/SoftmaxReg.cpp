@@ -88,7 +88,7 @@ namespace MLPP{
             cost_prev = Cost({y_hat}, {outputSet[outputIndex]});
                 
             // Calculating the weight gradients            
-            std::vector<std::vector<double>> w_gradient = alg.vecmult(inputSet[outputIndex], alg.subtraction(y_hat, outputSet[outputIndex]));
+            std::vector<std::vector<double>> w_gradient = alg.outerProduct(inputSet[outputIndex], alg.subtraction(y_hat, outputSet[outputIndex]));
 
             // Weight Updation
             weights = alg.subtraction(weights, alg.scalarMultiply(learning_rate, w_gradient));

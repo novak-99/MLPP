@@ -65,7 +65,7 @@ namespace MLPP {
             std::vector<std::vector<double>> D1_1;
             D1_1.resize(n);
 
-            D1_1 = alg.vecmult(error, weights2);
+            D1_1 = alg.outerProduct(error, weights2);
 
             std::vector<std::vector<double>> D1_2 = alg.hadamard_product(D1_1, avn.sigmoid(z2, 1));
 
@@ -125,7 +125,7 @@ namespace MLPP {
             // Weight updation for layer 1
             std::vector<double> D1_1 = alg.scalarMultiply(error, weights2);
             std::vector<double> D1_2 = alg.hadamard_product(D1_1, avn.sigmoid(z2, 1));
-            std::vector<std::vector<double>> D1_3 = alg.vecmult(inputSet[outputIndex], D1_2);
+            std::vector<std::vector<double>> D1_3 = alg.outerProduct(inputSet[outputIndex], D1_2);
 
             weights1 = alg.subtraction(weights1, alg.scalarMultiply(learning_rate, D1_3));
             weights1 = regularization.regWeights(weights1, lambda, alpha, reg);
@@ -204,7 +204,7 @@ namespace MLPP {
 
                 //Calculating the weight/bias for layer 1
 
-                std::vector<std::vector<double>> D1_1 = alg.vecmult(error, weights2);
+                std::vector<std::vector<double>> D1_1 = alg.outerProduct(error, weights2);
 
                 std::vector<std::vector<double>> D1_2 = alg.hadamard_product(D1_1, avn.sigmoid(z2, 1));
 

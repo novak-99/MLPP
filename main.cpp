@@ -363,6 +363,7 @@ int main() {
 
     // std::cout << alg.trace({{1,2}, {3,4}}) << std::endl;
     // alg.printMatrix(alg.pinverse({{1,2}, {3,4}}));
+    // alg.printMatrix(alg.diag({1,2,3,4,5}));
 
     return 0;
 }

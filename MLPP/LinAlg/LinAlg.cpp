@@ -539,7 +539,7 @@ namespace MLPP{
         }
     }
 
-    std::vector<std::vector<double>> LinAlg::vecmult(std::vector<double> a, std::vector<double> b){
+    std::vector<std::vector<double>> LinAlg::outerProduct(std::vector<double> a, std::vector<double> b){
         std::vector<std::vector<double>> C;
         C.resize(a.size());
         for(int i = 0; i < C.size(); i++){
@@ -669,6 +669,14 @@ namespace MLPP{
 
     std::vector<double> LinAlg::onevec(int n){
         return full(n, 1);
+    }
+
+    std::vector<std::vector<double>> LinAlg::diag(std::vector<double> a){
+        std::vector<std::vector<double>> B = zeromat(a.size(), a.size());
+        for(int i = 0; i < B.size(); i++){
+            B[i][i] = a[i];
+        }
+        return B;
     }
 
     std::vector<double> LinAlg::full(int n, int k){

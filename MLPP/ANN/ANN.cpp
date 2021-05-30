@@ -70,7 +70,7 @@ namespace MLPP {
             outputLayer->bias -= learning_rate * alg.sum_elements(outputLayer->delta) / n;
 
             auto hiddenLayerAvn = network[network.size() - 1].activation_map[network[network.size() - 1].activation];
-            network[network.size() - 1].delta = alg.hadamard_product(alg.vecmult(outputLayer->delta, outputLayer->weights), (avn.*hiddenLayerAvn)(network[network.size() - 1].z, 1));
+            network[network.size() - 1].delta = alg.hadamard_product(alg.outerProduct(outputLayer->delta, outputLayer->weights), (avn.*hiddenLayerAvn)(network[network.size() - 1].z, 1));
             std::vector<std::vector<double>> hiddenLayerWGrad = alg.matmult(alg.transpose(network[network.size() - 1].input), network[network.size() - 1].delta);
             
             network[network.size() - 1].weights = alg.subtraction(network[network.size() - 1].weights, alg.scalarMultiply(learning_rate/n, hiddenLayerWGrad));
