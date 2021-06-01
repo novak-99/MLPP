@@ -31,6 +31,9 @@ namespace MLPP {
         activation_map["Softplus"] = &Activation::softplus;
         activationTest_map["Softplus"] = &Activation::softplus;
 
+        activation_map["Softsign"] = &Activation::softsign;
+        activationTest_map["Softsign"] = &Activation::softsign;
+
         activation_map["CLogLog"] = &Activation::cloglog;
         activationTest_map["CLogLog"] = &Activation::cloglog;
 

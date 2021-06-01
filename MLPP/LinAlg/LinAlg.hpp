@@ -47,6 +47,8 @@ namespace MLPP{
         std::vector<std::vector<double>> sqrt(std::vector<std::vector<double>> A);
 
         std::vector<std::vector<double>> matrixPower(std::vector<std::vector<double>> A, int n);
+
+        std::vector<std::vector<double>> abs(std::vector<std::vector<double>> A);
         
         double det(std::vector<std::vector<double>> A, int d);
 
@@ -119,6 +121,8 @@ namespace MLPP{
         std::vector<double> sqrt(std::vector<double> a);
         
         double dot(std::vector<double> a, std::vector<double> b);
+
+        std::vector<double> abs(std::vector<double> a);
 
         std::vector<double> zerovec(int n);
 

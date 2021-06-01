@@ -227,8 +227,22 @@ namespace MLPP{
         else if(n < 0){
             A = inverse(A);
         }
-        for(int i = 0; i < abs(n); i++){
+        for(int i = 0; i < std::abs(n); i++){
             B = matmult(B, A);
+        }
+        return B;
+    }
+
+    std::vector<std::vector<double>> LinAlg::abs(std::vector<std::vector<double>> A){
+        std::vector<std::vector<double>> B;
+        B.resize(A.size());
+        for(int i = 0; i < B.size(); i++){
+            B[i].resize(A[0].size());
+        }
+        for(int i = 0; i < B.size(); i++){
+            for(int j = 0; j < B[i].size(); j++){
+                B[i][j] = std::abs(A[i][j]);
+            }
         }
         return B;
     }
@@ -452,12 +466,12 @@ namespace MLPP{
             double sub_j = 1;
             for(int i = 0; i < A.size(); i++){
                 for(int j = 0; j < A[i].size(); j++){
-                    if(i != j && abs(A[i][j]) > a_ij){
+                    if(i != j && std::abs(A[i][j]) > a_ij){
                         a_ij = A[i][j];
                         sub_i = i; 
                         sub_j = j;
                     }
-                    else if(i != j && abs(A[i][j]) == a_ij){
+                    else if(i != j && std::abs(A[i][j]) == a_ij){
                         if(i < sub_i){
                             a_ij = A[i][j];
                             sub_i = i; 
@@ -730,6 +744,15 @@ namespace MLPP{
             c += a[i] * b[i];
         }
         return c;
+    }
+
+    std::vector<double> LinAlg::abs(std::vector<double> a){
+        std::vector<double> b; 
+        b.resize(a.size());
+        for(int i = 0; i < b.size(); i++){
+            b[i] = std::abs(a[i]);
+        }
+        return b;
     }
 
     std::vector<double> LinAlg::zerovec(int n){

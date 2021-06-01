@@ -33,6 +33,10 @@ namespace MLPP{
             std::vector<double> softplus(std::vector<double> z, bool deriv = 0);
             std::vector<std::vector<double>> softplus(std::vector<std::vector<double>>  z, bool deriv = 0);
 
+            double softsign(double z, bool deriv = 0);
+            std::vector<double> softsign(std::vector<double> z, bool deriv = 0);
+            std::vector<std::vector<double>> softsign(std::vector<std::vector<double>>  z, bool deriv = 0);
+
             double gaussianCDF(double z, bool deriv = 0);
             std::vector<double> gaussianCDF(std::vector<double> z, bool deriv = 0);
             std::vector<std::vector<double>> gaussianCDF(std::vector<std::vector<double>>  z, bool deriv = 0);

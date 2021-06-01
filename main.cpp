@@ -224,7 +224,7 @@ int main() {
 
     // // DYNAMICALLY SIZED ANN
     // // Possible Weight Init Methods: Default, Uniform, HeNormal, HeUniform, XavierNormal, XavierUniform
-    // // Possible Activations: Linear, Sigmoid, Swish, Softplus, CLogLog, Ar{Sinh, Cosh, Tanh, Csch, Sech, Coth},  GaussianCDF, GELU, UnitStep
+    // // Possible Activations: Linear, Sigmoid, Swish, Softplus, Softsign, CLogLog, Ar{Sinh, Cosh, Tanh, Csch, Sech, Coth},  GaussianCDF, GELU, UnitStep
     // // Possible Loss Functions: MSE, RMSE, MBE, LogLoss, CrossEntropy, HingeLoss
     // std::vector<std::vector<double>> inputSet = {{0,0,1,1}, {0,1,0,1}};
     // std::vector<double> outputSet = {0,1,1,0};
@@ -350,16 +350,16 @@ int main() {
 
     // // Testing new Functions
     // double z_s = 0.001;
-    // std::cout << avn.arcoth(z_s) << std::endl;
-    // std::cout << avn.arcoth(z_s, 1) << std::endl;
+    // std::cout << avn.softsign(z_s) << std::endl;
+    // std::cout << avn.softsign(z_s, 1) << std::endl;
 
     // std::vector<double> z_v = {0.001, 5};
-    // alg.printVector(avn.arcoth(z_v));
-    // alg.printVector(avn.arcoth(z_v, 1));
+    // alg.printVector(avn.softsign(z_v));
+    // alg.printVector(avn.softsign(z_v, 1));
 
     // std::vector<std::vector<double>> Z_m = {{0.001, 5}};
-    // alg.printMatrix(avn.arcoth(Z_m));
-    // alg.printMatrix(avn.arcoth(Z_m, 1));
+    // alg.printMatrix(avn.softsign(Z_m));
+    // alg.printMatrix(avn.softsign(Z_m, 1));
 
     // std::cout << alg.trace({{1,2}, {3,4}}) << std::endl;
     // alg.printMatrix(alg.pinverse({{1,2}, {3,4}}));

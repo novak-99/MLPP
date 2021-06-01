@@ -163,6 +163,23 @@ namespace MLPP{
         return alg.log(alg.addition(alg.onemat(z.size(), z[0].size()), alg.exp(z)));
     }
 
+    double Activation::softsign(double z, bool deriv){
+        if(deriv){ return 1/((1 + abs(z)) * (1 + abs(z))); }
+        return z/(1 + abs(z));
+    }
+            
+    std::vector<double> Activation::softsign(std::vector<double> z, bool deriv){
+        LinAlg alg;
+        if(deriv) { return alg.elementWiseDivision(alg.onevec(z.size()), alg.exponentiate(alg.addition(alg.onevec(z.size()), alg.abs(z)), 2)); }
+        return alg.elementWiseDivision(z, alg.addition(alg.onevec(z.size()), alg.abs(z)));
+    }
+    
+    std::vector<std::vector<double>> Activation::softsign(std::vector<std::vector<double>>  z, bool deriv){
+        LinAlg alg;
+        if(deriv) { return alg.elementWiseDivision(alg.onemat(z.size(), z[0].size()), alg.exponentiate(alg.addition(alg.onemat(z.size(), z[0].size()), alg.abs(z)), 2)); }
+        return alg.elementWiseDivision(z, alg.addition(alg.onemat(z.size(), z[0].size()), alg.abs(z)));
+    }
+
     double Activation::gaussianCDF(double z, bool deriv){
         if(deriv) {
             return (1 / sqrt(2 * M_PI)) * exp(-z * z / 2);
