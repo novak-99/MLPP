@@ -68,6 +68,7 @@ The result will be the model's predictions for the entire dataset.
         - Sigmoid
         - Swish
         - Softplus
+        - Softsign
         - CLogLog
         - Gaussian CDF
         - RELU
