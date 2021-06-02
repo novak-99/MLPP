@@ -23,9 +23,6 @@ namespace MLPP{
             // Private Model Functions
             std::vector<double> nearestNeighbors(std::vector<double> x);
             int determineClass(std::vector<double> knn);
-        
-            // Helper Functions
-            double euclideanDistance(std::vector<double> A, std::vector<double> B);
             
             // Model Inputs and Parameters
             std::vector<std::vector<double>> inputSet;

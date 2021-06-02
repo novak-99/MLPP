@@ -34,7 +34,6 @@ namespace MLPP{
             static void UI(std::vector<double> weights, double bias);
             static void UI(std::vector<double> weights, std::vector<double> initial, double bias);
             static void UI(std::vector<std::vector<double>>, std::vector<double> bias);
-
             static void CostInfo(int epoch, double cost_prev, double Cost);
 
             // F1 score, Precision/Recall, TP, FP, TN, FN, etc. 

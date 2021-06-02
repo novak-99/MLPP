@@ -65,6 +65,7 @@ namespace MLPP{
     }
     
     std::vector<double> kNN::nearestNeighbors(std::vector<double> x){
+        LinAlg alg;
         // The nearest neighbors
         std::vector<double> knn;
         
@@ -73,22 +74,14 @@ namespace MLPP{
         for(int i = 0; i < k; i++){
             int neighbor = 0;
             for(int j = 0; j < inputUseSet.size(); j++){
-                if(euclideanDistance(x, inputUseSet[j]) < euclideanDistance(x, inputUseSet[neighbor])){
+                bool isNeighborNearer = alg.euclideanDistance(x, inputUseSet[j]) < alg.euclideanDistance(x, inputUseSet[neighbor]);
+                if(isNeighborNearer){
                     neighbor = j;
                 }
             }
             knn.push_back(neighbor);
-            inputUseSet.erase(inputUseSet.begin() + neighbor);
+            inputUseSet.erase(inputUseSet.begin() + neighbor); // This is why we maintain an extra input"Use"Set
         }
         return knn;
-    }
-
-    // Multidimensional Euclidean Distance
-    double kNN::euclideanDistance(std::vector<double> A, std::vector<double> B){
-        double dist = 0;
-        for(int i = 0; i < A.size(); i++){
-            dist += (A[i] - B[i])*(A[i] - B[i]);
-        }
-        return sqrt(dist);
     }
 }

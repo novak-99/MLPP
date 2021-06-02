@@ -137,6 +137,8 @@ namespace MLPP{
         double min(std::vector<double> a);
 
         std::vector<double> round(std::vector<double> a);
+
+        double euclideanDistance(std::vector<double> a, std::vector<double> b);
         
         double norm_sq(std::vector<double> a);
         

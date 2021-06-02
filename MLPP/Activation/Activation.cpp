@@ -50,16 +50,18 @@ namespace MLPP{
     }
 
     std::vector<double> Activation::softmax(std::vector<double> z){
+        LinAlg alg;
         std::vector<double> a;
         a.resize(z.size());
-        for(int i = 0; i < z.size(); i++){
-            double sum = 0;
-            for(int j = 0; j < z.size(); j++){
-                sum += exp(z[j]);
-            }
-            a[i] = exp(z[i]) / sum;
-        }
+        std::vector<double> expZ = alg.exp(z);
+        double sum = 0;
         
+        for(int i = 0; i < z.size(); i++){
+            sum += expZ[i];
+        }
+        for(int i = 0; i < z.size(); i++){
+            a[i] = expZ[i] / sum;
+        }
         return a;
     }
 
@@ -80,16 +82,7 @@ namespace MLPP{
         double C = -*max_element(z.begin(), z.end());
         z = alg.scalarAdd(C, z);
 
-        a.resize(z.size());
-        for(int i = 0; i < z.size(); i++){
-            double sum = 0;
-            for(int j = 0; j < z.size(); j++){
-                sum += exp(z[j]);
-            }
-            a[i] = exp(z[i]) / sum;
-        }
-        
-        return a;
+        return softmax(z);
     }
     
     std::vector<std::vector<double>> Activation::adjSoftmax(std::vector<std::vector<double>> z){

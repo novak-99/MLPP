@@ -24,11 +24,13 @@ namespace MLPP{
     }
 
     std::vector<std::vector<double>> KMeans::modelSetTest(std::vector<std::vector<double>> X){
+        LinAlg alg;
         std::vector<std::vector<double>> closestCentroids; 
         for(int i = 0; i < inputSet.size(); i++){
             std::vector<double> closestCentroid = mu[0];
             for(int j = 0; j < r[0].size(); j++){
-                if(euclideanDistance(X[i], mu[j]) < euclideanDistance(X[i], closestCentroid)){
+                bool isCentroidCloser = alg.euclideanDistance(X[i], mu[j]) < alg.euclideanDistance(X[i], closestCentroid);
+                if(isCentroidCloser){
                     closestCentroid = mu[j];
                 }
             }
@@ -38,9 +40,10 @@ namespace MLPP{
     }
 
     std::vector<double> KMeans::modelTest(std::vector<double> x){
+        LinAlg alg;
         std::vector<double> closestCentroid = mu[0];
         for(int j = 0; j < mu.size(); j++){
-            if(euclideanDistance(x, mu[j]) < euclideanDistance(x, closestCentroid)){
+            if(alg.euclideanDistance(x, mu[j]) < alg.euclideanDistance(x, closestCentroid)){
                 closestCentroid = mu[j];
             }
         }
@@ -81,6 +84,7 @@ namespace MLPP{
     }
 
     std::vector<double> KMeans::silhouette_scores(){
+        LinAlg alg;
         std::vector<std::vector<double>> closestCentroids = modelSetTest(inputSet);
         std::vector<double> silhouette_scores;
         for(int i = 0; i < inputSet.size(); i++){
@@ -88,7 +92,7 @@ namespace MLPP{
             double a = 0;
             for(int j = 0; j < inputSet.size(); j++){
                 if(i != j && r[i] == r[j]){
-                    a += euclideanDistance(inputSet[i], inputSet[j]);
+                    a += alg.euclideanDistance(inputSet[i], inputSet[j]);
                 }
             }   
             // NORMALIZE a[i]
@@ -101,7 +105,7 @@ namespace MLPP{
                 if(closestCentroids[i] != mu[j]){
                     double sum = 0;
                     for(int k = 0; k < inputSet.size(); k++){
-                        sum += euclideanDistance(inputSet[i], inputSet[k]);
+                        sum += alg.euclideanDistance(inputSet[i], inputSet[k]);
                     }
                     // NORMALIZE b[i]
                     double k_clusterSize = 0;
@@ -130,6 +134,7 @@ namespace MLPP{
 
     // This simply computes r_nk
     void KMeans::Evaluate(){
+        LinAlg alg;
         r.resize(inputSet.size());
         
         for(int i = 0; i < r.size(); i++){
@@ -139,7 +144,8 @@ namespace MLPP{
         for(int i = 0; i < r.size(); i++){
             std::vector<double> closestCentroid = mu[0];
             for(int j = 0; j < r[0].size(); j++){
-                if(euclideanDistance(inputSet[i], mu[j]) < euclideanDistance(inputSet[i], closestCentroid)){
+                bool isCentroidCloser = alg.euclideanDistance(inputSet[i], mu[j]) < alg.euclideanDistance(inputSet[i], closestCentroid);
+                if(isCentroidCloser){
                     closestCentroid = mu[j];
                 }
             }
@@ -190,6 +196,7 @@ namespace MLPP{
     }
 
     void KMeans::kmeansppInitialization(int k){
+        LinAlg alg;
         std::random_device rd;
         std::default_random_engine generator(rd()); 
         std::uniform_int_distribution<int> distribution(0, int(inputSet.size() - 1));
@@ -203,7 +210,7 @@ namespace MLPP{
                 AS TO SPREAD OUT THE CLUSTER CENTROIDS. */
                 double sum = 0;
                 for(int k = 0; k < mu.size(); k++){
-                    sum += euclideanDistance(inputSet[j], mu[k]);
+                    sum += alg.euclideanDistance(inputSet[j], mu[k]);
                 }
                 if(sum * sum > max_dist){
                     farthestCentroid = inputSet[j];
@@ -223,14 +230,5 @@ namespace MLPP{
             }
         }
         return sum;
-    }
-
-    // Multidimensional Euclidean Distance
-    double KMeans::euclideanDistance(std::vector<double> A, std::vector<double> B){
-        double dist = 0;
-        for(int i = 0; i < A.size(); i++){
-            dist += (A[i] - B[i])*(A[i] - B[i]);
-        }
-        return sqrt(dist);
     }
 }

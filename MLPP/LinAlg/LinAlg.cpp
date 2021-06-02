@@ -811,6 +811,15 @@ namespace MLPP{
         return b;
     }
 
+    // Multidimensional Euclidean Distance
+    double LinAlg::euclideanDistance(std::vector<double> a, std::vector<double> b){
+        double dist = 0;
+        for(int i = 0; i < a.size(); i++){
+            dist += (a[i] - b[i])*(a[i] - b[i]);
+        }
+        return std::sqrt(dist);
+    }
+
     double LinAlg::norm_sq(std::vector<double> a){
         double n_sq = 0;
         for(int i = 0; i < a.size(); i++){

@@ -186,6 +186,7 @@ int main() {
     // std::cout << "ACCURACY: " << 100 * model.score() << "%" << std::endl;
 
     // // SOFTMAX REGRESSION
+    // time_t start = time(0);
     // std::vector<std::vector<double>> inputSet; 
     // std::vector<double> tempOutputSet; 
     // data.setData(4, "/Users/marcmelikyan/Desktop/Data/Iris.csv", inputSet, tempOutputSet);
@@ -194,7 +195,6 @@ int main() {
     // SoftmaxReg model(inputSet, outputSet); 
     // model.SGD(0.001, 20000, 0);
     // alg.printMatrix(model.modelSetTest(inputSet));
-    // std::cout << "ACCURACY: " << 100 * model.score() << "%" << std::endl;
 
     // // MLP
     // std::vector<std::vector<double>> inputSet = {{0,0,1,1}, {0,1,0,1}};
@@ -354,11 +354,11 @@ int main() {
     // std::cout << avn.softsign(z_s, 1) << std::endl;
 
     // std::vector<double> z_v = {0.001, 5};
-    // alg.printVector(avn.softsign(z_v));
+    // alg.printVector(avn.softmax(z_v));
     // alg.printVector(avn.softsign(z_v, 1));
 
     // std::vector<std::vector<double>> Z_m = {{0.001, 5}};
-    // alg.printMatrix(avn.softsign(Z_m));
+    // alg.printMatrix(avn.softmax(Z_m));
     // alg.printMatrix(avn.softsign(Z_m, 1));
 
     // std::cout << alg.trace({{1,2}, {3,4}}) << std::endl;
