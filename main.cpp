@@ -266,7 +266,7 @@ int main() {
     // std::cout << "ACCURACY: " << 100 * knn.score() << "%" << std::endl;
 
 
-    // //CONVOLUTION, POOLING, ETC.. 
+    // // CONVOLUTION, POOLING, ETC.. 
     // std::vector<std::vector<double>> input = {
     //     {1,1,1,1,0,0,0,0},
     //     {1,1,1,1,0,0,0,0},
@@ -354,11 +354,11 @@ int main() {
     // std::cout << avn.softsign(z_s, 1) << std::endl;
 
     // std::vector<double> z_v = {0.001, 5};
-    // alg.printVector(avn.softmax(z_v));
+    // alg.printVector(avn.softsign(z_v));
     // alg.printVector(avn.softsign(z_v, 1));
 
     // std::vector<std::vector<double>> Z_m = {{0.001, 5}};
-    // alg.printMatrix(avn.softmax(Z_m));
+    // alg.printMatrix(avn.softsign(Z_m));
     // alg.printMatrix(avn.softsign(Z_m, 1));
 
     // std::cout << alg.trace({{1,2}, {3,4}}) << std::endl;
@@ -367,6 +367,11 @@ int main() {
     // alg.printMatrix(alg.kronecker_product({{1,2,3,4,5}}, {{6,7,8,9,10}}));
     // alg.printMatrix(alg.matrixPower({{5,5},{5,5}}, 2));
     // alg.printVector(alg.solve({{1,1}, {1.5, 4.0}}, {2200, 5050}));
+
+    std::vector<std::vector<double>> matrixOfCubes = {{1,2,64,27}};
+    std::vector<double> vectorOfCubes = {1,2,64,27};
+    alg.printMatrix(alg.cbrt(matrixOfCubes));
+    alg.printVector(alg.cbrt(vectorOfCubes));
 
     return 0;
 }

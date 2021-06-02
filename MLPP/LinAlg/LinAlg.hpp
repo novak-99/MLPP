@@ -46,6 +46,8 @@ namespace MLPP{
 
         std::vector<std::vector<double>> sqrt(std::vector<std::vector<double>> A);
 
+        std::vector<std::vector<double>> cbrt(std::vector<std::vector<double>> A);   
+
         std::vector<std::vector<double>> matrixPower(std::vector<std::vector<double>> A, int n);
 
         std::vector<std::vector<double>> abs(std::vector<std::vector<double>> A);
@@ -119,6 +121,8 @@ namespace MLPP{
         std::vector<double> exponentiate(std::vector<double> a, double p);
 
         std::vector<double> sqrt(std::vector<double> a);
+
+        std::vector<double> cbrt(std::vector<double> a);
         
         double dot(std::vector<double> a, std::vector<double> b);
 
@@ -158,7 +162,6 @@ namespace MLPP{
         
         void printTensor(std::vector<std::vector<std::vector<double>>> A);
 
-        
         private:
     };
 

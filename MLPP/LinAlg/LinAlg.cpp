@@ -219,6 +219,10 @@ namespace MLPP{
         return exponentiate(A, 0.5); 
     }
 
+    std::vector<std::vector<double>> LinAlg::cbrt(std::vector<std::vector<double>> A){
+        return exponentiate(A, double(1)/double(3)); 
+    }
+
     std::vector<std::vector<double>> LinAlg::matrixPower(std::vector<std::vector<double>> A, int n){
         std::vector<std::vector<double>> B = identity(A.size());
         if(n == 0){
@@ -737,6 +741,10 @@ namespace MLPP{
     std::vector<double> LinAlg::sqrt(std::vector<double> a){
         return exponentiate(a, 0.5);
     }
+
+    std::vector<double> LinAlg::cbrt(std::vector<double> a){
+        return exponentiate(a, double(1)/double(3));
+    } 
 
     double LinAlg::dot(std::vector<double> a, std::vector<double> b){
         double c = 0;
