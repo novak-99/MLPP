@@ -32,9 +32,9 @@ namespace MLPP{
     }
 
     void CLogLogReg::gradientDescent(double learning_rate, int max_epoch, bool UI){
-        Reg regularization;
-        LinAlg alg;
         Activation avn;
+        LinAlg alg;
+        Reg regularization;
         double cost_prev = 0;
         int epoch = 1;
         forwardPass();
@@ -65,9 +65,9 @@ namespace MLPP{
     }
 
     void CLogLogReg::MLE(double learning_rate, int max_epoch, bool UI){
-        Reg regularization; 
         Activation avn;
         LinAlg alg;
+        Reg regularization; 
         double cost_prev = 0;
         int epoch = 1;
         forwardPass();
@@ -134,39 +134,19 @@ namespace MLPP{
         forwardPass();
     }
 
-    void CLogLogReg::MBGD(double learning_rate, int max_epoch, int miniBatch_size, bool UI){
-        Reg regularization;
+    void CLogLogReg::MBGD(double learning_rate, int max_epoch, int mini_batch_size, bool UI){
         Activation avn;
         LinAlg alg;
+        Reg regularization;
         double cost_prev = 0;
         int epoch = 1;
 
-        int n_miniBatch = n/miniBatch_size;
-        
-        std::vector<std::vector<std::vector<double>>> inputMiniBatches; 
-        std::vector<std::vector<double>> outputMiniBatches; 
         // Creating the mini-batches
-        for(int i = 0; i < n_miniBatch; i++){
-            std::vector<std::vector<double>> currentInputSet; 
-            std::vector<double> currentOutputSet; 
-            std::vector<double> currentPreActivationSet; 
-            for(int j = 0; j < n/n_miniBatch; j++){
-                currentInputSet.push_back(inputSet[n/n_miniBatch * i + j]);
-                currentOutputSet.push_back(outputSet[n/n_miniBatch * i + j]);
-            }
-            inputMiniBatches.push_back(currentInputSet);
-            outputMiniBatches.push_back(currentOutputSet);
-        }
-
-        if(double(n)/double(n_miniBatch) - int(n/n_miniBatch) != 0){
-            for(int i = 0; i < n - n/n_miniBatch * n_miniBatch; i++){
-                inputMiniBatches[n_miniBatch - 1].push_back(inputSet[n/n_miniBatch * n_miniBatch + i]);
-                outputMiniBatches[n_miniBatch - 1].push_back(outputSet[n/n_miniBatch * n_miniBatch + i]);
-            }
-        }
+        int n_mini_batch = n/mini_batch_size;
+        auto [inputMiniBatches, outputMiniBatches] = Utilities::createMiniBatches(inputSet, outputSet, n_mini_batch);
         
         while(true){
-            for(int i = 0; i < n_miniBatch; i++){
+            for(int i = 0; i < n_mini_batch; i++){
                 std::vector<double> y_hat = Evaluate(inputMiniBatches[i]);
                 std::vector<double> z = propagate(inputMiniBatches[i]);
                 cost_prev = Cost(y_hat, outputMiniBatches[i]);

@@ -264,6 +264,80 @@ namespace MLPP{
         std::cout << Cost << std::endl;
     }
 
+    std::vector<std::vector<std::vector<double>>> Utilities::createMiniBatches(std::vector<std::vector<double>> inputSet, int n_mini_batch){
+        int n = inputSet.size();
+        
+        std::vector<std::vector<std::vector<double>>> inputMiniBatches; 
+
+        // Creating the mini-batches
+        for(int i = 0; i < n_mini_batch; i++){
+            std::vector<std::vector<double>> currentInputSet; 
+            for(int j = 0; j < n/n_mini_batch; j++){
+                currentInputSet.push_back(inputSet[n/n_mini_batch * i + j]);
+            }
+            inputMiniBatches.push_back(currentInputSet);
+        }
+
+        if(double(n)/double(n_mini_batch) - int(n/n_mini_batch) != 0){
+            for(int i = 0; i < n - n/n_mini_batch * n_mini_batch; i++){
+                inputMiniBatches[n_mini_batch - 1].push_back(inputSet[n/n_mini_batch * n_mini_batch + i]);
+            }
+        }
+        return inputMiniBatches;
+    }
+
+    std::tuple<std::vector<std::vector<std::vector<double>>>, std::vector<std::vector<double>>> Utilities::createMiniBatches(std::vector<std::vector<double>> inputSet, std::vector<double> outputSet, int n_mini_batch){
+        int n = inputSet.size();
+        
+        std::vector<std::vector<std::vector<double>>> inputMiniBatches; 
+        std::vector<std::vector<double>> outputMiniBatches; 
+
+        for(int i = 0; i < n_mini_batch; i++){
+            std::vector<std::vector<double>> currentInputSet; 
+            std::vector<double> currentOutputSet; 
+            for(int j = 0; j < n/n_mini_batch; j++){
+                currentInputSet.push_back(inputSet[n/n_mini_batch * i + j]);
+                currentOutputSet.push_back(outputSet[n/n_mini_batch * i + j]);
+            }
+            inputMiniBatches.push_back(currentInputSet);
+            outputMiniBatches.push_back(currentOutputSet);
+        }
+
+        if(double(n)/double(n_mini_batch) - int(n/n_mini_batch) != 0){
+            for(int i = 0; i < n - n/n_mini_batch * n_mini_batch; i++){
+                inputMiniBatches[n_mini_batch - 1].push_back(inputSet[n/n_mini_batch * n_mini_batch + i]);
+                outputMiniBatches[n_mini_batch - 1].push_back(outputSet[n/n_mini_batch * n_mini_batch + i]);
+            }
+        }
+        return {inputMiniBatches, outputMiniBatches};
+    }
+
+    std::tuple<std::vector<std::vector<std::vector<double>>>, std::vector<std::vector<std::vector<double>>>> Utilities::createMiniBatches(std::vector<std::vector<double>> inputSet, std::vector<std::vector<double>> outputSet, int n_mini_batch){
+        int n = inputSet.size();
+        
+        std::vector<std::vector<std::vector<double>>> inputMiniBatches; 
+        std::vector<std::vector<std::vector<double>>> outputMiniBatches; 
+
+        for(int i = 0; i < n_mini_batch; i++){
+            std::vector<std::vector<double>> currentInputSet; 
+            std::vector<std::vector<double>> currentOutputSet; 
+            for(int j = 0; j < n/n_mini_batch; j++){
+                currentInputSet.push_back(inputSet[n/n_mini_batch * i + j]);
+                currentOutputSet.push_back(outputSet[n/n_mini_batch * i + j]);
+            }
+            inputMiniBatches.push_back(currentInputSet);
+            outputMiniBatches.push_back(currentOutputSet);
+        }
+
+        if(double(n)/double(n_mini_batch) - int(n/n_mini_batch) != 0){
+            for(int i = 0; i < n - n/n_mini_batch * n_mini_batch; i++){
+                inputMiniBatches[n_mini_batch - 1].push_back(inputSet[n/n_mini_batch * n_mini_batch + i]);
+                outputMiniBatches[n_mini_batch - 1].push_back(outputSet[n/n_mini_batch * n_mini_batch + i]);
+            }
+        }
+        return {inputMiniBatches, outputMiniBatches};
+    }
+
     std::tuple<double, double, double, double> Utilities::TF_PN(std::vector<double> y_hat, std::vector<double> y){
         double TP, FP, TN, FN = 0;
         for(int i = 0; i < y_hat.size(); i++){

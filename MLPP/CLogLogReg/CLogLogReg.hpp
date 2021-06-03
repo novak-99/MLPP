@@ -22,7 +22,7 @@ namespace MLPP {
             void gradientDescent(double learning_rate, int max_epoch, bool UI = 1);
             void MLE(double learning_rate, int max_epoch, bool UI = 1);
             void SGD(double learning_rate, int max_epoch, bool UI = 1);
-            void MBGD(double learning_rate, int max_epoch, int miniBatch_size, bool UI = 1);
+            void MBGD(double learning_rate, int max_epoch, int mini_batch_size, bool UI = 1);
             double score();
         private:
 

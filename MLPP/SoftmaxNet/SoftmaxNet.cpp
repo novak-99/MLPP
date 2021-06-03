@@ -36,11 +36,9 @@ namespace MLPP{
     }
 
     void SoftmaxNet::gradientDescent(double learning_rate, int max_epoch, bool UI){
-        Reg regularization;
-        LinAlg alg;
         Activation avn;
-
-
+        LinAlg alg;
+        Reg regularization;
         double cost_prev = 0;
         int epoch = 1;
         forwardPass();
@@ -94,13 +92,12 @@ namespace MLPP{
     }
 
     void SoftmaxNet::SGD(double learning_rate, int max_epoch, bool UI){
-        Reg regularization;
-        LinAlg alg;
         Activation avn;
-        Utilities util;
-
+        LinAlg alg;
+        Reg regularization;
         double cost_prev = 0;
         int epoch = 1;
+
         while(true){
             std::random_device rd;
             std::default_random_engine generator(rd()); 
@@ -146,39 +143,38 @@ namespace MLPP{
         forwardPass();
     }
 
-    void SoftmaxNet::MBGD(double learning_rate, int max_epoch, int miniBatch_size, bool UI){
-        Reg regularization;
+    void SoftmaxNet::MBGD(double learning_rate, int max_epoch, int mini_batch_size, bool UI){
         Activation avn;
         LinAlg alg;
+        Reg regularization;
         double cost_prev = 0;
         int epoch = 1;
 
-        int n_miniBatch = n/miniBatch_size;
-        
-        std::vector<std::vector<std::vector<double>>> inputMiniBatches; 
-        std::vector<std::vector<std::vector<double>>> outputMiniBatches; 
+        // Creating the mini-batches
+        int n_mini_batch = n/mini_batch_size;
+        auto [inputMiniBatches, outputMiniBatches] = Utilities::createMiniBatches(inputSet, outputSet, n_mini_batch);
 
-        //Creating the mini-batches
-        for(int i = 0; i < n_miniBatch; i++){
+        // Creating the mini-batches
+        for(int i = 0; i < n_mini_batch; i++){
             std::vector<std::vector<double>> currentInputSet; 
             std::vector<std::vector<double>> currentOutputSet; 
-            for(int j = 0; j < n/n_miniBatch; j++){
-                currentInputSet.push_back(inputSet[n/n_miniBatch * i + j]);
-                currentOutputSet.push_back(outputSet[n/n_miniBatch * i + j]);
+            for(int j = 0; j < n/n_mini_batch; j++){
+                currentInputSet.push_back(inputSet[n/n_mini_batch * i + j]);
+                currentOutputSet.push_back(outputSet[n/n_mini_batch * i + j]);
             }
             inputMiniBatches.push_back(currentInputSet);
             outputMiniBatches.push_back(currentOutputSet);
         }
 
-        if(double(n)/double(n_miniBatch) - int(n/n_miniBatch) != 0){
-            for(int i = 0; i < n - n/n_miniBatch * n_miniBatch; i++){
-                inputMiniBatches[n_miniBatch - 1].push_back(inputSet[n/n_miniBatch * n_miniBatch + i]);
-                outputMiniBatches[n_miniBatch - 1].push_back(outputSet[n/n_miniBatch * n_miniBatch + i]);
+        if(double(n)/double(n_mini_batch) - int(n/n_mini_batch) != 0){
+            for(int i = 0; i < n - n/n_mini_batch * n_mini_batch; i++){
+                inputMiniBatches[n_mini_batch - 1].push_back(inputSet[n/n_mini_batch * n_mini_batch + i]);
+                outputMiniBatches[n_mini_batch - 1].push_back(outputSet[n/n_mini_batch * n_mini_batch + i]);
             }
         }
         
         while(true){
-            for(int i = 0; i < n_miniBatch; i++){
+            for(int i = 0; i < n_mini_batch; i++){
                 std::vector<std::vector<double>> y_hat = Evaluate(inputMiniBatches[i]);
                 auto [z2, a2] = propagate(inputMiniBatches[i]);
                 cost_prev = Cost(y_hat, outputMiniBatches[i]);

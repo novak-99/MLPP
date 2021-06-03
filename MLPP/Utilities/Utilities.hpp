@@ -36,6 +36,10 @@ namespace MLPP{
             static void UI(std::vector<std::vector<double>>, std::vector<double> bias);
             static void CostInfo(int epoch, double cost_prev, double Cost);
 
+            static std::vector<std::vector<std::vector<double>>> createMiniBatches(std::vector<std::vector<double>> inputSet, int n_mini_batch);
+            static std::tuple<std::vector<std::vector<std::vector<double>>>, std::vector<std::vector<double>>> createMiniBatches(std::vector<std::vector<double>> inputSet, std::vector<double> outputSet, int n_mini_batch);
+            static std::tuple<std::vector<std::vector<std::vector<double>>>, std::vector<std::vector<std::vector<double>>>> createMiniBatches(std::vector<std::vector<double>> inputSet, std::vector<std::vector<double>> outputSet, int n_mini_batch);
+
             // F1 score, Precision/Recall, TP, FP, TN, FN, etc. 
             std::tuple<double, double, double, double> TF_PN(std::vector<double> y_hat, std::vector<double> y); //TF_PN = "True", "False", "Positive", "Negative"
             double recall(std::vector<double> y_hat, std::vector<double> y);

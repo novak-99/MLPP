@@ -135,7 +135,7 @@ int main() {
     // std::vector<std::vector<double>> inputSet = {{1,2,3,4,5,6,7,8,9,10}, {3,5,9,12,15,18,21,24,27,30}};
     // std::vector<double> outputSet = {2,4,6,8,10,12,14,16,18,20};
     // LinReg model(alg.transpose(inputSet), outputSet); // Can use Lasso, Ridge, ElasticNet Reg
-    //model.normalEquation(); 
+    // model.normalEquation(); 
     // model.gradientDescent(0.001, 30000, 1);
     // model.SGD(0.001, 30000, 1);
     // model.MBGD(0.001, 10000, 2, 1);
@@ -368,10 +368,10 @@ int main() {
     // alg.printMatrix(alg.matrixPower({{5,5},{5,5}}, 2));
     // alg.printVector(alg.solve({{1,1}, {1.5, 4.0}}, {2200, 5050}));
 
-    std::vector<std::vector<double>> matrixOfCubes = {{1,2,64,27}};
-    std::vector<double> vectorOfCubes = {1,2,64,27};
-    alg.printMatrix(alg.cbrt(matrixOfCubes));
-    alg.printVector(alg.cbrt(vectorOfCubes));
+    // std::vector<std::vector<double>> matrixOfCubes = {{1,2,64,27}};
+    // std::vector<double> vectorOfCubes = {1,2,64,27};
+    // alg.printMatrix(alg.cbrt(matrixOfCubes));
+    // alg.printVector(alg.cbrt(vectorOfCubes));
 
     return 0;
 }
