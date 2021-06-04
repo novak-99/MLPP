@@ -141,10 +141,11 @@ namespace MLPP{
         LinAlg alg;
         Stat stat;
         std::vector<double> x_means;
-        
-        x_means.resize(alg.transpose(inputSet).size());
-        for(int i = 0; i < alg.transpose(inputSet).size(); i++){
-            x_means[i] = (stat.mean(alg.transpose(inputSet)[i]));
+        std::vector<std::vector<double>> inputSetT = alg.transpose(inputSet);
+
+        x_means.resize(inputSetT.size());
+        for(int i = 0; i < inputSetT.size(); i++){
+            x_means[i] = (stat.mean(inputSetT[i]));
         }
         
         try{

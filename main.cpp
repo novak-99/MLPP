@@ -39,6 +39,7 @@
 #include "MLPP/Stat/Stat.hpp"
 #include "MLPP/LinAlg/LinAlg.hpp"
 #include "MLPP/Activation/Activation.hpp"
+#include "MLPP/Cost/Cost.hpp"
 #include "MLPP/Data/Data.hpp"
 #include "MLPP/Convolutions/Convolutions.hpp"
 
@@ -51,6 +52,7 @@ int main() {
     Stat stat;
     LinAlg alg;
     Activation avn;
+    Cost cost;
     Data data; 
     Convolutions conv; 
 
@@ -142,12 +144,12 @@ int main() {
     // alg.printVector(model.modelSetTest((alg.transpose(inputSet))));
     // std::cout << "ACCURACY: " << 100 * model.score() << "%" << std::endl;
 
-    // // LOGISTIC REGRESSION
+    // LOGISTIC REGRESSION
     // std::vector<std::vector<double>> inputSet; 
     // std::vector<double> outputSet; 
     // data.setData(30, "/Users/marcmelikyan/Desktop/Data/BreastCancer.csv", inputSet, outputSet);
     // LogReg model(inputSet, outputSet); 
-    // model.SGD(0.001, 100000, 0);
+    // model.gradientDescent(0.0001, 100000, 0);
     // model.MLE(0.1, 10000, 0);
     // alg.printVector(model.modelSetTest(inputSet));
     // std::cout << "ACCURACY: " << 100 * model.score() << "%" << std::endl;
