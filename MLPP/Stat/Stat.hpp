@@ -20,10 +20,16 @@ namespace MLPP{
             double mean(std::vector <double> x);
             double median(std::vector<double> x);
             std::vector<double> mode(std::vector<double> x);
+            double range(std::vector<double> x);
+            double midrange(std::vector<double> x);
+            double absAvgDeviation(std::vector <double> x);
+            double standardDeviation(std::vector <double> x);
             double variance(std::vector <double> x);
             double covariance(std::vector <double> x, std::vector <double> y);
             double correlation(std::vector <double> x, std::vector<double> y);
             double R2(std::vector <double> x, std::vector<double> y);
+            double chebyshevIneq(double k);
+        
 
             // Extras
             double weightedMean(std::vector<double> x, std::vector<double> weights);
@@ -40,9 +46,6 @@ namespace MLPP{
             double stolarskyMean(double x, double y, double p);
             double identricMean(double x, double y);
             double logMean(double x, double y);
-            double standardDeviation(std::vector <double> x);
-            double absAvgDeviation(std::vector <double> x);
-            double chebyshevIneq(double k);
 
         private:
 

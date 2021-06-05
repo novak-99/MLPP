@@ -391,19 +391,11 @@ namespace MLPP{
     }
 
     double LinAlg::max(std::vector<std::vector<double>> A){
-        std::vector<double> max_elements;
-        for(int i = 0; i < A.size(); i++){
-            max_elements.push_back(max(A[i]));
-        }
-        return max(max_elements);
+        return max(flatten(A));
     }
 
     double LinAlg::min(std::vector<std::vector<double>> A){
-        std::vector<double> max_elements;
-        for(int i = 0; i < A.size(); i++){
-            max_elements.push_back(min(A[i]));
-        }
-        return min(max_elements);
+        return min(flatten(A));
     }
 
     std::vector<std::vector<double>> LinAlg::round(std::vector<std::vector<double>> A){

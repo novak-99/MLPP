@@ -6,6 +6,7 @@
 
 #include "Stat.hpp"
 #include "Activation/Activation.hpp"
+#include "LinAlg/LinAlg.hpp"
 #include "Data/Data.hpp"
 #include <algorithm>
 #include <map>
@@ -66,6 +67,27 @@ namespace MLPP{
         return modes;
     }
 
+    double Stat::range(std::vector<double> x){
+        LinAlg alg;
+        return alg.max(x) - alg.min(x);
+    }
+
+    double Stat::midrange(std::vector<double> x){
+        return range(x)/2;
+    }
+
+    double Stat::absAvgDeviation(std::vector<double> x){
+        double sum = 0;
+        for(int i = 0; i < x.size(); i++){
+            sum += std::abs(x[i] - mean(x));
+        }
+        return sum / x.size();
+    }
+
+    double Stat::standardDeviation(std::vector<double> x){
+        return std::sqrt(variance(x));
+    }
+
     double Stat::variance(std::vector<double> x){
         double sum = 0;
         for(int i = 0; i < x.size(); i++){
@@ -88,6 +110,11 @@ namespace MLPP{
 
     double Stat::R2(std::vector<double> x, std::vector<double> y){
         return correlation(x, y) * correlation(x, y);
+    }
+
+    double Stat::chebyshevIneq(double k){
+        // X may or may not belong to a Gaussian Distribution
+        return 1 - 1 / (k * k);
     }
 
     double Stat::weightedMean(std::vector<double> x, std::vector<double> weights){
@@ -188,22 +215,5 @@ namespace MLPP{
             return x; 
         }
         return (y - x) / (log(y) - log(x)); 
-    }
-
-    double Stat::standardDeviation(std::vector<double> x){
-        return std::sqrt(variance(x));
-    }
-
-    double Stat::absAvgDeviation(std::vector<double> x){
-        double sum = 0;
-        for(int i = 0; i < x.size(); i++){
-            sum += std::abs(x[i] - mean(x));
-        }
-        return sum / x.size();
-    }
-
-    double Stat::chebyshevIneq(double k){
-        //Pr(|X - mu| >= k * sigma) <= 1/k^2, X may or may not belong to a Gaussian Distribution
-        return 1 - 1 / (k * k);
     }
 }

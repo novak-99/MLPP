@@ -78,17 +78,23 @@ int main() {
     // std::vector<double> outputSet = {0,1,1,0};
 
     // // STATISTICS
-    // std::vector<double> x = {1,2,3,4,5,6,7,8,9,1};
+    // std::vector<double> x = {1,2,3,4,5,6,7,8,9,10};
     // std::vector<double> y = {10,9,8,7,6,5,4,3,2,1};
     // std::vector<double> w = {0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1};
 
     // std::cout << "Arithmetic Mean: " << stat.mean(x) << std::endl;
     // std::cout << "Median: " << stat.median(x) << std::endl;
     // alg.printVector(stat.mode(x));
+    // std::cout << "Range: " << stat.range(x) << std::endl;
+    // std::cout << "Midrange: " << stat.midrange(x) << std::endl;
+    // std::cout << "Absolute Average Deviation: " << stat.absAvgDeviation(x) << std::endl;
+    // std::cout << "Standard Deviation: " << stat.standardDeviation(x) << std::endl;
     // std::cout << "Variance: " << stat.variance(x) << std::endl;
     // std::cout << "Covariance: " << stat.covariance(x, y) << std::endl;
     // std::cout << "Correlation: " << stat.correlation(x, y) << std::endl;
     // std::cout << "R^2: " << stat.R2(x, y) << std::endl;
+    // // Returns 1 - (1/k^2)
+    // std::cout << "Chebyshev Inequality: " << stat.chebyshevIneq(2) << std::endl;
     // std::cout << "Weighted Mean: " << stat.weightedMean(x, w) << std::endl;
     // std::cout << "Geometric Mean: " << stat.geometricMean(x) << std::endl;
     // std::cout << "Harmonic Mean: " << stat.harmonicMean(x) << std::endl;
@@ -103,10 +109,7 @@ int main() {
     // std::cout << "Stolarsky Mean (p = 5): " << stat.stolarskyMean(1, 10, 5) << std::endl;
     // std::cout << "Identric Mean: " << stat.identricMean(1, 10) << std::endl;
     // std::cout << "Logarithmic Mean: " << stat.logMean(1, 10) << std::endl;
-    // std::cout << "Standard Deviation: " << stat.standardDeviation(x) << std::endl;
     // std::cout << "Absolute Average Deviation: " << stat.absAvgDeviation(x) << std::endl;
-    // // Returns 1 - (1/k^2)
-    // std::cout << "Chebyshev Inequality: " << stat.chebyshevIneq(2) << std::endl;
 
     // // LINEAR ALGEBRA
     // std::vector<std::vector<double>> A = {
@@ -144,12 +147,12 @@ int main() {
     // alg.printVector(model.modelSetTest((alg.transpose(inputSet))));
     // std::cout << "ACCURACY: " << 100 * model.score() << "%" << std::endl;
 
-    // LOGISTIC REGRESSION
+    // // LOGISTIC REGRESSION
     // std::vector<std::vector<double>> inputSet; 
     // std::vector<double> outputSet; 
     // data.setData(30, "/Users/marcmelikyan/Desktop/Data/BreastCancer.csv", inputSet, outputSet);
     // LogReg model(inputSet, outputSet); 
-    // model.gradientDescent(0.0001, 100000, 0);
+    // model.SGD(0.001, 100000, 0);
     // model.MLE(0.1, 10000, 0);
     // alg.printVector(model.modelSetTest(inputSet));
     // std::cout << "ACCURACY: " << 100 * model.score() << "%" << std::endl;
@@ -188,7 +191,6 @@ int main() {
     // std::cout << "ACCURACY: " << 100 * model.score() << "%" << std::endl;
 
     // // SOFTMAX REGRESSION
-    // time_t start = time(0);
     // std::vector<std::vector<double>> inputSet; 
     // std::vector<double> tempOutputSet; 
     // data.setData(4, "/Users/marcmelikyan/Desktop/Data/Iris.csv", inputSet, tempOutputSet);
@@ -374,6 +376,8 @@ int main() {
     // std::vector<double> vectorOfCubes = {1,2,64,27};
     // alg.printMatrix(alg.cbrt(matrixOfCubes));
     // alg.printVector(alg.cbrt(vectorOfCubes));
+    // std::cout << alg.max({{1,2,3,4,5}, {6,5,3,4,1}, {9,9,9,9,9}}) << std::endl;
+    // std::cout << alg.min({{1,2,3,4,5}, {6,5,3,4,1}, {9,9,9,9,9}}) << std::endl;
 
     return 0;
 }
