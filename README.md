@@ -66,6 +66,7 @@ The result will be the model's predictions for the entire dataset.
     1. Possible Activation Functions
         - Linear
         - Sigmoid
+        - Softmax
         - Swish
         - Softplus
         - Softsign
