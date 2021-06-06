@@ -20,8 +20,8 @@ namespace MLPP{
             std::vector<double> sigmoid(std::vector<double> z, bool deriv = 0);
             std::vector<std::vector<double>> sigmoid(std::vector<std::vector<double>> z, bool deriv = 0);
 
-            std::vector<double> softmax(std::vector<double> z);
-            std::vector<std::vector<double>> softmax(std::vector<std::vector<double>> z);
+            std::vector<double> softmax(std::vector<double> z, bool deriv = 0);
+            std::vector<std::vector<double>> softmax(std::vector<std::vector<double>> z, bool deriv = 0);
 
             std::vector<double> adjSoftmax(std::vector<double> z);
             std::vector<std::vector<double>> adjSoftmax(std::vector<std::vector<double>> z);

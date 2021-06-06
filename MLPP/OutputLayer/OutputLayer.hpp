@@ -17,10 +17,9 @@
 namespace  MLPP {
     class OutputLayer{
         public:
-            OutputLayer(int n_hidden, int outputSize, std::string activation, std::string cost, std::vector<std::vector<double>> input, std::string weightInit, std::string reg, double lambda, double alpha);
+            OutputLayer(int n_hidden, std::string activation, std::string cost, std::vector<std::vector<double>> input, std::string weightInit, std::string reg, double lambda, double alpha);
         
             int n_hidden;
-            int outputSize;
             std::string activation;
             std::string cost;
 

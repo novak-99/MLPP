@@ -29,6 +29,7 @@
 #include "MLPP/SoftmaxNet/SoftmaxNet.hpp"
 #include "MLPP/AutoEncoder/AutoEncoder.hpp"
 #include "MLPP/ANN/ANN.hpp"
+#include "MLPP/MANN/MANN.hpp"
 #include "MLPP/MultinomialNB/MultinomialNB.hpp"
 #include "MLPP/BernoulliNB/BernoulliNB.hpp"
 #include "MLPP/GaussianNB/GaussianNB.hpp"
@@ -239,6 +240,27 @@ int main() {
     // ann.gradientDescent(0.1, 80000, 0);
     // alg.printVector(ann.modelSetTest(alg.transpose(inputSet)));
     // std::cout << "ACCURACY: " << 100 * ann.score() << "%" << std::endl;
+
+    // // DYNAMICALLY SIZED MANN (Multidimensional Output ANN)
+    // std::vector<std::vector<double>> inputSet = {{1,2,3},{2,4,6},{3,6,9},{4,8,12}};
+    // std::vector<std::vector<double>> outputSet = {{1,5}, {2,10}, {3,15}, {4,20}};
+
+    // std::vector<std::vector<double>> inputSet;
+    // std::vector<double> tempOutputSet;
+    // data.setData(4, "/Users/marcmelikyan/Desktop/Data/Iris.csv", inputSet, tempOutputSet);
+
+    // std::vector<std::vector<double>> inputSet;
+    // std::vector<double> tempOutputSet;
+    // data.setData(784, "/Users/marcmelikyan/Desktop/Data/mnist_train.csv", inputSet, tempOutputSet);
+    // std::vector<std::vector<double>> outputSet = data.oneHotRep(tempOutputSet, 10);
+
+    // MANN mann(inputSet, outputSet);
+    // mann.addLayer(128, "RELU");
+    // mann.addLayer(128, "RELU");
+    // mann.addOutputLayer("Softmax", "CrossEntropy");
+    // mann.gradientDescent(0.001, 1, 1);
+    // alg.printMatrix(mann.modelSetTest(inputSet));
+    // std::cout << "ACCURACY: " << 100 * mann.score() << "%" << std::endl;
 
     // // NAIVE BAYES
     // std::vector<std::vector<double>> inputSet = {{1,1,1,1,1}, {0,0,1,1,1}, {0,0,1,0,1}};

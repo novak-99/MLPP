@@ -1,10 +1,10 @@
 //
-//  OutputLayer.cpp
+//  MultiOutputLayer.cpp
 //
 //  Created by Marc Melikyan on 11/4/20.
 //
 
-#include "OutputLayer.hpp"
+#include "MultiOutputLayer.hpp"
 #include "LinAlg/LinAlg.hpp"
 #include "Utilities/Utilities.hpp"
 
@@ -12,17 +12,20 @@
 #include <random>
 
 namespace MLPP {
-    OutputLayer::OutputLayer(int n_hidden, std::string activation, std::string cost, std::vector<std::vector<double>> input, std::string weightInit, std::string reg, double lambda, double alpha)
-    : n_hidden(n_hidden), activation(activation), cost(cost), input(input), weightInit(weightInit), reg(reg), lambda(lambda), alpha(alpha)
+    MultiOutputLayer::MultiOutputLayer(int n_output, int n_hidden, std::string activation, std::string cost, std::vector<std::vector<double>> input, std::string weightInit, std::string reg, double lambda, double alpha)
+    : n_output(n_output), n_hidden(n_hidden), activation(activation), cost(cost), input(input), weightInit(weightInit), reg(reg), lambda(lambda), alpha(alpha)
     {
-        weights = Utilities::weightInitialization(n_hidden, weightInit);
-        bias = Utilities::biasInitialization();
+        weights = Utilities::weightInitialization(n_hidden, n_output, weightInit);
+        bias = Utilities::biasInitialization(n_output);
 
         activation_map["Linear"] = &Activation::linear;
         activationTest_map["Linear"] = &Activation::linear;
 
         activation_map["Sigmoid"] = &Activation::sigmoid;
         activationTest_map["Sigmoid"] = &Activation::sigmoid;
+
+        activation_map["Softmax"] = &Activation::softmax;
+        activationTest_map["Softmax"] = &Activation::softmax;
 
         activation_map["Swish"] = &Activation::swish;
         activationTest_map["Swish"] = &Activation::swish;
@@ -100,17 +103,17 @@ namespace MLPP {
         cost_map["HingeLoss"] = &Cost::HingeLoss;
     }
     
-    void OutputLayer::forwardPass(){
+    void MultiOutputLayer::forwardPass(){
         LinAlg alg;
         Activation avn;
-        z = alg.scalarAdd(bias, alg.mat_vec_mult(input, weights));
+        z = alg.mat_vec_add(alg.matmult(input, weights), bias);
         a = (avn.*activation_map[activation])(z, 0); 
     }
 
-    void OutputLayer::Test(std::vector<double> x){
+    void MultiOutputLayer::Test(std::vector<double> x){
         LinAlg alg;
         Activation avn;
-        z_test = alg.dot(weights, x) + bias;
+        z_test = alg.addition(alg.mat_vec_mult(alg.transpose(weights), x), bias); 
         a_test = (avn.*activationTest_map[activation])(z_test, 0);
     }
 }

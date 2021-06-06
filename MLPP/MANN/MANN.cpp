@@ -1,10 +1,10 @@
 //
-//  ANN.cpp
+//  MANN.cpp
 //
 //  Created by Marc Melikyan on 11/4/20.
 //
 
-#include "ANN.hpp"
+#include "MANN.hpp"
 #include "Activation/Activation.hpp"
 #include "LinAlg/LinAlg.hpp"
 #include "Regularization/Reg.hpp"
@@ -14,17 +14,17 @@
 #include <iostream>
 
 namespace MLPP {
-    ANN::ANN(std::vector<std::vector<double>> inputSet, std::vector<double> outputSet)
-    : inputSet(inputSet), outputSet(outputSet), n(inputSet.size()), k(inputSet[0].size())
+    MANN::MANN(std::vector<std::vector<double>> inputSet, std::vector<std::vector<double>> outputSet)
+    : inputSet(inputSet), outputSet(outputSet), n(inputSet.size()), k(inputSet[0].size()), n_output(outputSet[0].size())
     {
 
     }
 
-    ANN::~ANN(){
+    MANN::~MANN(){
         delete outputLayer;
     }
 
-    std::vector<double> ANN::modelSetTest(std::vector<std::vector<double>> X){
+    std::vector<std::vector<double>> MANN::modelSetTest(std::vector<std::vector<double>> X){
         network[0].input = X;
         network[0].forwardPass();
 
@@ -37,7 +37,7 @@ namespace MLPP {
         return outputLayer->a;
     }
 
-    double ANN::modelTest(std::vector<double> x){
+    std::vector<double> MANN::modelTest(std::vector<double> x){
 
         network[0].Test(x);
         for(int i = 1; i < network.size(); i++){
@@ -47,7 +47,7 @@ namespace MLPP {
         return outputLayer->a_test;
     }
 
-    void ANN::gradientDescent(double learning_rate, int max_epoch, bool UI){
+    void MANN::gradientDescent(double learning_rate, int max_epoch, bool UI){
         class Cost cost; 
         Activation avn;
         LinAlg alg;
@@ -60,17 +60,23 @@ namespace MLPP {
         while(true){
             cost_prev = Cost(y_hat, outputSet);
  
-            auto costDeriv = outputLayer->costDeriv_map[outputLayer->cost];
-            auto outputAvn = outputLayer->activation_map[outputLayer->activation];
-            outputLayer->delta = alg.hadamard_product((cost.*costDeriv)(y_hat, outputSet), (avn.*outputAvn)(outputLayer->z, 1));
-            std::vector<double> outputWGrad = alg.mat_vec_mult(alg.transpose(outputLayer->input), outputLayer->delta);
+            if(outputLayer->activation == "Softmax"){
+                outputLayer->delta = alg.subtraction(y_hat, outputSet);
+            }
+            else{
+                auto costDeriv = outputLayer->costDeriv_map[outputLayer->cost];
+                auto outputAvn = outputLayer->activation_map[outputLayer->activation];
+                outputLayer->delta = alg.hadamard_product((cost.*costDeriv)(y_hat, outputSet), (avn.*outputAvn)(outputLayer->z, 1));
+            }
+
+            std::vector<std::vector<double>> outputWGrad = alg.matmult(alg.transpose(outputLayer->input), outputLayer->delta);
 
             outputLayer->weights = alg.subtraction(outputLayer->weights, alg.scalarMultiply(learning_rate/n, outputWGrad));
             outputLayer->weights = regularization.regWeights(outputLayer->weights, outputLayer->lambda, outputLayer->alpha, outputLayer->reg);
-            outputLayer->bias -= learning_rate * alg.sum_elements(outputLayer->delta) / n;
+            outputLayer->bias = alg.subtractMatrixRows(outputLayer->bias, alg.scalarMultiply(learning_rate/n, outputLayer->delta));
 
             auto hiddenLayerAvn = network[network.size() - 1].activation_map[network[network.size() - 1].activation];
-            network[network.size() - 1].delta = alg.hadamard_product(alg.outerProduct(outputLayer->delta, outputLayer->weights), (avn.*hiddenLayerAvn)(network[network.size() - 1].z, 1));
+            network[network.size() - 1].delta = alg.hadamard_product(alg.matmult(outputLayer->delta, alg.transpose(outputLayer->weights)), (avn.*hiddenLayerAvn)(network[network.size() - 1].z, 1));
             std::vector<std::vector<double>> hiddenLayerWGrad = alg.matmult(alg.transpose(network[network.size() - 1].input), network[network.size() - 1].delta);
             
             network[network.size() - 1].weights = alg.subtraction(network[network.size() - 1].weights, alg.scalarMultiply(learning_rate/n, hiddenLayerWGrad));
@@ -105,13 +111,13 @@ namespace MLPP {
         }
     }
 
-    double ANN::score(){
+    double MANN::score(){
         Utilities util;
         forwardPass();
         return util.performance(y_hat, outputSet);
     }
 
-    void ANN::save(std::string fileName){
+    void MANN::save(std::string fileName){
         Utilities util;
         util.saveParameters(fileName, network[0].weights, network[0].bias, 0, 1);
         for(int i = 1; i < network.size(); i++){
@@ -120,7 +126,7 @@ namespace MLPP {
         util.saveParameters(fileName, outputLayer->weights, outputLayer->bias, 1, network.size() + 1);
      }
 
-    void ANN::addLayer(int n_hidden, std::string activation, std::string weightInit, std::string reg, double lambda, double alpha){
+    void MANN::addLayer(int n_hidden, std::string activation, std::string weightInit, std::string reg, double lambda, double alpha){
         if(network.empty()){
             network.push_back(HiddenLayer(n_hidden, activation, inputSet, weightInit, reg, lambda, alpha));
             network[0].forwardPass();
@@ -131,11 +137,11 @@ namespace MLPP {
         }
     }
     
-    void ANN::addOutputLayer(std::string activation, std::string loss, std::string weightInit, std::string reg, double lambda, double alpha){
-        outputLayer = new OutputLayer(network[0].n_hidden, activation, loss, network[network.size() - 1].a, weightInit, reg, lambda, alpha);
+    void MANN::addOutputLayer(std::string activation, std::string loss, std::string weightInit, std::string reg, double lambda, double alpha){
+        outputLayer = new MultiOutputLayer(n_output, network[0].n_hidden, activation, loss, network[network.size() - 1].a, weightInit, reg, lambda, alpha);
     }
 
-    double ANN::Cost(std::vector<double> y_hat, std::vector<double> y){
+    double MANN::Cost(std::vector<std::vector<double>> y_hat, std::vector<std::vector<double>> y){
         Reg regularization;
         class Cost cost;
         double totalRegTerm = 0;
@@ -147,7 +153,7 @@ namespace MLPP {
         return (cost.*cost_function)(y_hat, y) + totalRegTerm + regularization.regTerm(outputLayer->weights, outputLayer->lambda, outputLayer->alpha, outputLayer->reg);
     }
 
-    void ANN::forwardPass(){
+    void MANN::forwardPass(){
         network[0].input = inputSet;
         network[0].forwardPass();
 

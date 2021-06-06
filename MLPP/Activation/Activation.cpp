@@ -49,7 +49,7 @@ namespace MLPP{
         return alg.elementWiseDivision(alg.onemat(z.size(), z[0].size()), alg.addition(alg.onemat(z.size(), z[0].size()), alg.exp(alg.scalarMultiply(-1, z))));
     }
 
-    std::vector<double> Activation::softmax(std::vector<double> z){
+    std::vector<double> Activation::softmax(std::vector<double> z, bool deriv){
         LinAlg alg;
         std::vector<double> a;
         a.resize(z.size());
@@ -65,7 +65,7 @@ namespace MLPP{
         return a;
     }
 
-    std::vector<std::vector<double>> Activation::softmax(std::vector<std::vector<double>> z){
+    std::vector<std::vector<double>> Activation::softmax(std::vector<std::vector<double>> z, bool deriv){
         LinAlg alg;
         std::vector<std::vector<double>> a;
         a.resize(z.size());
