@@ -68,6 +68,8 @@ The result will be the model's predictions for the entire dataset.
         - Sigmoid
         - Softmax
         - Swish
+        - Mish
+        - SinC
         - Softplus
         - Softsign
         - CLogLog
