@@ -7,6 +7,7 @@
 #include <iostream>
 #include "LinAlg/LinAlg.hpp"
 #include "Activation.hpp"
+#include <cmath>
 
 namespace MLPP{
 
@@ -282,6 +283,53 @@ namespace MLPP{
         }
         return alg.hadamard_product(z, sigmoid(z));
     }
+
+    double Activation::mish(double z, bool deriv){
+        if(deriv){
+            return sech(softplus(z)) * sech(softplus(z)) * z * sigmoid(z) + mish(z)/z;
+        }
+        return z * tanh(softplus(z));
+    }
+
+    std::vector<double> Activation::mish(std::vector<double> z, bool deriv){
+        LinAlg alg;
+        if(deriv){
+            return alg.addition(alg.hadamard_product(alg.hadamard_product(alg.hadamard_product(sech(softplus(z)), sech(softplus(z))), z), sigmoid(z)), alg.elementWiseDivision(mish(z), z));
+        }
+        return alg.hadamard_product(z, tanh(softplus(z)));
+    }
+
+    std::vector<std::vector<double>> Activation::mish(std::vector<std::vector<double>> z, bool deriv){
+        LinAlg alg;
+        if(deriv){
+            return alg.addition(alg.hadamard_product(alg.hadamard_product(alg.hadamard_product(sech(softplus(z)), sech(softplus(z))), z), sigmoid(z)), alg.elementWiseDivision(mish(z), z));
+        }
+        return alg.hadamard_product(z, tanh(softplus(z)));
+    }
+
+    double Activation::sinc(double z, bool deriv){
+        if(deriv){
+            return (z * std::cos(z)  - std::sin(z)) / (z * z);
+        }
+        return std::sin(z)/z;
+    }
+
+    std::vector<double> Activation::sinc(std::vector<double> z, bool deriv){
+        LinAlg alg;
+        if(deriv){
+            return alg.elementWiseDivision(alg.subtraction(alg.hadamard_product(z, alg.cos(z)), alg.sin(z)), alg.hadamard_product(z, z));
+        }
+        return alg.elementWiseDivision(alg.sin(z), z);
+    }
+
+    std::vector<std::vector<double>> Activation::sinc(std::vector<std::vector<double>> z, bool deriv){
+        LinAlg alg;
+        if(deriv){
+            return alg.elementWiseDivision(alg.subtraction(alg.hadamard_product(z, alg.cos(z)), alg.sin(z)), alg.hadamard_product(z, z));
+        }
+        return alg.elementWiseDivision(alg.sin(z), z);
+    }
+
 
     double Activation::RELU(double z, bool deriv){
         if (deriv){

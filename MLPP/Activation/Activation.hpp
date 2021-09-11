@@ -53,6 +53,14 @@ namespace MLPP{
             std::vector<double> swish(std::vector<double> z, bool deriv = 0);
             std::vector<std::vector<double>> swish(std::vector<std::vector<double>> z, bool deriv = 0);
 
+            double mish(double z, bool deriv = 0);
+            std::vector<double> mish(std::vector<double> z, bool deriv = 0);
+            std::vector<std::vector<double>> mish(std::vector<std::vector<double>> z, bool deriv = 0);
+
+            double sinc(double z, bool deriv = 0);
+            std::vector<double> sinc(std::vector<double> z, bool deriv = 0);
+            std::vector<std::vector<double>> sinc(std::vector<std::vector<double>> z, bool deriv = 0);
+
             double RELU(double z, bool deriv = 0);
             std::vector<double> RELU(std::vector<double> z, bool deriv = 0);
             std::vector<std::vector<double>> RELU(std::vector<std::vector<double>> z, bool deriv = 0);

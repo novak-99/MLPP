@@ -390,6 +390,34 @@ namespace MLPP{
         return full; 
     }
 
+    std::vector<std::vector<double>> LinAlg::sin(std::vector<std::vector<double>> A){
+        std::vector<std::vector<double>> B;
+        B.resize(A.size());
+        for(int i = 0; i < B.size(); i++){
+            B[i].resize(A[0].size());
+        }
+        for(int i = 0; i < A.size(); i++){
+            for(int j = 0; j < A[i].size(); j++){
+                B[i][j] = std::sin(A[i][j]);
+            }
+        }
+        return B;
+    }
+
+    std::vector<std::vector<double>> LinAlg::cos(std::vector<std::vector<double>> A){
+        std::vector<std::vector<double>> B;
+        B.resize(A.size());
+        for(int i = 0; i < B.size(); i++){
+            B[i].resize(A[0].size());
+        }
+        for(int i = 0; i < A.size(); i++){
+            for(int j = 0; j < A[i].size(); j++){
+                B[i][j] = std::cos(A[i][j]);
+            }
+        }
+        return B;
+    }
+
     double LinAlg::max(std::vector<std::vector<double>> A){
         return max(flatten(A));
     }
@@ -490,10 +518,10 @@ namespace MLPP{
             }
 
             std::vector<std::vector<double>> P = identity(A.size());
-            P[sub_i][sub_j] = -sin(theta);
-            P[sub_i][sub_i] = cos(theta);
-            P[sub_j][sub_j] = cos(theta);
-            P[sub_j][sub_i] = sin(theta);
+            P[sub_i][sub_j] = -std::sin(theta);
+            P[sub_i][sub_i] = std::cos(theta);
+            P[sub_j][sub_j] = std::cos(theta);
+            P[sub_j][sub_i] = std::sin(theta);
 
             a_new = matmult(matmult(inverse(P), A), P);
 
@@ -780,6 +808,24 @@ namespace MLPP{
             full[i] = k;
         }
         return full;
+    }
+
+    std::vector<double> LinAlg::sin(std::vector<double> a){
+        std::vector<double> b; 
+        b.resize(a.size());
+        for(int i = 0; i < a.size(); i++){
+            b[i] = std::sin(a[i]);
+        }
+        return b; 
+    }
+
+    std::vector<double> LinAlg::cos(std::vector<double> a){
+        std::vector<double> b; 
+        b.resize(a.size());
+        for(int i = 0; i < a.size(); i++){
+            b[i] = std::cos(a[i]);
+        }
+        return b; 
     }
 
     double LinAlg::max(std::vector<double> a){

@@ -28,6 +28,12 @@ namespace MLPP {
         activation_map["Swish"] = &Activation::swish;
         activationTest_map["Swish"] = &Activation::swish;
 
+        activation_map["Mish"] = &Activation::mish;
+        activationTest_map["Mish"] = &Activation::mish;
+
+        activation_map["SinC"] = &Activation::sinc;
+        activationTest_map["SinC"] = &Activation::sinc;
+
         activation_map["Softplus"] = &Activation::softplus;
         activationTest_map["Softplus"] = &Activation::softplus;
 

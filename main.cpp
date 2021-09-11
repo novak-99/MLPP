@@ -8,7 +8,6 @@
 // THINGS CURRENTLY TO DO: 
 // POLYMORPHIC IMPLEMENTATION OF REGRESSION CLASSES
 // EXTEND SGD/MBGD SUPPORT FOR DYN. SIZED ANN 
-// STANDARDIZE ACTIVATIONS/OPTIMIZATIONS 
 // ADD LEAKYRELU, ELU, SELU TO ANN
 
 // HYPOTHESIS TESTING CLASS 
@@ -212,11 +211,11 @@ int main() {
     // // SOFTMAX NETWORK
     // std::vector<std::vector<double>> inputSet; 
     // std::vector<double> tempOutputSet; 
-    // data.setData(4, "/Users/marcmelikyan/Desktop/Data/Iris.csv", inputSet, tempOutputSet);
+    // data.setData(13, "/Users/marcmelikyan/Desktop/Data/Wine.csv", inputSet, tempOutputSet);
     // std::vector<std::vector<double>> outputSet = data.oneHotRep(tempOutputSet, 3);
 
-    // SoftmaxNet model(inputSet, outputSet, 2); 
-    // model.gradientDescent(0.001, 10000, 0);
+    // SoftmaxNet model(inputSet, outputSet, 5); 
+    // model.SGD(0.1, 500000, 0);
     // alg.printMatrix(model.modelSetTest(inputSet));
     // std::cout << "ACCURACY: " << 100 * model.score() << "%" << std::endl;
 
@@ -227,10 +226,10 @@ int main() {
     // alg.printMatrix(model.modelSetTest(alg.transpose(inputSet)));
     // std::cout << "ACCURACY: " << 100 * model.score() << "%" << std::endl;
 
-    // // DYNAMICALLY SIZED ANN
-    // // Possible Weight Init Methods: Default, Uniform, HeNormal, HeUniform, XavierNormal, XavierUniform
-    // // Possible Activations: Linear, Sigmoid, Swish, Softplus, Softsign, CLogLog, Ar{Sinh, Cosh, Tanh, Csch, Sech, Coth},  GaussianCDF, GELU, UnitStep
-    // // Possible Loss Functions: MSE, RMSE, MBE, LogLoss, CrossEntropy, HingeLoss
+    // DYNAMICALLY SIZED ANN
+    // Possible Weight Init Methods: Default, Uniform, HeNormal, HeUniform, XavierNormal, XavierUniform
+    // Possible Activations: Linear, Sigmoid, Swish, Softplus, Softsign, CLogLog, Ar{Sinh, Cosh, Tanh, Csch, Sech, Coth},  GaussianCDF, GELU, UnitStep
+    // Possible Loss Functions: MSE, RMSE, MBE, LogLoss, CrossEntropy, HingeLoss
     // std::vector<std::vector<double>> inputSet = {{0,0,1,1}, {0,1,0,1}};
     // std::vector<double> outputSet = {0,1,1,0};
     // ANN ann(alg.transpose(inputSet), outputSet);
@@ -241,24 +240,43 @@ int main() {
     // alg.printVector(ann.modelSetTest(alg.transpose(inputSet)));
     // std::cout << "ACCURACY: " << 100 * ann.score() << "%" << std::endl;
 
+    // std::vector<std::vector<double>> inputSet = {{0,0,1,1}, {0,1,0,1}};
+    // std::vector<double> outputSet = {0,1,1,0};
+    // ANN ann(alg.transpose(inputSet), outputSet);
+    // ann.addLayer(10, "Sigmoid");
+    // ann.addLayer(10, "Sigmoid");
+    // ann.addLayer(10, "Sigmoid");
+    // ann.addLayer(10, "Sigmoid");
+    // ann.addOutputLayer("Sigmoid", "LogLoss");
+    // ann.gradientDescent(0.1, 80000, 0);
+    // alg.printVector(ann.modelSetTest(alg.transpose(inputSet)));
+    // std::cout << "ACCURACY: " << 100 * ann.score() << "%" << std::endl;
+
     // // DYNAMICALLY SIZED MANN (Multidimensional Output ANN)
     // std::vector<std::vector<double>> inputSet = {{1,2,3},{2,4,6},{3,6,9},{4,8,12}};
     // std::vector<std::vector<double>> outputSet = {{1,5}, {2,10}, {3,15}, {4,20}};
 
+    // MANN mann(inputSet, outputSet);
+    // mann.addOutputLayer("Linear", "MSE");
+    // mann.gradientDescent(0.001, 80000, 0);
+    // alg.printMatrix(mann.modelSetTest(inputSet));
+    // std::cout << "ACCURACY: " << 100 * mann.score() << "%" << std::endl;
+
     // std::vector<std::vector<double>> inputSet;
     // std::vector<double> tempOutputSet;
     // data.setData(4, "/Users/marcmelikyan/Desktop/Data/Iris.csv", inputSet, tempOutputSet);
+    // std::vector<std::vector<double>> outputSet = data.oneHotRep(tempOutputSet, 3);
 
     // std::vector<std::vector<double>> inputSet;
     // std::vector<double> tempOutputSet;
-    // data.setData(784, "/Users/marcmelikyan/Desktop/Data/mnist_train.csv", inputSet, tempOutputSet);
+    // data.setData(784, "mini_mnist.csv", inputSet, tempOutputSet);
     // std::vector<std::vector<double>> outputSet = data.oneHotRep(tempOutputSet, 10);
 
     // MANN mann(inputSet, outputSet);
-    // mann.addLayer(128, "RELU");
-    // mann.addLayer(128, "RELU");
+    // mann.addLayer(2, "RELU");
+    // mann.addLayer(2, "RELU");
     // mann.addOutputLayer("Softmax", "CrossEntropy");
-    // mann.gradientDescent(0.001, 1, 1);
+    // mann.gradientDescent(0.001, 80000, 1);
     // alg.printMatrix(mann.modelSetTest(inputSet));
     // std::cout << "ACCURACY: " << 100 * mann.score() << "%" << std::endl;
 
@@ -374,18 +392,18 @@ int main() {
     // OutlierFinder outlierFinder(2); // Any datapoint outside of 2 stds from the mean is marked as an outlier. 
     // alg.printVector(outlierFinder.modelTest(inputSet));
 
-    // // Testing new Functions
-    // double z_s = 0.001;
-    // std::cout << avn.softsign(z_s) << std::endl;
-    // std::cout << avn.softsign(z_s, 1) << std::endl;
+    // Testing new Functions
+    double z_s = 0.001;
+    std::cout << avn.sinc(z_s) << std::endl;
+    std::cout << avn.sinc(z_s, 1) << std::endl;
 
-    // std::vector<double> z_v = {0.001, 5};
-    // alg.printVector(avn.softsign(z_v));
-    // alg.printVector(avn.softsign(z_v, 1));
+    std::vector<double> z_v = {0.001, 5};
+    alg.printVector(avn.sinc(z_v));
+    alg.printVector(avn.sinc(z_v, 1));
 
-    // std::vector<std::vector<double>> Z_m = {{0.001, 5}};
-    // alg.printMatrix(avn.softsign(Z_m));
-    // alg.printMatrix(avn.softsign(Z_m, 1));
+    std::vector<std::vector<double>> Z_m = {{0.001, 5}};
+    alg.printMatrix(avn.sinc(Z_m));
+    alg.printMatrix(avn.sinc(Z_m, 1));
 
     // std::cout << alg.trace({{1,2}, {3,4}}) << std::endl;
     // alg.printMatrix(alg.pinverse({{1,2}, {3,4}}));
@@ -400,6 +418,10 @@ int main() {
     // alg.printVector(alg.cbrt(vectorOfCubes));
     // std::cout << alg.max({{1,2,3,4,5}, {6,5,3,4,1}, {9,9,9,9,9}}) << std::endl;
     // std::cout << alg.min({{1,2,3,4,5}, {6,5,3,4,1}, {9,9,9,9,9}}) << std::endl;
+
+    // std::vector<double> chicken; 
+    // data.getImage("../../Data/apple.jpeg", chicken);
+    // alg.printVector(chicken);
 
     return 0;
 }

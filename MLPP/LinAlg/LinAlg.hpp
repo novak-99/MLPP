@@ -70,6 +70,10 @@ namespace MLPP{
 
         std::vector<std::vector<double>> full(int n, int m, int k);
 
+        std::vector<std::vector<double>> sin(std::vector<std::vector<double>> A);
+
+        std::vector<std::vector<double>> cos(std::vector<std::vector<double>> A);
+
         double max(std::vector<std::vector<double>> A);
 
         double min(std::vector<std::vector<double>> A);
@@ -135,6 +139,10 @@ namespace MLPP{
         std::vector<std::vector<double>> diag(std::vector<double> a);
 
         std::vector<double> full(int n, int k);
+
+        std::vector<double> sin(std::vector<double> a);
+
+        std::vector<double> cos(std::vector<double> a);
 
         double max(std::vector<double> a);
 
