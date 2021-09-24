@@ -5,23 +5,20 @@
 //
 
 #include "SVC.hpp"
+#include "Activation/Activation.hpp"
 #include "LinAlg/LinAlg.hpp"
-#include "Stat/Stat.hpp"
 #include "Regularization/Reg.hpp"
 #include "Utilities/Utilities.hpp"
 #include "Cost/Cost.hpp"
 
 #include <iostream>
-#include <cmath>
 #include <random>
 
 namespace MLPP{
-
-    SVC::SVC(std::vector<std::vector<double>> inputSet, std::vector<double> outputSet, std::string reg, double lambda, double alpha)
-    : inputSet(inputSet), outputSet(outputSet), n(inputSet.size()), k(inputSet[0].size()), reg(reg), lambda(lambda), alpha(alpha)
+    SVC::SVC(std::vector<std::vector<double>> inputSet, std::vector<double> outputSet, double C)
+    : inputSet(inputSet), outputSet(outputSet), n(inputSet.size()), k(inputSet[0].size()), C(C)
     {
         y_hat.resize(n);
-
         weights = Utilities::weightInitialization(k);
         bias = Utilities::biasInitialization();
     }
@@ -35,6 +32,8 @@ namespace MLPP{
     }
 
     void SVC::gradientDescent(double learning_rate, int max_epoch, bool UI){
+        class Cost cost;
+        Activation avn;
         LinAlg alg;
         Reg regularization;
         double cost_prev = 0;
@@ -42,31 +41,34 @@ namespace MLPP{
         forwardPass();
         
         while(true){
-            cost_prev = Cost(y_hat, outputSet);
-                
-            std::vector<double> error = alg.subtraction(y_hat, outputSet);
+            cost_prev = Cost(y_hat, outputSet, weights, C);
 
-            // Calculating the weight gradients
-            weights = alg.subtraction(weights, alg.scalarMultiply(learning_rate/n, alg.mat_vec_mult(alg.transpose(inputSet), error)));
-            weights = regularization.regWeights(weights, lambda, alpha, reg);
- 
+            weights = alg.subtraction(weights, alg.scalarMultiply(learning_rate/n, alg.mat_vec_mult(alg.transpose(inputSet), cost.HingeLossDeriv(z, outputSet, C))));
+            weights = regularization.regWeights(weights, learning_rate/n, 0, "Ridge");
+
             // Calculating the bias gradients
-            bias -= learning_rate * alg.sum_elements(error) / n;
+            bias += learning_rate * alg.sum_elements(cost.HingeLossDeriv(y_hat, outputSet, C)) / n;
+            
             forwardPass();
                 
+            // UI PORTION
             if(UI) { 
-                Utilities::CostInfo(epoch, cost_prev, Cost(y_hat, outputSet));
+                Utilities::CostInfo(epoch, cost_prev, Cost(y_hat, outputSet, weights, C));
                 Utilities::UI(weights, bias); 
             }
             epoch++;
             
             if(epoch > max_epoch) { break; }
+
         }
     }
 
     void SVC::SGD(double learning_rate, int max_epoch, bool UI){
+        class Cost cost;
+        Activation avn;
         LinAlg alg;
         Reg regularization;
+        
         double cost_prev = 0;
         int epoch = 1;
         
@@ -77,21 +79,22 @@ namespace MLPP{
             int outputIndex = distribution(generator);
 
             double y_hat = Evaluate(inputSet[outputIndex]);
-            cost_prev = Cost({y_hat}, {outputSet[outputIndex]});
+            double z = propagate(inputSet[outputIndex]);
+            cost_prev = Cost({z}, {outputSet[outputIndex]}, weights, C);
 
-            double error = y_hat - outputSet[outputIndex];
+            double costDeriv = cost.HingeLossDeriv({z}, {outputSet[outputIndex]}, C)[0];
 
-            // Weight updation
-            weights = alg.subtraction(weights, alg.scalarMultiply(learning_rate * error, inputSet[outputIndex]));
-            weights = regularization.regWeights(weights, lambda, alpha, reg);
+            // Weight Updation
+            weights = alg.subtraction(weights, alg.scalarMultiply(learning_rate * costDeriv, inputSet[outputIndex]));
+            weights = regularization.regWeights(weights, learning_rate, 0, "Ridge");
             
             // Bias updation
-            bias -= learning_rate * error;
+            bias -= learning_rate * costDeriv;
 
             y_hat = Evaluate({inputSet[outputIndex]});
                 
             if(UI) { 
-                Utilities::CostInfo(epoch, cost_prev, Cost({y_hat}, {outputSet[outputIndex]}));
+                Utilities::CostInfo(epoch, cost_prev, Cost({z}, {outputSet[outputIndex]}, weights, C));
                 Utilities::UI(weights, bias); 
             }
             epoch++;
@@ -102,6 +105,8 @@ namespace MLPP{
     }
 
     void SVC::MBGD(double learning_rate, int max_epoch, int mini_batch_size, bool UI){
+        class Cost cost; 
+        Activation avn;
         LinAlg alg;
         Reg regularization;
         double cost_prev = 0;
@@ -114,20 +119,23 @@ namespace MLPP{
         while(true){
             for(int i = 0; i < n_mini_batch; i++){
                 std::vector<double> y_hat = Evaluate(inputMiniBatches[i]);
-                cost_prev = Cost(y_hat, outputMiniBatches[i]);
-                
-                std::vector<double> error = alg.subtraction(y_hat, outputMiniBatches[i]);
+                std::vector<double> z = propagate(inputMiniBatches[i]);
+                cost_prev = Cost(z, outputMiniBatches[i], weights, C);
 
                 // Calculating the weight gradients
-                weights = alg.subtraction(weights, alg.scalarMultiply(learning_rate/outputMiniBatches[i].size(), alg.mat_vec_mult(alg.transpose(inputMiniBatches[i]), error)));
-                weights = regularization.regWeights(weights, lambda, alpha, reg);
-    
+                weights = alg.subtraction(weights, alg.scalarMultiply(learning_rate/n, alg.mat_vec_mult(alg.transpose(inputMiniBatches[i]), cost.HingeLossDeriv(z, outputMiniBatches[i], C))));
+                weights = regularization.regWeights(weights, learning_rate/n, 0, "Ridge");
+                
+
                 // Calculating the bias gradients
-                bias -= learning_rate * alg.sum_elements(error) / outputMiniBatches[i].size();
+                bias -= learning_rate * alg.sum_elements(cost.HingeLossDeriv(y_hat, outputMiniBatches[i], C)) / n;
+            
+                forwardPass();
+
                 y_hat = Evaluate(inputMiniBatches[i]);
                     
                 if(UI) { 
-                    Utilities::CostInfo(epoch, cost_prev, Cost(y_hat, outputMiniBatches[i]));
+                    Utilities::CostInfo(epoch, cost_prev, Cost(z, outputMiniBatches[i], weights, C));
                     Utilities::UI(weights, bias); 
                 }
             }
@@ -142,29 +150,46 @@ namespace MLPP{
         return util.performance(y_hat, outputSet);
     }
 
-    void SVC::save(std::string fileName){
+     void SVC::save(std::string fileName){
          Utilities util;
          util.saveParameters(fileName, weights, bias);
      }
 
-    double SVC::Cost(std::vector <double> y_hat, std::vector<double> y){
-        Reg regularization;
+    double SVC::Cost(std::vector <double> z, std::vector<double> y, std::vector<double> weights, double C){
         class Cost cost; 
-        return cost.MSE(y_hat, y) + regularization.regTerm(weights, lambda, alpha, reg);
+        return cost.HingeLoss(z, y, weights, C);    
     }
 
     std::vector<double> SVC::Evaluate(std::vector<std::vector<double>> X){
         LinAlg alg;
+        Activation avn;
+        return avn.sign(alg.scalarAdd(bias, alg.mat_vec_mult(X, weights))); 
+    }
+    
+    std::vector<double>SVC::propagate(std::vector<std::vector<double>> X){
+        LinAlg alg;
+        Activation avn;
         return alg.scalarAdd(bias, alg.mat_vec_mult(X, weights)); 
     }
 
     double SVC::Evaluate(std::vector<double> x){
         LinAlg alg;
+        Activation avn;
+        return avn.sign(alg.dot(weights, x) + bias);
+    }
+
+    double SVC::propagate(std::vector<double> x){
+        LinAlg alg;
+        Activation avn;
         return alg.dot(weights, x) + bias;
     }
 
-    // sign(wTx + b)
+    // sign ( wTx + b )
     void SVC::forwardPass(){
-        y_hat = Evaluate(inputSet);
+        LinAlg alg;
+        Activation avn;
+        
+        z = propagate(inputSet);
+        y_hat = avn.sign(z);
     }
 }

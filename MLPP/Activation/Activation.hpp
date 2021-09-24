@@ -81,6 +81,10 @@ namespace MLPP{
             std::vector<double> GELU(std::vector<double> z, bool deriv = 0);
             std::vector<std::vector<double>> GELU(std::vector<std::vector<double>> z, bool deriv = 0);
 
+            double sign(double z, bool deriv = 0);
+            std::vector<double> sign(std::vector<double> z, bool deriv = 0);
+            std::vector<std::vector<double>> sign(std::vector<std::vector<double>> z, bool deriv = 0);
+
             double sinh(double z, bool deriv = 0);
             std::vector<double> sinh(std::vector<double> z, bool deriv = 0);
             std::vector<std::vector<double>> sinh(std::vector<std::vector<double>> z, bool deriv = 0);

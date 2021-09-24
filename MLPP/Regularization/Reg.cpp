@@ -7,6 +7,7 @@
 #include <iostream>
 #include <random>
 #include "Reg.hpp"
+#include "Activation/Activation.hpp"
 
 namespace MLPP{
 
@@ -85,14 +86,15 @@ namespace MLPP{
     }
 
     double Reg::regDerivTerm(std::vector<double> weights, double lambda, double alpha, std::string reg, int j){
+        Activation act;
         if(reg == "Ridge"){
             return lambda * weights[j];
         }
         else if(reg == "Lasso"){
-            return lambda * sign(weights[j]);
+            return lambda * act.sign(weights[j]);
         }
         else if(reg == "ElasticNet"){
-            return alpha * lambda * sign(weights[j]) + (1 - alpha) * lambda * weights[j];
+            return alpha * lambda * act.sign(weights[j]) + (1 - alpha) * lambda * weights[j];
         }
         else {
             return 0;
@@ -100,29 +102,18 @@ namespace MLPP{
     }
 
     double Reg::regDerivTerm(std::vector<std::vector<double>> weights, double lambda, double alpha, std::string reg, int i, int j){
+        Activation act;
         if(reg == "Ridge"){
             return lambda * weights[i][j];
         }
         else if(reg == "Lasso"){
-            return lambda * sign(weights[i][j]);
+            return lambda * act.sign(weights[i][j]);
         }
         else if(reg == "ElasticNet"){
-            return alpha * lambda * sign(weights[i][j]) + (1 - alpha) * lambda * weights[i][j];
+            return alpha * lambda * act.sign(weights[i][j]) + (1 - alpha) * lambda * weights[i][j];
         }
         else {
             return 0;
-        }
-    }
-
-    int Reg::sign(double weight){
-        if(weight < 0){
-            return -1;
-        }
-        else if(weight == 0){
-            return 0;
-        }
-        else{
-            return 1;
         }
     }
 }

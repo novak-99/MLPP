@@ -7,6 +7,7 @@
 #include <iostream>
 #include "Cost.hpp"
 #include "LinAlg/LinAlg.hpp"
+#include "Regularization/Reg.hpp"
 
 namespace MLPP{
     double Cost::MSE(std::vector <double> y_hat, std::vector<double> y){
@@ -340,5 +341,27 @@ namespace MLPP{
             }
         }
         return deriv;
+    }
+
+    double Cost::HingeLoss(std::vector <double> y_hat, std::vector<double> y, std::vector<double> weights, double C){
+        LinAlg alg; 
+        Reg regularization;
+        return C * HingeLoss(y_hat, y) + regularization.regTerm(weights, 1, 0, "Ridge");
+    }
+    double Cost::HingeLoss(std::vector<std::vector<double>> y_hat, std::vector<std::vector<double>> y, std::vector<double> weights, double C){
+        LinAlg alg; 
+        Reg regularization;
+        return C * HingeLoss(y_hat, y) + regularization.regTerm(weights, 1, 0, "Ridge");
+    }
+
+    std::vector<double> Cost::HingeLossDeriv(std::vector <double> y_hat, std::vector<double> y, double C){
+        LinAlg alg;
+        Reg regularization;
+        return alg.scalarMultiply(C, HingeLossDeriv(y_hat, y));
+    } 
+    std::vector<std::vector<double>> Cost::HingeLossDeriv(std::vector<std::vector<double>> y_hat, std::vector<std::vector<double>> y, double C){
+        LinAlg alg;
+        Reg regularization;
+        return alg.scalarMultiply(C, HingeLossDeriv(y_hat, y));
     }
 }

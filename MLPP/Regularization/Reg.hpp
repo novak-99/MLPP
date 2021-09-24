@@ -22,7 +22,6 @@ namespace MLPP{
         private:
             double regDerivTerm(std::vector<double> weights, double lambda, double alpha, std::string reg, int j);
             double regDerivTerm(std::vector<std::vector<double>> weights, double lambda, double alpha, std::string reg, int i, int j);
-            int sign(double weight);
     };
 }
 

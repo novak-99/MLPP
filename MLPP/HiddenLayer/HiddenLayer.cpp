@@ -52,6 +52,9 @@ namespace MLPP {
         activation_map["GELU"] = &Activation::GELU;
         activationTest_map["GELU"] = &Activation::GELU;
 
+        activation_map["Sign"] = &Activation::unitStep;
+        activationTest_map["Sign"] = &Activation::unitStep;
+
         activation_map["UnitStep"] = &Activation::unitStep;
         activationTest_map["UnitStep"] = &Activation::unitStep;
 

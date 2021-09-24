@@ -1,20 +1,22 @@
 //
 //  SVC.hpp
 //
-//  Created by Marc Melikyan on 9/10/21.
+//  Created by Marc Melikyan on 10/2/20.
 //
 
 #ifndef SVC_hpp
 #define SVC_hpp
 
+
 #include <vector>
 #include <string>
 
-namespace MLPP{
+namespace MLPP {
+
     class SVC{
         
         public:
-            SVC(std::vector<std::vector<double>> inputSet, std::vector<double> outputSet, std::string reg = "None", double lambda = 0.5, double alpha = 0.5);
+            SVC(std::vector<std::vector<double>> inputSet, std::vector<double> outputSet, double C);
             std::vector<double> modelSetTest(std::vector<std::vector<double>> X);
             double modelTest(std::vector<double> x);
             void gradientDescent(double learning_rate, int max_epoch, bool UI = 1);
@@ -24,27 +26,27 @@ namespace MLPP{
             void save(std::string fileName);
         private:
 
-            double Cost(std::vector <double> y_hat, std::vector<double> y);
+            double Cost(std::vector <double> y_hat, std::vector<double> y, std::vector<double> weights, double C);
         
             std::vector<double> Evaluate(std::vector<std::vector<double>> X);
+            std::vector<double> propagate(std::vector<std::vector<double>> X);
             double Evaluate(std::vector<double> x);
+            double propagate(std::vector<double> x);
             void forwardPass();
         
             std::vector<std::vector<double>> inputSet;
             std::vector<double> outputSet;
+            std::vector<double> z;
             std::vector<double> y_hat;
             std::vector<double> weights;
             double bias;
-        
+
+            double C;
             int n; 
             int k;
         
-            // Regularization Params
-            std::string reg;
-            int lambda;
-            int alpha; /* This is the controlling param for Elastic Net*/
-        
-        
+            // UI Portion
+            void UI(int epoch, double cost_prev);        
     };
 }
 

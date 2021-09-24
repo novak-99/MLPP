@@ -42,6 +42,7 @@
 #include "MLPP/Cost/Cost.hpp"
 #include "MLPP/Data/Data.hpp"
 #include "MLPP/Convolutions/Convolutions.hpp"
+#include "MLPP/SVC/SVC.hpp"
 
 
 using namespace MLPP;
@@ -195,6 +196,15 @@ int main() {
     // std::vector<double> tempOutputSet; 
     // data.setData(4, "/Users/marcmelikyan/Desktop/Data/Iris.csv", inputSet, tempOutputSet);
     // std::vector<std::vector<double>> outputSet = data.oneHotRep(tempOutputSet, 3);
+
+    // SUPPORT VECTOR CLASSIFICATION
+    std::vector<std::vector<double>> inputSet; 
+    std::vector<double> outputSet; 
+    data.setData(30, "/Users/marcmelikyan/Desktop/Data/BreastCancerSVM.csv", inputSet, outputSet);
+    SVC model(inputSet, outputSet, 1); 
+    model.SGD(0.00001, 100000, 1);
+    alg.printVector(model.modelSetTest(inputSet));
+    std::cout << "ACCURACY: " << 100 * model.score() << "%" << std::endl;
 
     // SoftmaxReg model(inputSet, outputSet); 
     // model.SGD(0.001, 20000, 0);
@@ -392,18 +402,18 @@ int main() {
     // OutlierFinder outlierFinder(2); // Any datapoint outside of 2 stds from the mean is marked as an outlier. 
     // alg.printVector(outlierFinder.modelTest(inputSet));
 
-    // Testing new Functions
-    double z_s = 0.001;
-    std::cout << avn.sinc(z_s) << std::endl;
-    std::cout << avn.sinc(z_s, 1) << std::endl;
+    // // Testing new Functions
+    // double z_s = 0.001;
+    // std::cout << avn.sinc(z_s) << std::endl;
+    // std::cout << avn.sinc(z_s, 1) << std::endl;
 
-    std::vector<double> z_v = {0.001, 5};
-    alg.printVector(avn.sinc(z_v));
-    alg.printVector(avn.sinc(z_v, 1));
+    // std::vector<double> z_v = {0.001, 5};
+    // alg.printVector(avn.sinc(z_v));
+    // alg.printVector(avn.sinc(z_v, 1));
 
-    std::vector<std::vector<double>> Z_m = {{0.001, 5}};
-    alg.printMatrix(avn.sinc(Z_m));
-    alg.printMatrix(avn.sinc(Z_m, 1));
+    // std::vector<std::vector<double>> Z_m = {{0.001, 5}};
+    // alg.printMatrix(avn.sinc(Z_m));
+    // alg.printMatrix(avn.sinc(Z_m, 1));
 
     // std::cout << alg.trace({{1,2}, {3,4}}) << std::endl;
     // alg.printMatrix(alg.pinverse({{1,2}, {3,4}}));

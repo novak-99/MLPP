@@ -566,6 +566,57 @@ namespace MLPP{
         return a;
     }
 
+    double Activation::sign(double z, bool deriv){
+        if(deriv){
+            return 0;
+        }
+        if(z < 0){
+            return -1;
+        }
+        else if(z == 0){
+            return 0;
+        }
+        else{
+            return 1;
+        }
+    }
+
+    std::vector<double> Activation::sign(std::vector<double> z, bool deriv){
+        if(deriv){
+            std::vector<double> deriv;
+            deriv.resize(z.size());
+            for(int i = 0; i < z.size(); i++){
+                deriv[i] = sign(z[i], 1);
+            }
+            return deriv;
+        }
+        std::vector<double> a; 
+        a.resize(z.size());
+
+        for(int i = 0; i < a.size(); i++){
+            a[i] = sign(z[i]);
+        }
+        return a;
+    }
+
+    std::vector<std::vector<double>> Activation::sign(std::vector<std::vector<double>> z, bool deriv){
+        if(deriv){
+            std::vector<std::vector<double>> deriv;
+            deriv.resize(z.size());
+            for(int i = 0; i < z.size(); i++){
+                deriv[i] = sign(z[i], 1);
+            }
+            return deriv;
+        }
+        std::vector<std::vector<double>> a; 
+        a.resize(z.size());
+
+        for(int i = 0; i < a.size(); i++){
+            a[i] = sign(z[i]);
+        }
+        return a;
+    }
+
     double Activation::sinh(double z, bool deriv){
         if(deriv){ return cosh(z); }
         return 0.5 * (exp(z) - exp(-z));
