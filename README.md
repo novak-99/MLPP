@@ -76,6 +76,7 @@ The result will be the model's predictions for the entire dataset.
         - Gaussian CDF
         - RELU
         - GELU
+        - Sign
         - Unit Step 
         - Sinh
         - Cosh
@@ -132,6 +133,7 @@ The result will be the model's predictions for the entire dataset.
     1. Multinomial Naive Bayes
     2. Bernoulli Naive Bayes 
     3. Gaussian Naive Bayes
+8. ***Support Vector Classification***
 8. ***K-Means***
 9. ***k-Nearest Neighbors***
 10. ***Outlier Finder (Using z-scores)***
