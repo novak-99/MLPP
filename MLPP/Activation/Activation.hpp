@@ -45,6 +45,10 @@ namespace MLPP{
             std::vector<double> cloglog(std::vector<double> z, bool deriv = 0);
             std::vector<std::vector<double>> cloglog(std::vector<std::vector<double>> z, bool deriv = 0);
 
+            double logit(double z, bool deriv = 0);
+            std::vector<double> logit(std::vector<double> z, bool deriv = 0);
+            std::vector<std::vector<double>> logit(std::vector<std::vector<double>> z, bool deriv = 0);
+
             double unitStep(double z, bool deriv = 0);
             std::vector<double> unitStep(std::vector<double> z, bool deriv = 0);
             std::vector<std::vector<double>> unitStep(std::vector<std::vector<double>> z, bool deriv = 0);

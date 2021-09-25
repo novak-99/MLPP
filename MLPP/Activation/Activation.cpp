@@ -218,6 +218,27 @@ namespace MLPP{
         return alg.scalarMultiply(-1, alg.scalarAdd(-1, alg.exp(alg.scalarMultiply(-1, alg.exp(z)))));
     }
 
+    double Activation::logit(double z, bool deriv){
+        if(deriv) { return 1/z - 1/(z-1); }
+        return std::log(z / (1 + z));
+    }
+
+    std::vector<double> Activation::logit(std::vector<double> z, bool deriv){
+        LinAlg alg;
+        if(deriv) {
+            return alg.subtraction(alg.elementWiseDivision(alg.onevec(z.size()), z), alg.elementWiseDivision(alg.onevec(z.size()), alg.subtraction(z, alg.onevec(z.size()))));
+        }
+        return alg.log(alg.elementWiseDivision(z, alg.subtraction(alg.onevec(z.size()), z)));
+    }
+
+    std::vector<std::vector<double>> Activation::logit(std::vector<std::vector<double>> z, bool deriv){
+        LinAlg alg;
+        if(deriv) {
+            return alg.subtraction(alg.elementWiseDivision(alg.onemat(z.size(), z[0].size()), z), alg.elementWiseDivision(alg.onemat(z.size(), z[0].size()), alg.subtraction(z, alg.onemat(z.size(), z[0].size()))));
+        }
+        return alg.log(alg.elementWiseDivision(z, alg.subtraction(alg.onemat(z.size(), z[0].size()), z)));
+    }
+
     double Activation::unitStep(double z, bool deriv){
         if(deriv) { 
             return 0;

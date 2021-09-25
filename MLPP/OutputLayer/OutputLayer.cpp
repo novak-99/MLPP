@@ -42,6 +42,9 @@ namespace MLPP {
         activation_map["CLogLog"] = &Activation::cloglog;
         activationTest_map["CLogLog"] = &Activation::cloglog;
 
+        activation_map["Logit"] = &Activation::logit;
+        activationTest_map["Logit"] = &Activation::logit;
+
         activation_map["GaussianCDF"] = &Activation::gaussianCDF;
         activationTest_map["GaussianCDF"] = &Activation::gaussianCDF;
 
@@ -51,8 +54,8 @@ namespace MLPP {
         activation_map["GELU"] = &Activation::GELU;
         activationTest_map["GELU"] = &Activation::GELU;
 
-        activation_map["Sign"] = &Activation::unitStep;
-        activationTest_map["Sign"] = &Activation::unitStep;
+        activation_map["Sign"] = &Activation::sign;
+        activationTest_map["Sign"] = &Activation::sign;
 
         activation_map["UnitStep"] = &Activation::unitStep;
         activationTest_map["UnitStep"] = &Activation::unitStep;
