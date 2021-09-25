@@ -156,13 +156,9 @@ The result will be the model's predictions for the entire dataset.
 ## What's in the Works? 
 ML++, like most frameworks, is dynamic, and constantly changing! This is especially important in the world of ML, as new algorithms and techniques are being developed day by day. Here a couple things currently being developed for ML++:
     <p>
-    -  Convolutional Neural Networks 
-    </p>
-    <p>
+    - Convolutional Neural Networks 
     - Kernels for SVMs 
-    </p>
-    <p>
-    3. Support Vector Regression
+    - Support Vector Regression
     </p>    
     
 ## Citations
