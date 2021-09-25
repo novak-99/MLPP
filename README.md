@@ -73,6 +73,7 @@ The result will be the model's predictions for the entire dataset.
         - Softplus
         - Softsign
         - CLogLog
+        - Logit
         - Gaussian CDF
         - RELU
         - GELU
