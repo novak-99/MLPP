@@ -155,9 +155,9 @@ The result will be the model's predictions for the entire dataset.
 
 ## What's in the Works? 
 ML++, like most frameworks, is dynamic, and constantly changing! This is especially important in the world of ML, as new algorithms and techniques are being developed day by day. Here a couple things currently being developed for ML++:
-    - Convolutional Neural Networks 
-    - Kernels for SVMs 
-    - Support Vector Regression
+    1. Convolutional Neural Networks 
+    2. Kernels for SVMs 
+    3. Support Vector Regression
     
 ## Citations
 Various different materials helped me along the way of creating ML++, and I would like to give credit to them here. [This](https://www.tutorialspoint.com/cplusplus-program-to-compute-determinant-of-a-matrix) article by TutorialsPoint was a big help when trying to implement the determinant of a matrix, and [this](https://www.geeksforgeeks.org/adjoint-inverse-matrix/) website by GeeksForGeeks was very helpful when trying to take the adjoint and inverse of a matrix. Lastly, I would like to thank [this](https://towardsdatascience.com/svm-implementation-from-scratch-python-2db2fc52e5c2) article from Towards Data Science which helped illustrate a practical definition of the Hinge Loss activation function and its gradient. 
