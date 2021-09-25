@@ -76,6 +76,7 @@ The result will be the model's predictions for the entire dataset.
         - Gaussian CDF
         - RELU
         - GELU
+        - Sign
         - Unit Step 
         - Sinh
         - Cosh
@@ -132,6 +133,7 @@ The result will be the model's predictions for the entire dataset.
     1. Multinomial Naive Bayes
     2. Bernoulli Naive Bayes 
     3. Gaussian Naive Bayes
+8. ***Support Vector Classification***
 8. ***K-Means***
 9. ***k-Nearest Neighbors***
 10. ***Outlier Finder (Using z-scores)***
@@ -149,3 +151,19 @@ The result will be the model's predictions for the entire dataset.
     3. Recall 
     4. Accuracy
     5. F1 score
+
+
+## What's in the Works? 
+ML++, like most frameworks, is dynamic, and constantly changing! This is especially important in the world of ML, as new algorithms and techniques are being developed day by day. Here a couple things currently being developed for ML++:
+    <p>
+    - Convolutional Neural Networks 
+    </p>
+    <p>
+    - Kernels for SVMs 
+    </p>
+    <p>
+    - Support Vector Regression
+    </p>    
+    
+## Citations
+Various different materials helped me along the way of creating ML++, and I would like to give credit to them here. [This](https://www.tutorialspoint.com/cplusplus-program-to-compute-determinant-of-a-matrix) article by TutorialsPoint was a big help when trying to implement the determinant of a matrix, and [this](https://www.geeksforgeeks.org/adjoint-inverse-matrix/) article by GeeksForGeeks was very helpful when trying to take the adjoint and inverse of a matrix. Lastly, I would like to thank [this](https://towardsdatascience.com/svm-implementation-from-scratch-python-2db2fc52e5c2) article by Towards Data Science which helped illustrate a practical definition of the Hinge Loss activation function and its gradient when optimizing with SGD. 
