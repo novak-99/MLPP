@@ -88,6 +88,12 @@ namespace MLPP{
 
         std::tuple<std::vector<std::vector<double>>, std::vector<std::vector<double>>, std::vector<std::vector<double>>> SVD(std::vector<std::vector<double>> A);
 
+        std::vector<double> vectorProjection(std::vector<double> a, std::vector<double> b);
+
+        std::vector<std::vector<double>> gramSchmidtProcess(std::vector<std::vector<double>> A);
+
+        std::tuple<std::vector<std::vector<double>>, std::vector<std::vector<double>>> QRD(std::vector<std::vector<double>> A);
+
         double sum_elements(std::vector<std::vector<double>> A);
 
         std::vector<double> flatten(std::vector<std::vector<double>> A);
@@ -152,6 +158,8 @@ namespace MLPP{
 
         double euclideanDistance(std::vector<double> a, std::vector<double> b);
         
+        double norm_2(std::vector<double> a);
+
         double norm_sq(std::vector<double> a);
         
         double sum_elements(std::vector<double> a);

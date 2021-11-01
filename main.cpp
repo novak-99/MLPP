@@ -433,5 +433,18 @@ int main() {
     // data.getImage("../../Data/apple.jpeg", chicken);
     // alg.printVector(chicken);
 
+    // TESTING QR DECOMP. EXAMPLE VIA WIKIPEDIA. SEE https://en.wikipedia.org/wiki/QR_decomposition.
+
+    std::vector<std::vector<double>> P = {{12, -51, 4}, {6, 167, -68}, {-4, 24, -41}};
+    alg.printMatrix(P);
+
+    alg.printMatrix(alg.gramSchmidtProcess(P));
+
+    auto [Q, R] = alg.QRD(P); // It works! 
+    
+     alg.printMatrix(Q);
+
+     alg.printMatrix(R); 
+
     return 0;
 }

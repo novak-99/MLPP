@@ -611,6 +611,38 @@ namespace MLPP{
         return {left_eigenvecs, sigma, right_eigenvecs};
     }
 
+    std::vector<double> LinAlg::vectorProjection(std::vector<double> a, std::vector<double> b){
+        double product = dot(a, b)/dot(a, a);
+        return scalarMultiply(product, a); // Projection of vector a onto b. Denotated as proj_a(b).
+    }
+
+    std::vector<std::vector<double>> LinAlg::gramSchmidtProcess(std::vector<std::vector<double>> A){
+        A = transpose(A); // C++ vectors lack a mechanism to directly index columns. So, we transpose *a copy* of A for this purpose for ease of use.
+        std::vector<std::vector<double>> B;
+        B.resize(A.size());
+        for(int i = 0; i < B.size(); i++){
+            B[i].resize(A[0].size());
+        }
+
+        B[0] = A[0]; // We set a_1 = b_1 as an initial condition.
+        B[0] = scalarMultiply(1/norm_2(B[0]), B[0]);
+        for(int i = 1; i < B.size(); i++){
+            B[i] = A[i];
+            for(int j = i-1; j >= 0; j--){
+                B[i] = subtraction(B[i], vectorProjection(B[j], A[i]));
+            }
+            B[i] = scalarMultiply(1/norm_2(B[i]), B[i]); // Very simply multiply all elements of vec B[i] by 1/||B[i]||_2
+        }
+        return transpose(B); // We re-transpose the marix. 
+    }
+
+    std::tuple<std::vector<std::vector<double>>, std::vector<std::vector<double>>> LinAlg::QRD(std::vector<std::vector<double>> A){
+        std::vector<std::vector<double>> Q = gramSchmidtProcess(A);
+        std::vector<std::vector<double>> R = matmult(transpose(Q), A);
+        return {Q, R};
+
+    }
+
     double LinAlg::sum_elements(std::vector<std::vector<double>> A){
         double sum = 0;
         for(int i = 0; i < A.size(); i++){
@@ -866,6 +898,10 @@ namespace MLPP{
         return std::sqrt(dist);
     }
 
+    double LinAlg::norm_2(std::vector<double> a){
+        return std::sqrt(norm_sq(a));
+    }
+
     double LinAlg::norm_sq(std::vector<double> a){
         double n_sq = 0;
         for(int i = 0; i < a.size(); i++){
@@ -883,7 +919,7 @@ namespace MLPP{
     }
 
     double LinAlg::cosineSimilarity(std::vector<double> a, std::vector<double> b){
-        return dot(a, b) / (std::sqrt(norm_sq(a)) * std::sqrt(norm_sq(b)));
+        return dot(a, b) / (norm_2(a) * norm_2(b));
     }
 
     void LinAlg::printVector(std::vector<double> a){
