@@ -43,19 +43,31 @@
 #include "MLPP/Data/Data.hpp"
 #include "MLPP/Convolutions/Convolutions.hpp"
 #include "MLPP/SVC/SVC.hpp"
+#include "MLPP/NumericalAnalysis/NumericalAnalysis.hpp"
 
 
 using namespace MLPP;
 
+
+double f(double x){
+    return x*x*x + 2*x - 2;
+}
+
+double f_mv(std::vector<double> x){
+    return x[0] * x[0] + x[1] * x[1] + x[1] + 5; 
+    // Where x,y=x[0],x[1], this function is defined as:
+    // f(x,y) = x^2 + y^2 + y + 5
+}
+
 int main() {
 
-    // OBJECTS
+    // // OBJECTS
     Stat stat;
     LinAlg alg;
-    Activation avn;
-    Cost cost;
-    Data data; 
-    Convolutions conv; 
+    // Activation avn;
+    // Cost cost;
+    // Data data; 
+    // Convolutions conv; 
 
     // DATA SETS
     // std::vector<std::vector<double>> inputSet = {{1,2,3,4,5,6,7,8,9,10}, {3,5,9,12,15,18,21,24,27,30}};
@@ -460,5 +472,16 @@ int main() {
     // alg.printMatrix(L);
     // alg.printMatrix(Lt);
 
+    // Checks for numerical analysis class.
+    NumericalAnalysis numAn;
+
+    std::cout << numAn.numDiff(&f, 1) << std::endl;
+    std::cout << numAn.newtonRaphsonMethod(&f, 1, 1000) << std::endl;
+
+    std::cout << numAn.numDiff(&f_mv, {1, 1}, 1) << std::endl; // Derivative w.r.t. x.
+
+    alg.printVector(numAn.jacobian(&f_mv, {1, 1}));
+
     return 0;
 }
+
