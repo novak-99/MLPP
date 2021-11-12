@@ -135,18 +135,23 @@ The result will be the model's predictions for the entire dataset.
     2. Bernoulli Naive Bayes 
     3. Gaussian Naive Bayes
 8. ***Support Vector Classification***
-8. ***K-Means***
-9. ***k-Nearest Neighbors***
-10. ***Outlier Finder (Using z-scores)***
-11. ***Linear Algebra Module***
-12. ***Statistics Module***
-13. ***Data Processing Module***
+9. ***K-Means***
+10. ***k-Nearest Neighbors***
+11. ***Outlier Finder (Using z-scores)***
+12. ***Matrix Decompositions***    
+    1. SVD Decomposition
+    2. Cholesky Decomposition
+        - Positive Semidefiniteness Checker 
+    3. QR Decomposition
+13. ***Linear Algebra Module***
+14. ***Statistics Module***
+15. ***Data Processing Module***
     1. Setting and Printing Datasets 
     2. Feature Scaling 
     3. Mean Normalization
     4. One Hot Representation 
     5. Reverse One Hot Representation
-14. ***Utilities***
+16. ***Utilities***
     1. TP, FP, TN, FN function
     2. Precision
     3. Recall 
