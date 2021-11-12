@@ -433,18 +433,32 @@ int main() {
     // data.getImage("../../Data/apple.jpeg", chicken);
     // alg.printVector(chicken);
 
-    // TESTING QR DECOMP. EXAMPLE VIA WIKIPEDIA. SEE https://en.wikipedia.org/wiki/QR_decomposition.
+    // // TESTING QR DECOMP. EXAMPLE VIA WIKIPEDIA. SEE https://en.wikipedia.org/wiki/QR_decomposition.
 
-    std::vector<std::vector<double>> P = {{12, -51, 4}, {6, 167, -68}, {-4, 24, -41}};
-    alg.printMatrix(P);
+    // std::vector<std::vector<double>> P = {{12, -51, 4}, {6, 167, -68}, {-4, 24, -41}};
+    // alg.printMatrix(P);
 
-    alg.printMatrix(alg.gramSchmidtProcess(P));
+    // alg.printMatrix(alg.gramSchmidtProcess(P));
 
-    auto [Q, R] = alg.QRD(P); // It works! 
+    // auto [Q, R] = alg.QRD(P); // It works! 
     
-     alg.printMatrix(Q);
+    //  alg.printMatrix(Q);
 
-     alg.printMatrix(R); 
+    //  alg.printMatrix(R); 
+
+    // // Checking positive-definiteness checker. For Cholesky Decomp. 
+    // std::vector<std::vector<double>> A = 
+    // {
+    //     {1,-1,-1,-1},                        
+    //     {-1,2,2,2},
+    //     {-1,2,3,1},
+    //     {-1,2,1,4}
+    // };
+
+    // std::cout << std::boolalpha << alg.positiveDefiniteChecker(A) << std::endl;
+    // auto [L, Lt] = alg.chol(A); // WORKS !!!!
+    // alg.printMatrix(L);
+    // alg.printMatrix(Lt);
 
     return 0;
 }

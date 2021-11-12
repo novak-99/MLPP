@@ -567,7 +567,7 @@ namespace MLPP{
 
         std::vector<std::vector<double>> a_new_prior = a_new;
         
-        // Bubble Sort
+        // Bubble Sort. Should change this later.
         for(int i = 0; i < a_new.size() - 1; i++){
             for(int j = 0; j < a_new.size() - 1 - i; j++){
                 if(a_new[j][j] < a_new[j + 1][j + 1]){
@@ -642,6 +642,29 @@ namespace MLPP{
         return {Q, R};
 
     }
+    
+    std::tuple<std::vector<std::vector<double>>, std::vector<std::vector<double>>> LinAlg::chol(std::vector<std::vector<double>> A){
+        std::vector<std::vector<double>> L = zeromat(A.size(), A[0].size());
+        for(int j = 0; j < L.size(); j++){ // Matrices entered must be square. No problem here.
+            for(int i = j; i < L.size(); i++){
+                if(i == j){
+                    double sum = 0;
+                    for(int k = 0; k < j; k++){ 
+                        sum += L[i][k] * L[i][k];
+                    }
+                    L[i][j] = std::sqrt(A[i][j] - sum);
+                }
+                else{ // That is, i!=j
+                    double sum = 0;
+                    for(int k = 0; k < j; k++){ 
+                        sum += L[i][k] * L[j][k];
+                    }
+                    L[i][j] = (A[i][j] - sum)/L[j][j];
+                }
+            }
+        }
+        return {L, transpose(L)}; // Indeed, L.T is our upper triangular matrix. 
+    }
 
     double LinAlg::sum_elements(std::vector<std::vector<double>> A){
         double sum = 0;
@@ -665,6 +688,20 @@ namespace MLPP{
 
     std::vector<double> LinAlg::solve(std::vector<std::vector<double>> A, std::vector<double> b){
         return mat_vec_mult(inverse(A), b);
+    }
+
+    bool LinAlg::positiveDefiniteChecker(std::vector<std::vector<double>> A){
+        auto [eigenvectors, eigenvals] = eig(A);
+        std::vector<double> eigenvals_vec;
+        for(int i = 0; i < eigenvals.size(); i++){
+            eigenvals_vec.push_back(eigenvals[i][i]);
+        }
+        for(int i = 0; i < eigenvals_vec.size(); i++){
+            if(eigenvals_vec[i] <= 0){ // Simply check to ensure all eigenvalues are positive.
+                return false;
+            }
+        }
+        return true;
     }
 
     void LinAlg::printMatrix(std::vector<std::vector<double>> A){

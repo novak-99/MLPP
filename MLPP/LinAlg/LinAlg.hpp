@@ -94,11 +94,15 @@ namespace MLPP{
 
         std::tuple<std::vector<std::vector<double>>, std::vector<std::vector<double>>> QRD(std::vector<std::vector<double>> A);
 
+        std::tuple<std::vector<std::vector<double>>, std::vector<std::vector<double>>> chol(std::vector<std::vector<double>> A);
+
         double sum_elements(std::vector<std::vector<double>> A);
 
         std::vector<double> flatten(std::vector<std::vector<double>> A);
 
         std::vector<double> solve(std::vector<std::vector<double>> A, std::vector<double> b);
+
+        bool positiveDefiniteChecker(std::vector<std::vector<double>> A);
         
         void printMatrix(std::vector<std::vector<double>> A);
         
