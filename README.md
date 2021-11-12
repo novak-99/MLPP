@@ -143,15 +143,21 @@ The result will be the model's predictions for the entire dataset.
     2. Cholesky Decomposition
         - Positive Semidefiniteness Checker 
     3. QR Decomposition
-13. ***Linear Algebra Module***
-14. ***Statistics Module***
-15. ***Data Processing Module***
+13. ***Numerical Analysis***
+    1. Numerical Diffrentiation 
+        - Univariate functions 
+        - Multivariate functions 
+    2. Jacobian vector calculator
+    3. Newton-Raphson Method
+14. ***Linear Algebra Module***
+15. ***Statistics Module***
+16. ***Data Processing Module***
     1. Setting and Printing Datasets 
     2. Feature Scaling 
     3. Mean Normalization
     4. One Hot Representation 
     5. Reverse One Hot Representation
-16. ***Utilities***
+17. ***Utilities***
     1. TP, FP, TN, FN function
     2. Precision
     3. Recall 
