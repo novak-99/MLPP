@@ -16,10 +16,15 @@ namespace MLPP{
             the future.
             */
             double numDiff(double(*function)(double), double x);
-            double numDiff(double(*function)(std::vector<double>), std::vector<double> x, int axis);
-            double newtonRaphsonMethod(double(*function)(double), double x_0, double epoch);
+            double numDiff_2(double(*function)(double), double x);
 
-            std::vector<double> jacobian(double(*function)(std::vector<double>), std::vector<double>);
+            double numDiff(double(*function)(std::vector<double>), std::vector<double> x, int axis);
+            double numDiff_2(double(*function)(std::vector<double>), std::vector<double> x, int axis1, int axis2);
+
+            double newtonRaphsonMethod(double(*function)(double), double x_0, double epoch_num);
+
+            std::vector<double> jacobian(double(*function)(std::vector<double>), std::vector<double> x); // Indeed, for functions with scalar outputs the Jacobians will be vectors.
+            std::vector<std::vector<double>> hessian(double(*function)(std::vector<double>), std::vector<double> x);
         
     };
 }

@@ -50,14 +50,43 @@ using namespace MLPP;
 
 
 double f(double x){
-    return x*x*x + 2*x - 2;
+    return x*x*x + 2*x - 2; 
 }
+/*
+    y = x^3 + 2x - 2
+    y' = 3x^2 + 2
+    y'' = 6x
+    y''(2) = 12
+*/
+
+// double f_mv(std::vector<double> x){
+//     return x[0] * x[0] + x[0] * x[1] * x[1] + x[1] + 5; 
+// }
+
+/* 
+    Where x, y = x[0], x[1], this function is defined as:
+    f(x, y) = x^2 + xy^2 + y + 5
+    ∂f/∂x = 2x + 2y
+    ∂^2f/∂x∂y = 2
+*/
 
 double f_mv(std::vector<double> x){
-    return x[0] * x[0] + x[1] * x[1] + x[1] + 5; 
-    // Where x,y=x[0],x[1], this function is defined as:
-    // f(x,y) = x^2 + y^2 + y + 5
+    return x[0] * x[0] * x[0] + x[0] + x[1] * x[1] * x[1] * x[0] + x[2] * x[2] * x[1];
 }
+/*
+    Where x, y = x[0], x[1], this function is defined as:
+    f(x, y) = x^4 + xy^3 + yz^2
+
+    ∂f/∂x = 3x^2 + 3y^2 
+    ∂^2f/∂x^2 = 6x 
+
+    ∂f/∂z = 2zy
+    ∂^2f/∂z^2 = 2z
+
+    ∂f/∂y = 3xy^2
+    ∂^2f/∂y∂x = 3y^2
+*/
+
 
 int main() {
 
@@ -475,12 +504,18 @@ int main() {
     // Checks for numerical analysis class.
     NumericalAnalysis numAn;
 
-    std::cout << numAn.numDiff(&f, 1) << std::endl;
-    std::cout << numAn.newtonRaphsonMethod(&f, 1, 1000) << std::endl;
+    // std::cout << numAn.numDiff(&f, 1) << std::endl;
+    // std::cout << numAn.newtonRaphsonMethod(&f, 1, 1000) << std::endl;
 
-    std::cout << numAn.numDiff(&f_mv, {1, 1}, 1) << std::endl; // Derivative w.r.t. x.
+    // std::cout << numAn.numDiff(&f_mv, {1, 1}, 1) << std::endl; // Derivative w.r.t. x.
 
-    alg.printVector(numAn.jacobian(&f_mv, {1, 1}));
+    // alg.printVector(numAn.jacobian(&f_mv, {1, 1}));
+
+    //std::cout << numAn.numDiff_2(&f, 2) << std::endl;
+
+    std::cout << numAn.numDiff_2(&f_mv, {2, 2, 500}, 2, 2) << std::endl;
+    std::cout << "Our Hessian." << std::endl;
+    alg.printMatrix(numAn.hessian(&f_mv, {2, 2, 500}));
 
     return 0;
 }
