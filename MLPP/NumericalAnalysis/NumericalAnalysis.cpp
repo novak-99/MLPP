@@ -5,6 +5,7 @@
 //
 
 #include "NumericalAnalysis.hpp"
+#include "LinAlg/LinAlg.hpp"
 #include <iostream>
 
 namespace MLPP{
@@ -18,6 +19,18 @@ namespace MLPP{
     double NumericalAnalysis::numDiff_2(double(*function)(double), double x){ 
         double eps = 1e-5;
         return (function(x + eps) -  2 * function(x) + function(x - eps)) / (eps * eps);
+    }
+
+    double  NumericalAnalysis::constantApproximation(double(*function)(double), double c){
+        return function(c);
+    }
+
+    double  NumericalAnalysis::linearApproximation(double(*function)(double), double c, double x){
+        return constantApproximation(function, c) + numDiff(function, c) * (x - c);
+    }
+
+    double NumericalAnalysis::quadraticApproximation(double(*function)(double), double c, double x){
+        return linearApproximation(function, c, x) + 0.5 * numDiff_2(function, c) * (x - c) * (x - c);
     }
 
     double NumericalAnalysis::numDiff(double(*function)(std::vector<double>), std::vector<double> x, int axis){
@@ -76,5 +89,19 @@ namespace MLPP{
             }
         }
         return hessian;
+    }
+
+    double NumericalAnalysis::constantApproximation(double(*function)(std::vector<double>), std::vector<double> c){
+        return function(c);
+    }
+
+    double NumericalAnalysis::linearApproximation(double(*function)(std::vector<double>), std::vector<double> c, std::vector<double> x){
+        LinAlg alg;
+        return constantApproximation(function, c) + alg.matmult(alg.transpose({jacobian(function, c)}), {alg.subtraction(x, c)})[0][0];
+    }
+
+    double NumericalAnalysis::quadraticApproximation(double(*function)(std::vector<double>), std::vector<double> c, std::vector<double> x){
+        LinAlg alg;
+        return linearApproximation(function, c, x) + 0.5 * alg.matmult({(alg.subtraction(x, c))}, alg.matmult(hessian(function, c), alg.transpose({alg.subtraction(x, c)})))[0][0];
     }
 }

@@ -49,8 +49,12 @@
 using namespace MLPP;
 
 
+// double f(double x){
+//     return x*x*x + 2*x - 2; 
+// }
+
 double f(double x){
-    return x*x*x + 2*x - 2; 
+    return cos(x);
 }
 /*
     y = x^3 + 2x - 2
@@ -77,7 +81,7 @@ double f_mv(std::vector<double> x){
     Where x, y = x[0], x[1], this function is defined as:
     f(x, y) = x^4 + xy^3 + yz^2
 
-    ∂f/∂x = 3x^2 + 3y^2 
+    ∂f/∂x = 4x^3 + 3y^2 
     ∂^2f/∂x^2 = 6x 
 
     ∂f/∂z = 2zy
@@ -178,16 +182,36 @@ int main() {
     // UniLinReg model(inputSet, outputSet);
     // alg.printVector(model.modelSetTest(inputSet));
 
-    // MULIVARIATE LINEAR REGRESSION
+    // // MULIVARIATE LINEAR REGRESSION
     // std::vector<std::vector<double>> inputSet = {{1,2,3,4,5,6,7,8,9,10}, {3,5,9,12,15,18,21,24,27,30}};
     // std::vector<double> outputSet = {2,4,6,8,10,12,14,16,18,20};
+
     // LinReg model(alg.transpose(inputSet), outputSet); // Can use Lasso, Ridge, ElasticNet Reg
-    // model.normalEquation(); 
+
     // model.gradientDescent(0.001, 30000, 1);
     // model.SGD(0.001, 30000, 1);
     // model.MBGD(0.001, 10000, 2, 1);
+    // model.normalEquation(); 
+
     // alg.printVector(model.modelSetTest((alg.transpose(inputSet))));
     // std::cout << "ACCURACY: " << 100 * model.score() << "%" << std::endl;
+
+
+    // std::cout << "Total epoch num: 300" << std::endl;
+    // std::cout << "Method: 1st Order w/ Jacobians" << std::endl;
+
+    // LinReg model(alg.transpose(inputSet), outputSet); // Can use Lasso, Ridge, ElasticNet Reg
+
+    // model.gradientDescent(0.001, 300, 0);
+
+
+    // std::cout << "--------------------------------------------" << std::endl;
+    // std::cout << "Total epoch num: 300" << std::endl;
+    // std::cout << "Method: Newtonian 2nd Order w/ Hessians" << std::endl;
+    // LinReg model2(alg.transpose(inputSet), outputSet); 
+
+    // model2.NewtonRaphson(1.5, 300, 0);
+
 
     // // LOGISTIC REGRESSION
     // std::vector<std::vector<double>> inputSet; 
@@ -474,8 +498,6 @@ int main() {
     // data.getImage("../../Data/apple.jpeg", chicken);
     // alg.printVector(chicken);
 
-    // // TESTING QR DECOMP. EXAMPLE VIA WIKIPEDIA. SEE https://en.wikipedia.org/wiki/QR_decomposition.
-
     // std::vector<std::vector<double>> P = {{12, -51, 4}, {6, 167, -68}, {-4, 24, -41}};
     // alg.printMatrix(P);
 
@@ -504,6 +526,10 @@ int main() {
     // Checks for numerical analysis class.
     NumericalAnalysis numAn;
 
+    //std::cout << numAn.quadraticApproximation(f, 0, 1) << std::endl;
+
+    std::cout << numAn.quadraticApproximation(f_mv, {0, 0, 0}, {1, 1, 1}) << std::endl;
+
     // std::cout << numAn.numDiff(&f, 1) << std::endl;
     // std::cout << numAn.newtonRaphsonMethod(&f, 1, 1000) << std::endl;
 
@@ -513,9 +539,9 @@ int main() {
 
     //std::cout << numAn.numDiff_2(&f, 2) << std::endl;
 
-    std::cout << numAn.numDiff_2(&f_mv, {2, 2, 500}, 2, 2) << std::endl;
-    std::cout << "Our Hessian." << std::endl;
-    alg.printMatrix(numAn.hessian(&f_mv, {2, 2, 500}));
+    // std::cout << numAn.numDiff_2(&f_mv, {2, 2, 500}, 2, 2) << std::endl;
+    // std::cout << "Our Hessian." << std::endl;
+    // alg.printMatrix(numAn.hessian(&f_mv, {2, 2, 500}));
 
     return 0;
 }

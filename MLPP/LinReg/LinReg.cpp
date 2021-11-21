@@ -34,6 +34,36 @@ namespace MLPP{
         return Evaluate(x);
     }
 
+    void LinReg::NewtonRaphson(double learning_rate, int max_epoch, bool UI){
+        LinAlg alg;
+        Reg regularization;
+        double cost_prev = 0;
+        int epoch = 1;
+        forwardPass();   
+        while(true){
+            cost_prev = Cost(y_hat, outputSet);
+                
+            std::vector<double> error = alg.subtraction(y_hat, outputSet);
+
+            // Calculating the weight gradients (2nd derivative)
+            std::vector<double> first_derivative = alg.mat_vec_mult(alg.transpose(inputSet), error);
+            std::vector<std::vector<double>> second_derivative = alg.matmult(alg.transpose(inputSet), inputSet);
+            weights = alg.subtraction(weights, alg.scalarMultiply(learning_rate/n, alg.mat_vec_mult(alg.transpose(alg.inverse(second_derivative)), first_derivative)));
+            weights = regularization.regWeights(weights, lambda, alpha, reg);
+ 
+            // Calculating the bias gradients (2nd derivative)
+            bias -= learning_rate * alg.sum_elements(error) / n; // We keep this the same. The 2nd derivative is just [1].
+            forwardPass();
+                
+            if(UI) { 
+                Utilities::CostInfo(epoch, cost_prev, Cost(y_hat, outputSet));
+                Utilities::UI(weights, bias); 
+            }
+            epoch++;
+            if(epoch > max_epoch) { break; }
+        }
+    }
+
     void LinReg::gradientDescent(double learning_rate, int max_epoch, bool UI){
         LinAlg alg;
         Reg regularization;
@@ -59,7 +89,6 @@ namespace MLPP{
                 Utilities::UI(weights, bias); 
             }
             epoch++;
-            
             if(epoch > max_epoch) { break; }
         }
     }
