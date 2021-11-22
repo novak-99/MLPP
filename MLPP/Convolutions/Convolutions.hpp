@@ -14,6 +14,9 @@ namespace MLPP{
             double globalPool(std::vector<std::vector<double>> input, std::string type);
             std::vector<double> globalPool(std::vector<std::vector<std::vector<double>>> input, std::string type);
 
+            double gaussian2D(double x, double y, double std);
+            std::vector<std::vector<double>> gaussianFilter2D(int size, double std);
+
             std::vector<std::vector<double>> getPrewittHorizontal();
             std::vector<std::vector<double>> getPrewittVertical();
             std::vector<std::vector<double>> getSobelHorizontal();

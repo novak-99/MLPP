@@ -8,6 +8,7 @@
 #include "Convolutions/Convolutions.hpp"
 #include "LinAlg/LinAlg.hpp"
 #include "Stat/Stat.hpp"
+#include <cmath>
 
 namespace MLPP{
 
@@ -223,6 +224,25 @@ namespace MLPP{
             pooledMap.push_back(globalPool(input[i], type));
         }
         return pooledMap; 
+    }
+
+    double Convolutions::gaussian2D(double x, double y, double std){
+        double std_sq = std * std;
+        return 1/(2 * M_PI * std_sq) * std::exp(-(x * x + y * y)/2 * std_sq);
+    }
+
+    std::vector<std::vector<double>> Convolutions::gaussianFilter2D(int size, double std){
+        std::vector<std::vector<double>> filter; 
+        filter.resize(size);
+        for(int i = 0; i < filter.size(); i++){
+            filter[i].resize(size);
+        }
+        for(int i = 0; i < size; i++){
+            for(int j = 0; j < size; j++){
+                filter[i][j] = gaussian2D(i - (size-1)/2, (size-1)/2 - j, std);
+            }
+        }
+        return filter;
     }
 
     std::vector<std::vector<double>> Convolutions::getPrewittHorizontal(){
