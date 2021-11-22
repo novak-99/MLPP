@@ -34,7 +34,7 @@ namespace MLPP{
             double linearApproximation(double(*function)(std::vector<double>), std::vector<double> c, std::vector<double> x);
             double quadraticApproximation(double(*function)(std::vector<double>), std::vector<double> c, std::vector<double> x);
 
-        
+            double laplacian(double(*function)(std::vector<double>), std::vector<double> x); // laplacian
     };
 }
 

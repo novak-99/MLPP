@@ -79,7 +79,7 @@ double f_mv(std::vector<double> x){
 }
 /*
     Where x, y = x[0], x[1], this function is defined as:
-    f(x, y) = x^4 + xy^3 + yz^2
+    f(x, y) = x^3 + x + xy^3 + yz^2
 
     ∂f/∂x = 4x^3 + 3y^2 
     ∂^2f/∂x^2 = 6x 
@@ -528,7 +528,7 @@ int main() {
 
     //std::cout << numAn.quadraticApproximation(f, 0, 1) << std::endl;
 
-    std::cout << numAn.quadraticApproximation(f_mv, {0, 0, 0}, {1, 1, 1}) << std::endl;
+    // std::cout << numAn.quadraticApproximation(f_mv, {0, 0, 0}, {1, 1, 1}) << std::endl;
 
     // std::cout << numAn.numDiff(&f, 1) << std::endl;
     // std::cout << numAn.newtonRaphsonMethod(&f, 1, 1000) << std::endl;
@@ -542,6 +542,8 @@ int main() {
     // std::cout << numAn.numDiff_2(&f_mv, {2, 2, 500}, 2, 2) << std::endl;
     // std::cout << "Our Hessian." << std::endl;
     // alg.printMatrix(numAn.hessian(&f_mv, {2, 2, 500}));
+
+    std::cout << numAn.laplacian(f_mv, {1,1,1}) << std::endl;
 
     return 0;
 }

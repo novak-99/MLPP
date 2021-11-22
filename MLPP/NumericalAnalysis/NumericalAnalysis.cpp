@@ -104,4 +104,14 @@ namespace MLPP{
         LinAlg alg;
         return linearApproximation(function, c, x) + 0.5 * alg.matmult({(alg.subtraction(x, c))}, alg.matmult(hessian(function, c), alg.transpose({alg.subtraction(x, c)})))[0][0];
     }
+
+    double NumericalAnalysis::laplacian(double(*function)(std::vector<double>), std::vector<double> x){
+        LinAlg alg;
+        std::vector<std::vector<double>> hessian_matrix = hessian(function, x);
+        double laplacian = 0;
+        for(int i = 0; i < hessian_matrix.size(); i++){
+            laplacian += hessian_matrix[i][i]; // homogenous 2nd derivs w.r.t i, then i
+        }
+        return laplacian;
+    }
 }
