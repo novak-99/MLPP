@@ -100,7 +100,7 @@ int main() {
     // Activation avn;
     // Cost cost;
     // Data data; 
-    // Convolutions conv; 
+    Convolutions conv; 
 
     // DATA SETS
     // std::vector<std::vector<double>> inputSet = {{1,2,3,4,5,6,7,8,9,10}, {3,5,9,12,15,18,21,24,27,30}};
@@ -157,7 +157,11 @@ int main() {
     // std::cout << "Logarithmic Mean: " << stat.logMean(1, 10) << std::endl;
     // std::cout << "Absolute Average Deviation: " << stat.absAvgDeviation(x) << std::endl;
 
-    // // LINEAR ALGEBRA
+    // LINEAR ALGEBRA
+    std::vector<std::vector<double>> square = {{1, 1}, {-1, 1}, {1, -1}, {-1, -1}};
+
+    alg.printMatrix(alg.rotate(square, M_PI/4));
+
     // std::vector<std::vector<double>> A = {
     //     {1, 2, 3, 4, 5, 6, 7, 8, 9, 10},
     //     {1, 2, 3, 4, 5, 6, 7, 8, 9, 10},
@@ -405,6 +409,10 @@ int main() {
     // tensorSet.push_back(input);
     // alg.printVector(conv.globalPool(tensorSet, "Average")); // Can use Max, Min, or Average global pooling. 
 
+    // std::vector<std::vector<double>> laplacian = {{1, 1, 1}, {1, -4, 1}, {1, 1, 1}};
+    // alg.printMatrix(conv.convolve(conv.gaussianFilter2D(5, 1), laplacian, 1));
+
+
     // // PCA, SVD, eigenvalues & eigenvectors
     // std::vector<std::vector<double>> inputSet = {{1,1}, {1,1}};
     // auto [Eigenvectors, Eigenvalues] = alg.eig(inputSet); 
@@ -543,7 +551,7 @@ int main() {
     // std::cout << "Our Hessian." << std::endl;
     // alg.printMatrix(numAn.hessian(&f_mv, {2, 2, 500}));
 
-    std::cout << numAn.laplacian(f_mv, {1,1,1}) << std::endl;
+    // std::cout << numAn.laplacian(f_mv, {1,1,1}) << std::endl;
 
     return 0;
 }

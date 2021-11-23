@@ -897,6 +897,15 @@ namespace MLPP{
         return b; 
     }
 
+    std::vector<std::vector<double>> LinAlg::rotate(std::vector<std::vector<double>> A, double theta, int axis){
+        std::vector<std::vector<double>> rotationMatrix = {{std::cos(theta), -std::sin(theta)}, {std::sin(theta), std::cos(theta)}};
+        if(axis == 0) {rotationMatrix = {{1, 0, 0}, {0, std::cos(theta), -std::sin(theta)}, {0, std::sin(theta), std::cos(theta)}};}
+        else if(axis == 1) {rotationMatrix = {{std::cos(theta), 0, std::sin(theta)}, {0, 1, 0}, {-std::sin(theta), 0, std::cos(theta)}};}
+        else if (axis == 2) {rotationMatrix = {{std::cos(theta), -std::sin(theta), 0}, {std::sin(theta), std::cos(theta), 0}, {1, 0, 0}};}
+
+        return matmult(A, rotationMatrix);
+    }
+
     double LinAlg::max(std::vector<double> a){
         int max = a[0];
         for(int i = 0; i < a.size(); i++){
