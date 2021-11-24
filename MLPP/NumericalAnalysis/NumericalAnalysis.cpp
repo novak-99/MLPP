@@ -64,9 +64,33 @@ namespace MLPP{
     double NumericalAnalysis::newtonRaphsonMethod(double(*function)(double), double x_0, double epoch_num){
         double x = x_0;
         for(int i = 0; i < epoch_num; i++){
-            x = x - function(x)/numDiff(function, x);
+            x -= function(x)/numDiff(function, x);
         }
         return x;
+    }
+
+    double NumericalAnalysis::halleyMethod(double (*function)(double), double x_0, double epoch_num){
+        double x = x_0;
+        for(int i = 0; i < epoch_num; i++){
+            x -= ((2 * function(x) * numDiff(function, x))/(2 * numDiff(function, x) * numDiff(function, x) - function(x) * numDiff_2(function, x)));
+        }
+        return x; 
+    }
+
+    double NumericalAnalysis::invQuadraticInterpolation(double (*function)(double), std::vector<double> x_0, double epoch_num){
+        double x = 0;
+        std::vector<double> currentThree = x_0;
+        for(int i = 0; i < epoch_num; i++){
+            double t1 = ((function(currentThree[1]) * function(currentThree[2]))/( (function(currentThree[0]) - function(currentThree[1])) * (function(currentThree[0]) - function(currentThree[2])) ) ) * currentThree[0];
+            double t2 = ((function(currentThree[0]) * function(currentThree[2]))/( (function(currentThree[1]) - function(currentThree[0])) * (function(currentThree[1]) - function(currentThree[2])) ) ) * currentThree[1];
+            double t3 = ((function(currentThree[0]) * function(currentThree[1]))/( (function(currentThree[2]) - function(currentThree[0])) * (function(currentThree[2]) - function(currentThree[1])) ) ) * currentThree[2];
+            x = t1 + t2 + t3; 
+
+            currentThree.erase(currentThree.begin());
+            currentThree.push_back(x);
+
+        }
+        return x; 
     }
     
     std::vector<double> NumericalAnalysis::jacobian(double(*function)(std::vector<double>), std::vector<double> x){

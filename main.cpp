@@ -158,9 +158,9 @@ int main() {
     // std::cout << "Absolute Average Deviation: " << stat.absAvgDeviation(x) << std::endl;
 
     // LINEAR ALGEBRA
-    std::vector<std::vector<double>> square = {{1, 1}, {-1, 1}, {1, -1}, {-1, -1}};
+    // std::vector<std::vector<double>> square = {{1, 1}, {-1, 1}, {1, -1}, {-1, -1}};
 
-    alg.printMatrix(alg.rotate(square, M_PI/4));
+    // alg.printMatrix(alg.rotate(square, M_PI/4));
 
     // std::vector<std::vector<double>> A = {
     //     {1, 2, 3, 4, 5, 6, 7, 8, 9, 10},
@@ -540,6 +540,7 @@ int main() {
 
     // std::cout << numAn.numDiff(&f, 1) << std::endl;
     // std::cout << numAn.newtonRaphsonMethod(&f, 1, 1000) << std::endl;
+    std::cout << numAn.invQuadraticInterpolation(&f, {100, 2,1.5}, 10) << std::endl;
 
     // std::cout << numAn.numDiff(&f_mv, {1, 1}, 1) << std::endl; // Derivative w.r.t. x.
 
