@@ -34,6 +34,14 @@ namespace MLPP{
                 std::uniform_real_distribution<double> distribution(-sqrt(6 / n), sqrt(6 / n));
                 weights.push_back(distribution(generator));
             }
+            else if(type == "LeCunNormal"){
+                std::normal_distribution<double> distribution(0, sqrt(1 / n));
+                weights.push_back(distribution(generator));
+            }
+            else if(type == "LeCunUniform"){
+                std::uniform_real_distribution<double> distribution(-sqrt(3/n), sqrt(3/n));
+                weights.push_back(distribution(generator));
+            }
             else if(type == "Uniform"){
                 std::uniform_real_distribution<double> distribution(-1/sqrt(n), 1/sqrt(n));
                 weights.push_back(distribution(generator));
@@ -77,6 +85,14 @@ namespace MLPP{
                 }
                 else if(type == "HeUniform"){
                     std::uniform_real_distribution<double> distribution(-sqrt(6 / n), sqrt(6 / n));
+                    weights[i].push_back(distribution(generator));
+                }
+                else if(type == "LeCunNormal"){
+                    std::normal_distribution<double> distribution(0, sqrt(1 / n));
+                    weights[i].push_back(distribution(generator));
+                }
+                else if(type == "LeCunUniform"){
+                    std::uniform_real_distribution<double> distribution(-sqrt(3/n), sqrt(3/n));
                     weights[i].push_back(distribution(generator));
                 }
                 else if(type == "Uniform"){
