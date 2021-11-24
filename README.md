@@ -109,6 +109,8 @@ The result will be the model's predictions for the entire dataset.
         - Xavier Uniform
         - He Normal
         - He Uniform
+        - LeCun Normal
+        - LeCun Uniform
 3. ***Prebuilt Neural Networks***
     1. Multilayer Peceptron
     2. Autoencoder
@@ -171,7 +173,7 @@ The result will be the model's predictions for the entire dataset.
 
 
 ## What's in the Works? 
-ML++, like most frameworks, is dynamic, and constantly changing! This is especially important in the world of ML, as new algorithms and techniques are being developed day by day. Here a couple things currently being developed for ML++:
+ML++, like most frameworks, is dynamic, and constantly changing. This is especially important in the world of ML, as new algorithms and techniques are being developed day by day. Here are a couple of things currently being developed for ML++:
     <p>
     - Convolutional Neural Networks 
     </p>
