@@ -18,7 +18,14 @@ namespace MLPP{
     
     double NumericalAnalysis::numDiff_2(double(*function)(double), double x){ 
         double eps = 1e-5;
-        return (function(x + eps) -  2 * function(x) + function(x - eps)) / (eps * eps);
+        return (function(x + 2 * eps) -  2 * function(x + eps) + function(x)) / (eps * eps);
+    }
+
+    double NumericalAnalysis::numDiff_3(double(*function)(double), double x){ 
+        double eps = 1e-5;
+        double t1 = function(x + 3 * eps) - 2 * function(x + 2 * eps) + function(x + eps);
+        double t2 = function(x + 2 * eps) -  2 * function(x + eps) + function(x);
+        return (t1 - t2)/(eps * eps * eps);
     }
 
     double  NumericalAnalysis::constantApproximation(double(*function)(double), double c){
@@ -59,6 +66,44 @@ namespace MLPP{
         x_pn[axis1] += eps;
 
         return (function(x_pp) - function(x_np) - function(x_pn) + function(x))/(eps * eps);
+    }
+
+    double NumericalAnalysis::numDiff_3(double(*function)(std::vector<double>), std::vector<double> x, int axis1, int axis2, int axis3){
+        // For third order derivative tensors. 
+        // NOTE: Approximations do not appear to be accurate for sinusodial functions...
+        // Should revisit this later. 
+        double eps = INT_MAX; 
+
+        std::vector<double> x_ppp = x;
+        x_ppp[axis1] += eps; 
+        x_ppp[axis2] += eps; 
+        x_ppp[axis3] += eps; 
+
+        std::vector<double> x_npp = x;
+        x_npp[axis2] += eps; 
+        x_npp[axis3] += eps; 
+            
+        std::vector<double> x_pnp = x;
+        x_pnp[axis1] += eps; 
+        x_pnp[axis3] += eps; 
+
+        std::vector<double> x_nnp = x;
+        x_nnp[axis3] += eps; 
+
+
+        std::vector<double> x_ppn = x;
+        x_ppn[axis1] += eps; 
+        x_ppn[axis2] += eps; 
+
+        std::vector<double> x_npn = x;
+        x_npn[axis2] += eps; 
+            
+        std::vector<double> x_pnn = x;
+        x_pnn[axis1] += eps;
+
+        double thirdAxis = function(x_ppp) - function(x_npp) - function(x_pnp) + function(x_nnp);
+        double noThirdAxis = function(x_ppn) - function(x_npn) - function(x_pnn) + function(x);
+        return (thirdAxis - noThirdAxis)/(eps * eps * eps);
     }
 
     double NumericalAnalysis::newtonRaphsonMethod(double(*function)(double), double x_0, double epoch_num){
@@ -113,6 +158,24 @@ namespace MLPP{
             }
         }
         return hessian;
+    }
+
+    std::vector<std::vector<std::vector<double>>> NumericalAnalysis::thirdOrderTensor(double(*function)(std::vector<double>), std::vector<double> x){
+        std::vector<std::vector<std::vector<double>>> tensor; 
+        tensor.resize(x.size());
+        for(int i = 0; i < tensor.size(); i++){
+            tensor[i].resize(x.size());
+            for(int j = 0; j < tensor[i].size(); j++){
+                tensor[i][j].resize(x.size());
+            }
+        }
+        for(int i = 0; i < tensor.size(); i++){ // O(n^3) time complexity :(
+            for(int j = 0; j < tensor[i].size(); j++){
+                for(int k = 0; k < tensor[i][j].size(); k++)
+                tensor[i][j][k] = numDiff_3(function, x, i, j, k);
+            }
+        }
+        return tensor;
     }
 
     double NumericalAnalysis::constantApproximation(double(*function)(std::vector<double>), std::vector<double> c){
