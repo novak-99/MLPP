@@ -22,6 +22,7 @@ namespace MLPP{
             double constantApproximation(double(*function)(double), double c);
             double linearApproximation(double(*function)(double), double c, double x);
             double quadraticApproximation(double(*function)(double), double c, double x);
+            double cubicApproximation(double(*function)(double), double c, double x);
 
             double numDiff(double(*function)(std::vector<double>), std::vector<double> x, int axis);
             double numDiff_2(double(*function)(std::vector<double>), std::vector<double> x, int axis1, int axis2);
@@ -38,6 +39,7 @@ namespace MLPP{
             double constantApproximation(double(*function)(std::vector<double>), std::vector<double> c);
             double linearApproximation(double(*function)(std::vector<double>), std::vector<double> c, std::vector<double> x);
             double quadraticApproximation(double(*function)(std::vector<double>), std::vector<double> c, std::vector<double> x);
+            double cubicApproximation(double(*function)(std::vector<double>), std::vector<double> c, std::vector<double> x);
 
             double laplacian(double(*function)(std::vector<double>), std::vector<double> x); // laplacian
     };

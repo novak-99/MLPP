@@ -40,6 +40,10 @@ namespace MLPP{
         return linearApproximation(function, c, x) + 0.5 * numDiff_2(function, c) * (x - c) * (x - c);
     }
 
+    double NumericalAnalysis::cubicApproximation(double(*function)(double), double c, double x){
+        return quadraticApproximation(function, c, x) + (1/6) * numDiff_3(function, c) * (x - c) * (x - c) * (x - c);
+    }
+
     double NumericalAnalysis::numDiff(double(*function)(std::vector<double>), std::vector<double> x, int axis){
         // For multivariable function analysis. 
         // This will be used for calculating Jacobian vectors. 
@@ -190,6 +194,23 @@ namespace MLPP{
     double NumericalAnalysis::quadraticApproximation(double(*function)(std::vector<double>), std::vector<double> c, std::vector<double> x){
         LinAlg alg;
         return linearApproximation(function, c, x) + 0.5 * alg.matmult({(alg.subtraction(x, c))}, alg.matmult(hessian(function, c), alg.transpose({alg.subtraction(x, c)})))[0][0];
+    }
+
+    double NumericalAnalysis::cubicApproximation(double(*function)(std::vector<double>), std::vector<double> c, std::vector<double> x){
+        /* 
+        Not completely sure as the literature seldom discusses the third order taylor approximation, 
+        in particular for multivariate cases, but ostensibly, the matrix/tensor/vector multiplies 
+        should look something like this: 
+
+        (N x N x N) (N x 1) [tensor vector mult] => (N x N x 1) => (N x N)
+        Perform remaining multiplies as done for the 2nd order approximation.
+        Result is a scalar. 
+        */
+        LinAlg alg;
+        std::vector<std::vector<double>> resultMat = alg.tensor_vec_mult(thirdOrderTensor(function, c), alg.subtraction(x, c));
+        double resultScalar = alg.matmult({(alg.subtraction(x, c))}, alg.matmult(resultMat, alg.transpose({alg.subtraction(x, c)})))[0][0];
+
+        return quadraticApproximation(function, c, x) + (1/6) * resultScalar;
     }
 
     double NumericalAnalysis::laplacian(double(*function)(std::vector<double>), std::vector<double> x){

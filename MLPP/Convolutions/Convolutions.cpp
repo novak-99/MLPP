@@ -87,7 +87,7 @@ namespace MLPP{
         int N = input[0].size();
         int F = filter[0].size();
         int C = filter.size() / input.size();
-        int mapSize = (N - F + 2*P) / S + 1; // This is computed as ⌊mapSize⌋ by def- thanks C++!
+        int mapSize = (N - F + 2*P) / S + 1; // This is computed as ⌊mapSize⌋ by def.
 
         if(P != 0){
             for(int c = 0; c < input.size(); c++){

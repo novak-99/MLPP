@@ -9,12 +9,14 @@
 // POLYMORPHIC IMPLEMENTATION OF REGRESSION CLASSES
 // EXTEND SGD/MBGD SUPPORT FOR DYN. SIZED ANN 
 // ADD LEAKYRELU, ELU, SELU TO ANN
+// FIX VECTOR/MATRIX/TENSOR RESIZE ROUTINE
 
 // HYPOTHESIS TESTING CLASS 
 // GAUSS MARKOV CHECKER CLASS
 
 #include <iostream>
 #include <ctime>
+#include <cmath>
 #include <vector>
 #include "MLPP/UniLinReg/UniLinReg.hpp"
 #include "MLPP/LinReg/LinReg.hpp"
@@ -54,7 +56,7 @@ using namespace MLPP;
 // }
 
 double f(double x){
-    return cos(x);
+    return sin(x);
 }
 /*
     y = x^3 + 2x - 2
@@ -77,18 +79,32 @@ double f(double x){
 double f_mv(std::vector<double> x){
     return x[0] * x[0] * x[0] + x[0] + x[1] * x[1] * x[1] * x[0] + x[2] * x[2] * x[1];
 }
+
 /*
     Where x, y = x[0], x[1], this function is defined as:
     f(x, y) = x^3 + x + xy^3 + yz^2
 
-    ∂f/∂x = 4x^3 + 3y^2 
-    ∂^2f/∂x^2 = 6x 
+    fy = 3xy^2 + 2yz
+    fyy = 6xy + 2z
+    fyyz = 2
+
+    ∂^2f/∂y^2 = 6xy + 2z
+    ∂^3f/∂y^3 = 6x
+
+    ∂f/∂z = 2zy
+    ∂^2f/∂z^2 = 2y
+    ∂^3f/∂z^3 = 0
+    
+    ∂f/∂x = 3x^2 + 1 + y^3
+    ∂^2f/∂x^2 = 6x
+    ∂^3f/∂x^3 = 6
 
     ∂f/∂z = 2zy
     ∂^2f/∂z^2 = 2z
 
     ∂f/∂y = 3xy^2
     ∂^2f/∂y∂x = 3y^2
+
 */
 
 
@@ -536,23 +552,42 @@ int main() {
 
     //std::cout << numAn.quadraticApproximation(f, 0, 1) << std::endl;
 
+    // std::cout << numAn.cubicApproximation(f, 0, 1.001) << std::endl;
+
+    // std::cout << f(1.001) << std::endl;
+
     // std::cout << numAn.quadraticApproximation(f_mv, {0, 0, 0}, {1, 1, 1}) << std::endl;
 
     // std::cout << numAn.numDiff(&f, 1) << std::endl;
     // std::cout << numAn.newtonRaphsonMethod(&f, 1, 1000) << std::endl;
-    std::cout << numAn.invQuadraticInterpolation(&f, {100, 2,1.5}, 10) << std::endl;
+    //std::cout << numAn.invQuadraticInterpolation(&f, {100, 2,1.5}, 10) << std::endl;
 
     // std::cout << numAn.numDiff(&f_mv, {1, 1}, 1) << std::endl; // Derivative w.r.t. x.
 
     // alg.printVector(numAn.jacobian(&f_mv, {1, 1}));
 
-    //std::cout << numAn.numDiff_2(&f, 2) << std::endl;
+    //std::cout << numAn.numDiff_2(&f, 2) << std::endl; 
+
+    //std::cout << numAn.numDiff_3(&f, 2) << std::endl; 
 
     // std::cout << numAn.numDiff_2(&f_mv, {2, 2, 500}, 2, 2) << std::endl;
+    //std::cout << numAn.numDiff_3(&f_mv, {2, 1000, 130}, 0, 0, 0) << std::endl;
+
+    // alg.printTensor(numAn.thirdOrderTensor(&f_mv, {1, 1, 1}));
     // std::cout << "Our Hessian." << std::endl;
     // alg.printMatrix(numAn.hessian(&f_mv, {2, 2, 500}));
 
     // std::cout << numAn.laplacian(f_mv, {1,1,1}) << std::endl;
+
+    // std::vector<std::vector<std::vector<double>>> tensor;
+    // tensor.push_back({{1,2}, {1,2}, {1,2}});
+    // tensor.push_back({{1,2}, {1,2}, {1,2}});
+
+    // alg.printTensor(tensor);
+
+    // alg.printMatrix(alg.tensor_vec_mult(tensor, {1,2}));
+
+    std::cout << numAn.cubicApproximation(f_mv, {0, 0, 0}, {1, 1, 1}) << std::endl;
 
     return 0;
 }

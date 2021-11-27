@@ -996,6 +996,20 @@ namespace MLPP{
         return c;
     }
 
+    std::vector<std::vector<double>> LinAlg::tensor_vec_mult(std::vector<std::vector<std::vector<double>>> A, std::vector<double> b){
+        std::vector<std::vector<double>> C;
+        C.resize(A.size());
+        for(int i = 0; i < C.size(); i++){
+            C[i].resize(A[0].size());
+        }
+        for(int i = 0; i < C.size(); i++){
+            for(int j = 0; j < C[i].size(); j++){
+                C[i][j] = dot(A[i][j], b);
+            }
+        }
+        return C;
+    }
+
     std::vector<double> LinAlg::flatten(std::vector<std::vector<std::vector<double>>> A){
         std::vector<double> c;
         for(int i = 0; i < A.size(); i++){
