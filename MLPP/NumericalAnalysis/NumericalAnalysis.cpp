@@ -141,6 +141,28 @@ namespace MLPP{
         }
         return x; 
     }
+
+    double NumericalAnalysis::eulerianMethod(double(*derivative)(double), std::vector<double> q_0, double p, double h){
+        double max_epoch = (p - q_0[0])/h; 
+        double x = q_0[0];
+        double y = q_0[1];
+        for(int i = 0; i < max_epoch; i++){
+            y = y + h * derivative(x);
+            x += h;
+        }
+        return y;
+    }
+
+    double NumericalAnalysis::eulerianMethod(double(*derivative)(std::vector<double>), std::vector<double> q_0, double p, double h){
+        double max_epoch = (p - q_0[0])/h; 
+        double x = q_0[0];
+        double y = q_0[1];
+        for(int i = 0; i < max_epoch; i++){
+            y = y + h * derivative({x, y});
+            x += h;
+        }
+        return y;
+    }
     
     std::vector<double> NumericalAnalysis::jacobian(double(*function)(std::vector<double>), std::vector<double> x){
         std::vector<double> jacobian; 

@@ -58,6 +58,14 @@ using namespace MLPP;
 double f(double x){
     return sin(x);
 }
+
+double f_prime(double x){
+    return 2 * x;
+}
+
+double f_prime_2var(std::vector<double> x){
+    return 2 * x[0] + x[1];
+}
 /*
     y = x^3 + 2x - 2
     y' = 3x^2 + 2
@@ -587,7 +595,11 @@ int main() {
 
     // alg.printMatrix(alg.tensor_vec_mult(tensor, {1,2}));
 
-    std::cout << numAn.cubicApproximation(f_mv, {0, 0, 0}, {1, 1, 1}) << std::endl;
+    // std::cout << numAn.cubicApproximation(f_mv, {0, 0, 0}, {1, 1, 1}) << std::endl;
+
+    //std::cout << numAn.eulerianMethod(f_prime, {1, 1}, 1.5, 0.000001) << std::endl;
+
+    std::cout << numAn.eulerianMethod(f_prime_2var, {2, 3}, 2.5, 0.00000001) << std::endl;
 
     return 0;
 }
