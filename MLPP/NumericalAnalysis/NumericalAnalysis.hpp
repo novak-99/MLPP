@@ -48,6 +48,8 @@ namespace MLPP{
 
             double laplacian(double(*function)(std::vector<double>), std::vector<double> x); // laplacian
 
+            std::string secondPartialDerivativeTest(double(*function)(std::vector<double>), std::vector<double> x);
+
     };
 }
 

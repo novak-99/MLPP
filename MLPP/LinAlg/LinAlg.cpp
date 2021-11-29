@@ -704,6 +704,34 @@ namespace MLPP{
         return true;
     }
 
+    bool LinAlg::negativeDefiniteChecker(std::vector<std::vector<double>> A){
+        auto [eigenvectors, eigenvals] = eig(A);
+        std::vector<double> eigenvals_vec;
+        for(int i = 0; i < eigenvals.size(); i++){
+            eigenvals_vec.push_back(eigenvals[i][i]);
+        }
+        for(int i = 0; i < eigenvals_vec.size(); i++){
+            if(eigenvals_vec[i] >= 0){ // Simply check to ensure all eigenvalues are negative.
+                return false;
+            }
+        }
+        return true;
+    }
+
+    bool LinAlg::zeroEigenvalue(std::vector<std::vector<double>> A){
+        auto [eigenvectors, eigenvals] = eig(A);
+        std::vector<double> eigenvals_vec;
+        for(int i = 0; i < eigenvals.size(); i++){
+            eigenvals_vec.push_back(eigenvals[i][i]);
+        }
+        for(int i = 0; i < eigenvals_vec.size(); i++){
+            if(eigenvals_vec[i] == 0){ 
+                return true;
+            }
+        }
+        return false;
+    }
+
     void LinAlg::printMatrix(std::vector<std::vector<double>> A){
         for(int i = 0; i < A.size(); i++){
             for(int j = 0; j < A[i].size(); j++){

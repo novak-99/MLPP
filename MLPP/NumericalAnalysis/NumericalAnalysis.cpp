@@ -260,4 +260,43 @@ namespace MLPP{
         }
         return laplacian;
     }
+
+    std::string NumericalAnalysis::secondPartialDerivativeTest(double(*function)(std::vector<double>), std::vector<double> x){
+        LinAlg alg;
+        std::vector<std::vector<double>> hessianMatrix = hessian(function, x);
+        /* 
+        The reason we do this is because the 2nd partial derivative test is less conclusive for functions of variables greater than
+        2, and the calculations specific to the bivariate case are less computationally intensive. 
+        */
+        if(x.size() == 2){ 
+            double det = alg.det(hessianMatrix, hessianMatrix.size());
+            double secondDerivative = numDiff_2(function, x, 0, 0);
+            if(secondDerivative > 0 && det > 0){
+                return "min";
+            }
+            else if(secondDerivative < 0 && det > 0){
+                return "max";
+            }
+            else if(det < 0){
+                return "saddle";
+            }
+            else{
+                return "test was inconclusive";
+            }
+        }
+        else {
+            if(alg.positiveDefiniteChecker(hessianMatrix)){
+                return "min";
+            }
+            else if(alg.negativeDefiniteChecker(hessianMatrix)){
+                return "max";
+            }
+            else if(!alg.zeroEigenvalue(hessianMatrix)){
+                return "saddle";
+            }
+            else{
+                return "test was inconclusive";
+            }
+        }
+    }
 }

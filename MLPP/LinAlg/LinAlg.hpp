@@ -105,6 +105,10 @@ namespace MLPP{
         std::vector<double> solve(std::vector<std::vector<double>> A, std::vector<double> b);
 
         bool positiveDefiniteChecker(std::vector<std::vector<double>> A);
+
+        bool negativeDefiniteChecker(std::vector<std::vector<double>> A);
+
+        bool zeroEigenvalue(std::vector<std::vector<double>> A);
         
         void printMatrix(std::vector<std::vector<double>> A);
         
