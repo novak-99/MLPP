@@ -163,6 +163,22 @@ namespace MLPP{
         }
         return y;
     }
+
+    double NumericalAnalysis::growthMethod(double C, double k, double t){
+        /* 
+        dP/dt = kP
+        dP/P = kdt
+        integral(1/P)dP = integral(k) dt
+        ln|P| = kt + C_initial
+        |P| = e^(kt + C_initial)
+        |P| = e^(C_initial) * e^(kt)
+        P = +/- e^(C_initial) * e^(kt)
+        P = C * e^(kt)
+        */
+
+        // auto growthFunction = [&C, &k](double t) { return C * exp(k * t); };
+        return C * exp(k * t);
+    }
     
     std::vector<double> NumericalAnalysis::jacobian(double(*function)(std::vector<double>), std::vector<double> x){
         std::vector<double> jacobian; 

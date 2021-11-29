@@ -245,6 +245,82 @@ namespace MLPP{
         return filter;
     }
 
+    /* 
+    Indeed a filter could have been used for this purpose, but I decided that it would've just 
+    been easier to carry out the calculation explicitly, mainly because it is more informative, 
+    and also because my convolution algorithm is only built for filters with equally sized 
+    heights and widths.
+    */
+    std::vector<std::vector<double>> Convolutions::dx(std::vector<std::vector<double>> input){
+        std::vector<std::vector<double>> deriv; // We assume a gray scale image. 
+        deriv.resize(input.size());
+        for(int i = 0; i < deriv.size(); i++){
+            deriv[i].resize(input[i].size());
+        }
+
+        for(int i = 0; i < input.size(); i++){
+            for(int j = 0; j < input[i].size(); j++){
+                if(j != 0 && j != input.size() - 1){
+                    deriv[i][j] = input[i][j + 1] - input[i][j - 1];
+                }
+                else if(j == 0){
+                    deriv[i][j] = input[i][j + 1] - 0; // Implicit zero-padding
+                }
+                else{
+                    deriv[i][j] = 0 - input[i][j - 1]; // Implicit zero-padding
+                }
+            }
+        }
+        return deriv;
+    }
+
+    std::vector<std::vector<double>> Convolutions::dy(std::vector<std::vector<double>> input){
+        std::vector<std::vector<double>> deriv; 
+        deriv.resize(input.size());
+        for(int i = 0; i < deriv.size(); i++){
+            deriv[i].resize(input[i].size());
+        }
+
+        for(int i = 0; i < input.size(); i++){
+            for(int j = 0; j < input[i].size(); j++){
+                if(i != 0 && i != input.size() - 1){
+                    deriv[i][j] = input[i - 1][j] - input[i + 1][j];
+                }
+                else if(i == 0){
+                    deriv[i][j] = 0 - input[i + 1][j]; // Implicit zero-padding
+                }
+                else{
+                    deriv[i][j] = input[i - 1][j] - 0; // Implicit zero-padding
+                }
+            }
+        }
+        return deriv;
+    }
+
+    std::vector<std::vector<double>> Convolutions::gradMagnitude(std::vector<std::vector<double>> input){
+        LinAlg alg;
+        std::vector<std::vector<double>> xDeriv_2 = alg.hadamard_product(dx(input), dx(input));
+        std::vector<std::vector<double>> yDeriv_2 = alg.hadamard_product(dy(input), dy(input));
+        return alg.sqrt(alg.addition(xDeriv_2, yDeriv_2));
+    }
+
+    std::vector<std::vector<double>> Convolutions::gradOrientation(std::vector<std::vector<double>> input){
+        std::vector<std::vector<double>> deriv; 
+        deriv.resize(input.size());
+        for(int i = 0; i < deriv.size(); i++){
+            deriv[i].resize(input[i].size());
+        }
+
+        std::vector<std::vector<double>> xDeriv = dx(input);
+        std::vector<std::vector<double>> yDeriv = dy(input);
+        for(int i = 0; i < deriv.size(); i++){
+            for(int j = 0; j < deriv[i].size(); j++){
+                deriv[i][j] = std::atan2(yDeriv[i][j], xDeriv[i][j]);
+            }
+        }
+        return deriv;
+    }
+
     std::vector<std::vector<double>> Convolutions::getPrewittHorizontal(){
         return prewittHorizontal;
     }

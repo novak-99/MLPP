@@ -17,6 +17,12 @@ namespace MLPP{
             double gaussian2D(double x, double y, double std);
             std::vector<std::vector<double>> gaussianFilter2D(int size, double std);
 
+            std::vector<std::vector<double>> dx(std::vector<std::vector<double>> input);
+            std::vector<std::vector<double>> dy(std::vector<std::vector<double>> input);
+
+            std::vector<std::vector<double>> gradMagnitude(std::vector<std::vector<double>> input);
+            std::vector<std::vector<double>> gradOrientation(std::vector<std::vector<double>> input);
+
             std::vector<std::vector<double>> getPrewittHorizontal();
             std::vector<std::vector<double>> getPrewittVertical();
             std::vector<std::vector<double>> getSobelHorizontal();

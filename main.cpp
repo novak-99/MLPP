@@ -542,16 +542,16 @@ int main() {
     //  alg.printMatrix(R); 
 
     // // Checking positive-definiteness checker. For Cholesky Decomp. 
-    // std::vector<std::vector<double>> A = 
-    // {
-    //     {1,-1,-1,-1},                        
-    //     {-1,2,2,2},
-    //     {-1,2,3,1},
-    //     {-1,2,1,4}
-    // };
+    std::vector<std::vector<double>> A = 
+    {
+        {1,-1,-1,-1},                        
+        {-1,2,2,2},
+        {-1,2,3,1},
+        {-1,2,1,4}
+    };
 
     // std::cout << std::boolalpha << alg.positiveDefiniteChecker(A) << std::endl;
-    // auto [L, Lt] = alg.chol(A); // WORKS !!!!
+    // auto [L, Lt] = alg.chol(A); // works.
     // alg.printMatrix(L);
     // alg.printMatrix(Lt);
 
@@ -597,9 +597,14 @@ int main() {
 
     // std::cout << numAn.cubicApproximation(f_mv, {0, 0, 0}, {1, 1, 1}) << std::endl;
 
-    //std::cout << numAn.eulerianMethod(f_prime, {1, 1}, 1.5, 0.000001) << std::endl;
+    // std::cout << numAn.eulerianMethod(f_prime, {1, 1}, 1.5, 0.000001) << std::endl;
 
-    std::cout << numAn.eulerianMethod(f_prime_2var, {2, 3}, 2.5, 0.00000001) << std::endl;
+    // std::cout << numAn.eulerianMethod(f_prime_2var, {2, 3}, 2.5, 0.00000001) << std::endl;
+
+    // alg.printMatrix(conv.dx(A));
+    // alg.printMatrix(conv.dy(A));
+
+    alg.printMatrix(conv.gradOrientation(A));
 
     return 0;
 }

@@ -35,6 +35,8 @@ namespace MLPP{
             double eulerianMethod(double(*derivative)(double), std::vector<double> q_0, double p, double h); // Euler's method for solving diffrential equations. 
             double eulerianMethod(double(*derivative)(std::vector<double>), std::vector<double> q_0, double p, double h); // Euler's method for solving diffrential equations. 
 
+            double growthMethod(double C, double k, double t); // General growth-based diffrential equations can be solved by seperation of variables.
+
             std::vector<double> jacobian(double(*function)(std::vector<double>), std::vector<double> x); // Indeed, for functions with scalar outputs the Jacobians will be vectors.
             std::vector<std::vector<double>> hessian(double(*function)(std::vector<double>), std::vector<double> x);
             std::vector<std::vector<std::vector<double>>> thirdOrderTensor(double(*function)(std::vector<double>), std::vector<double> x);
