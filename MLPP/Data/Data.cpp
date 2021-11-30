@@ -139,14 +139,18 @@ namespace MLPP{
     }
 
     // Images
-    
-    void Data::getImage(std::string fileName, std::vector<double>& image){
-        std::ifstream img(fileName, std::ios::binary); 
-        if(!img.is_open()){
-            std::cout << "The file failed to open." << std::endl;
+    std::vector<std::vector<double>> Data::rgb2gray(std::vector<std::vector<std::vector<double>>> input){
+        std::vector<std::vector<double>> grayScale;
+        grayScale.resize(input[0].size());
+        for(int i = 0; i < grayScale.size(); i++){
+            grayScale[i].resize(input[0][i].size());
         }
-        std::vector<double> v{std::istreambuf_iterator<char>{img}, {}}; 
-        image = v;
+        for(int i = 0; i < grayScale.size(); i++){
+            for(int j = 0; j < grayScale[i].size(); j++){
+                grayScale[i][j] = 0.299 * input[0][i][j] + 0.587 * input[1][i][j] + 0.114 * input[2][i][j]
+            }
+        }
+        return grayScale;
     }
     
     // TEXT-BASED & NLP
@@ -449,7 +453,7 @@ namespace MLPP{
         if(type == "Skipgram"){
             model = new SoftmaxNet(outputSet, inputSet, dimension);
         }
-        else { // else = CBOW. We maintain it is a default, however. 
+        else { // else = CBOW. We maintain it is a default. 
             model = new SoftmaxNet(inputSet, outputSet, dimension);
         }
         model->gradientDescent(learning_rate, max_epoch, 1);

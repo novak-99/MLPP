@@ -121,9 +121,9 @@ int main() {
     // // OBJECTS
     Stat stat;
     LinAlg alg;
-    // Activation avn;
-    // Cost cost;
-    // Data data; 
+    Activation avn;
+    Cost cost;
+    Data data; 
     Convolutions conv; 
 
     // DATA SETS
@@ -305,10 +305,12 @@ int main() {
 
     // // MLP
     // std::vector<std::vector<double>> inputSet = {{0,0,1,1}, {0,1,0,1}};
+    // inputSet = alg.transpose(inputSet);
     // std::vector<double> outputSet = {0,1,1,0};
-    // MLP model(alg.transpose(inputSet), outputSet, 2); 
+
+    // MLP model(inputSet, outputSet, 2); 
     // model.gradientDescent(0.1, 10000, 0);
-    // alg.printVector(model.modelSetTest(alg.transpose(inputSet)));
+    // alg.printVector(model.modelSetTest(inputSet));
     // std::cout << "ACCURACY: " << 100 * model.score() << "%" << std::endl;
 
     // // SOFTMAX NETWORK
@@ -343,17 +345,21 @@ int main() {
     // alg.printVector(ann.modelSetTest(alg.transpose(inputSet)));
     // std::cout << "ACCURACY: " << 100 * ann.score() << "%" << std::endl;
 
-    // std::vector<std::vector<double>> inputSet = {{0,0,1,1}, {0,1,0,1}};
-    // std::vector<double> outputSet = {0,1,1,0};
-    // ANN ann(alg.transpose(inputSet), outputSet);
+    // typedef std::vector<std::vector<double>> Matrix;
+    // typedef std::vector<double> Vector;
+
+    // Matrix inputSet = {{0,0}, {0,1}, {1,0}, {1,1}}; // XOR 
+    // Vector outputSet = {0,1,1,0};
+
+    // ANN ann(inputSet, outputSet);
     // ann.addLayer(10, "Sigmoid");
-    // ann.addLayer(10, "Sigmoid");
-    // ann.addLayer(10, "Sigmoid");
-    // ann.addLayer(10, "Sigmoid");
+    // ann.addLayer(10, "Sigmoid"); // Add more layers as needed. 
     // ann.addOutputLayer("Sigmoid", "LogLoss");
-    // ann.gradientDescent(0.1, 80000, 0);
-    // alg.printVector(ann.modelSetTest(alg.transpose(inputSet)));
-    // std::cout << "ACCURACY: " << 100 * ann.score() << "%" << std::endl;
+    // ann.gradientDescent(0.1, 20000, 0);
+
+    // Vector predictions = ann.modelSetTest(inputSet);
+    // alg.printVector(predictions); // Testing out the model's preds for train set.
+    // std::cout << "ACCURACY: " << 100 * ann.score() << "%" << std::endl; // Accuracy.
 
     // // DYNAMICALLY SIZED MANN (Multidimensional Output ANN)
     // std::vector<std::vector<double>> inputSet = {{1,2,3},{2,4,6},{3,6,9},{4,8,12}};
@@ -542,13 +548,13 @@ int main() {
     //  alg.printMatrix(R); 
 
     // // Checking positive-definiteness checker. For Cholesky Decomp. 
-    std::vector<std::vector<double>> A = 
-    {
-        {1,-1,-1,-1},                        
-        {-1,2,2,2},
-        {-1,2,3,1},
-        {-1,2,1,4}
-    };
+    // std::vector<std::vector<double>> A = 
+    // {
+    //     {1,-1,-1,-1},                        
+    //     {-1,2,2,2},
+    //     {-1,2,3,1},
+    //     {-1,2,1,4}
+    // };
 
     // std::cout << std::boolalpha << alg.positiveDefiniteChecker(A) << std::endl;
     // auto [L, Lt] = alg.chol(A); // works.
@@ -604,7 +610,7 @@ int main() {
     // alg.printMatrix(conv.dx(A));
     // alg.printMatrix(conv.dy(A));
 
-    alg.printMatrix(conv.gradOrientation(A));
+    // alg.printMatrix(conv.gradOrientation(A));
 
     return 0;
 }

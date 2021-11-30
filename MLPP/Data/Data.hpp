@@ -29,7 +29,7 @@ class Data{
         void printData(std::string& inputName, std::string& outputName, std::vector <double>& inputSet, std::vector <double>& outputSet);
 
         // Images
-        void getImage(std::string fileName, std::vector<double>& image);
+        std::vector<std::vector<double>> rgb2gray(std::vector<std::vector<std::vector<double>>> input);
 
         // Text-Based & NLP
         std::string toLower(std::string text);
