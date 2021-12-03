@@ -1,6 +1,6 @@
 # ML++
 
-Machine learning is a vast and exiciting discipline, garnering attention from specialists of many fields. Unfortunately, for C++ programmers and enthusiasts, there appears to be a lack of support in the field of machine learning. To fill that void and give C++ a true foothold in the ML sphere, this library was written. My intent with this library is for it to act as a crossroad between low-level developers and machine learning engineers.
+Machine learning is a vast and exiciting discipline, garnering attention from specialists of many fields. Unfortunately, for C++ programmers and enthusiasts, there appears to be a lack of support in the field of machine learning. To fill that void and give C++ a true foothold in the ML sphere, this library was written. The intent with this library is for it to act as a crossroad between low-level developers and machine learning engineers.
 
 <p align="center">
     <img src="https://user-images.githubusercontent.com/78002988/119920911-f3338d00-bf21-11eb-89b3-c84bf7c9f4ac.gif" 
@@ -116,7 +116,7 @@ The result will be the model's predictions for the entire dataset.
     2. Autoencoder
     3. Softmax Network
 4. ***Natural Language Processing***
-    1. Word2Vec (Continous Bag of Words, Skip-N Gram)
+    1. Word2Vec (Continous Bag of Words, Skip-Gram)
     2. Stemming
     3. Bag of Words
     4. TFIDF
