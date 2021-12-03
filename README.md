@@ -146,16 +146,6 @@ The result will be the model's predictions for the entire dataset.
         - Positive Definiteness Checker 
     3. QR Decomposition
 13. ***Numerical Analysis***
-    1. Numerical Diffrentiation 
-        - Univariate Functions 
-        - Multivariate Functions 
-    2. Jacobian Vector Calculator
-    3. Hessian Matrix Calculator
-    4. Function approximator
-        - Constant Approximation
-        - Linear Approximation 
-        - Quadratic Approximation
-    5. Newton-Raphson Method
 14. ***Linear Algebra Module***
 15. ***Statistics Module***
 16. ***Data Processing Module***
