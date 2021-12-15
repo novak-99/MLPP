@@ -612,6 +612,24 @@ int main() {
 
     // alg.printMatrix(conv.gradOrientation(A));
 
+    std::vector<std::vector<double>> A = 
+    {
+        {1,0,0,0},                        
+        {0,0,0,0},
+        {0,0,0,0},
+        {0,0,0,1}
+    };
+
+    std::vector<std::vector<std::string>> h = conv.harrisCornerDetection(A); 
+
+    for(int i = 0; i < h.size(); i++){
+        for(int j = 0; j < h[i].size(); j++){
+            std::cout << h[i][j] << " ";
+        }
+        std::cout << std::endl;
+    }
+
+
     return 0;
 }
 

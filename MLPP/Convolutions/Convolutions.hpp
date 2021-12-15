@@ -23,6 +23,8 @@ namespace MLPP{
             std::vector<std::vector<double>> gradMagnitude(std::vector<std::vector<double>> input);
             std::vector<std::vector<double>> gradOrientation(std::vector<std::vector<double>> input);
 
+            std::vector<std::vector<std::string>> harrisCornerDetection(std::vector<std::vector<double>> input);
+
             std::vector<std::vector<double>> getPrewittHorizontal();
             std::vector<std::vector<double>> getPrewittVertical();
             std::vector<std::vector<double>> getSobelHorizontal();

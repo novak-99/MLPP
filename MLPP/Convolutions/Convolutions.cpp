@@ -321,6 +321,48 @@ namespace MLPP{
         return deriv;
     }
 
+    std::vector<std::vector<std::string>> Convolutions::harrisCornerDetection(std::vector<std::vector<double>> input){
+        double const k = 0.05; // Empirically determined wherein k -> [0.04, 0.06], though conventionally 0.05 is typically used as well.
+
+        double const SIGMA = 1; 
+        double const GAUSSIAN_SIZE = 3;
+        
+        double const GAUSSIAN_PADDING = ( (input.size() - 1) + GAUSSIAN_SIZE - input.size() ) / 2; // Convs must be same. 
+        std::cout << GAUSSIAN_PADDING << std::endl;
+        LinAlg alg;
+        std::vector<std::vector<double>> xDeriv = dx(input);
+        std::vector<std::vector<double>> yDeriv = dy(input);
+
+        std::vector<std::vector<double>> gaussianFilter = gaussianFilter2D(GAUSSIAN_SIZE, SIGMA); // Sigma of 1, size of 3.
+        std::vector<std::vector<double>> xxDeriv = convolve(alg.hadamard_product(xDeriv, xDeriv), gaussianFilter, 1, GAUSSIAN_PADDING);
+        std::vector<std::vector<double>> yyDeriv = convolve(alg.hadamard_product(yDeriv, yDeriv), gaussianFilter, 1, GAUSSIAN_PADDING);
+        std::vector<std::vector<double>> xyDeriv = convolve(alg.hadamard_product(xDeriv, yDeriv), gaussianFilter, 1, GAUSSIAN_PADDING);
+
+        std::vector<std::vector<double>> det = alg.subtraction(alg.hadamard_product(xxDeriv, yyDeriv), alg.hadamard_product(xyDeriv, xyDeriv));
+        std::vector<std::vector<double>> trace = alg.addition(xxDeriv, yyDeriv);
+
+        // The reason this is not a scalar is because xxDeriv, xyDeriv, yxDeriv, and yyDeriv are not scalars.
+        std::vector<std::vector<double>> r = alg.subtraction(det, alg.scalarMultiply(k, alg.hadamard_product(trace, trace)));
+        std::vector<std::vector<std::string>> imageTypes; 
+        imageTypes.resize(r.size());
+        alg.printMatrix(r);
+        for(int i = 0; i < r.size(); i++){
+            imageTypes[i].resize(r[i].size());
+            for(int j = 0; j < r[i].size(); j++){
+                if(r[i][j] > 0){
+                    imageTypes[i][j] = "C";
+                }
+                else if (r[i][j] < 0){
+                    imageTypes[i][j] = "E";
+                }
+                else{
+                    imageTypes[i][j] = "N";
+                }
+            }
+        }
+        return imageTypes;
+    }
+
     std::vector<std::vector<double>> Convolutions::getPrewittHorizontal(){
         return prewittHorizontal;
     }

@@ -147,7 +147,7 @@ namespace MLPP{
         }
         for(int i = 0; i < grayScale.size(); i++){
             for(int j = 0; j < grayScale[i].size(); j++){
-                grayScale[i][j] = 0.299 * input[0][i][j] + 0.587 * input[1][i][j] + 0.114 * input[2][i][j]
+                grayScale[i][j] = 0.299 * input[0][i][j] + 0.587 * input[1][i][j] + 0.114 * input[2][i][j];
             }
         }
         return grayScale;
