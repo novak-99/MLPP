@@ -627,7 +627,7 @@ int main() {
             std::cout << h[i][j] << " ";
         }
         std::cout << std::endl;
-    }
+    } // Harris detector works. Life is good!
 
 
     return 0;
