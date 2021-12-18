@@ -321,9 +321,7 @@ namespace MLPP{
         return deriv;
     }
 
-    std::vector<std::vector<std::string>> Convolutions::harrisCornerDetection(std::vector<std::vector<double>> input){
-        double const k = 0.05; // Empirically determined wherein k -> [0.04, 0.06], though conventionally 0.05 is typically used as well.
-
+    std::vector<std::vector<std::vector<double>>> Convolutions::computeM(std::vector<std::vector<double>> input){
         double const SIGMA = 1; 
         double const GAUSSIAN_SIZE = 3;
         
@@ -338,8 +336,15 @@ namespace MLPP{
         std::vector<std::vector<double>> yyDeriv = convolve(alg.hadamard_product(yDeriv, yDeriv), gaussianFilter, 1, GAUSSIAN_PADDING);
         std::vector<std::vector<double>> xyDeriv = convolve(alg.hadamard_product(xDeriv, yDeriv), gaussianFilter, 1, GAUSSIAN_PADDING);
 
-        std::vector<std::vector<double>> det = alg.subtraction(alg.hadamard_product(xxDeriv, yyDeriv), alg.hadamard_product(xyDeriv, xyDeriv));
-        std::vector<std::vector<double>> trace = alg.addition(xxDeriv, yyDeriv);
+        std::vector<std::vector<std::vector<double>>> M = {xxDeriv, yyDeriv, xyDeriv};
+        return M;
+    }
+    std::vector<std::vector<std::string>> Convolutions::harrisCornerDetection(std::vector<std::vector<double>> input){
+        double const k = 0.05; // Empirically determined wherein k -> [0.04, 0.06], though conventionally 0.05 is typically used as well.
+        LinAlg alg;
+        std::vector<std::vector<std::vector<double>>> M = computeM(input);
+        std::vector<std::vector<double>> det = alg.subtraction(alg.hadamard_product(M[0], M[1]), alg.hadamard_product(M[2], M[2]));
+        std::vector<std::vector<double>> trace = alg.addition(M[0], M[1]);
 
         // The reason this is not a scalar is because xxDeriv, xyDeriv, yxDeriv, and yyDeriv are not scalars.
         std::vector<std::vector<double>> r = alg.subtraction(det, alg.scalarMultiply(k, alg.hadamard_product(trace, trace)));

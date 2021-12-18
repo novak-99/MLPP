@@ -871,6 +871,17 @@ namespace MLPP{
         return c;
     }
 
+    std::vector<double> LinAlg::cross(std::vector<double> a, std::vector<double> b){
+        // Cross products exist in R^7 also. Though, I will limit it to R^3 as Wolfram does this. 
+        std::vector<std::vector<double>> mat = {onevec(3), a, b};
+        
+        double det1 = det({{a[1], a[2]}, {b[1], b[2]}}, 2);
+        double det2 = -det({{a[0], a[2]}, {b[0], b[2]}}, 2);
+        double det3 = det({{a[0], a[1]}, {b[0], b[1]}}, 2);
+
+        return {det1, det2, det3};
+    }
+
     std::vector<double> LinAlg::abs(std::vector<double> a){
         std::vector<double> b; 
         b.resize(a.size());

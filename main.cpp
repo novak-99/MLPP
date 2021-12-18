@@ -216,7 +216,7 @@ int main() {
 
     // LinReg model(alg.transpose(inputSet), outputSet); // Can use Lasso, Ridge, ElasticNet Reg
 
-    // model.gradientDescent(0.001, 30000, 1);
+    // model.gradientDescent(0.001, 30000, 0);
     // model.SGD(0.001, 30000, 1);
     // model.MBGD(0.001, 10000, 2, 1);
     // model.normalEquation(); 
@@ -612,22 +612,28 @@ int main() {
 
     // alg.printMatrix(conv.gradOrientation(A));
 
-    std::vector<std::vector<double>> A = 
-    {
-        {1,0,0,0},                        
-        {0,0,0,0},
-        {0,0,0,0},
-        {0,0,0,1}
-    };
+    // std::vector<std::vector<double>> A = 
+    // {
+    //     {1,0,0,0},                        
+    //     {0,0,0,0},
+    //     {0,0,0,0},
+    //     {0,0,0,1}
+    // };
 
-    std::vector<std::vector<std::string>> h = conv.harrisCornerDetection(A); 
+    // std::vector<std::vector<std::string>> h = conv.harrisCornerDetection(A); 
 
-    for(int i = 0; i < h.size(); i++){
-        for(int j = 0; j < h[i].size(); j++){
-            std::cout << h[i][j] << " ";
-        }
-        std::cout << std::endl;
-    } // Harris detector works. Life is good!
+    // for(int i = 0; i < h.size(); i++){
+    //     for(int j = 0; j < h[i].size(); j++){
+    //         std::cout << h[i][j] << " ";
+    //     }
+    //     std::cout << std::endl;
+    // } // Harris detector works. Life is good!
+
+    std::vector<double> a = {3,4,4};
+    std::vector<double> b= {4,4,4};
+    alg.printVector(alg.cross(a,b));
+
+
 
 
     return 0;

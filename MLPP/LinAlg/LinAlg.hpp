@@ -146,6 +146,8 @@ namespace MLPP{
         
         double dot(std::vector<double> a, std::vector<double> b);
 
+        std::vector<double> cross(std::vector<double> a, std::vector<double> b);
+
         std::vector<double> abs(std::vector<double> a);
 
         std::vector<double> zerovec(int n);
