@@ -463,6 +463,22 @@ namespace MLPP{
         return {wordEmbeddings, wordList};
     }
 
+    std::vector<std::vector<double>> Data::LSA(std::vector<std::string> sentences, int dim){
+        LinAlg alg;
+        std::vector<std::vector<double>> docWordData = BOW(sentences, "Binary");
+
+        auto [U, S, Vt] = alg.SVD(docWordData);
+        std::vector<std::vector<double>> S_trunc = alg.zeromat(dim, dim);
+        std::vector<std::vector<double>> Vt_trunc; 
+        for(int i = 0; i < dim; i++){ 
+            S_trunc[i][i] = S[i][i]; 
+            Vt_trunc.push_back(Vt[i]);
+        }
+
+        std::vector<std::vector<double>> embeddings = alg.matmult(S_trunc, Vt); 
+        return embeddings;
+    }
+
     std::vector<std::string> Data::createWordList(std::vector<std::string> sentences){
         std::string combinedText = "";
         for(int i = 0; i < sentences.size(); i++){

@@ -487,6 +487,13 @@ int main() {
     // alg.printMatrix(wordEmbeddings);
     // std::cout << std::endl;
 
+    std::vector<std::string> textArchive = {"pizza", "pizza hamburger cookie", "hamburger", "ramen", "sushi", "ramen sushi"};
+
+    alg.printMatrix(data.LSA(textArchive, 2));
+    //alg.printMatrix(data.BOW(textArchive, "Default"));
+    std::cout << std::endl;
+    
+
     // std::vector<std::vector<double>> inputSet = {{1,2},{2,3},{3,4},{4,5},{5,6}};
     // std::cout << "Feature Scaling Example:" << std::endl;
     // alg.printMatrix(data.featureScaling(inputSet));
@@ -629,9 +636,9 @@ int main() {
     //     std::cout << std::endl;
     // } // Harris detector works. Life is good!
 
-    std::vector<double> a = {3,4,4};
-    std::vector<double> b= {4,4,4};
-    alg.printVector(alg.cross(a,b));
+    // std::vector<double> a = {3,4,4};
+    // std::vector<double> b = {4,4,4};
+    // alg.printVector(alg.cross(a,b));
 
 
 

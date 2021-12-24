@@ -47,6 +47,7 @@ class Data{
         std::vector<std::vector<double>> BOW(std::vector<std::string> sentences, std::string = "Default"); 
         std::vector<std::vector<double>> TFIDF(std::vector<std::string> sentences);
         std::tuple<std::vector<std::vector<double>>, std::vector<std::string>> word2Vec(std::vector<std::string> sentences, std::string type, int windowSize, int dimension, double learning_rate, int max_epoch);
+        std::vector<std::vector<double>> LSA(std::vector<std::string> sentences, int dim);
 
         std::vector<std::string> createWordList(std::vector<std::string> sentences);
 
