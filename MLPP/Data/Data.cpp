@@ -475,7 +475,7 @@ namespace MLPP{
             Vt_trunc.push_back(Vt[i]);
         }
 
-        std::vector<std::vector<double>> embeddings = alg.matmult(S_trunc, Vt); 
+        std::vector<std::vector<double>> embeddings = alg.matmult(S_trunc, Vt_trunc); 
         return embeddings;
     }
 
