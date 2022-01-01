@@ -348,7 +348,7 @@ namespace MLPP{
         Reg regularization;
         return C * HingeLoss(y_hat, y) + regularization.regTerm(weights, 1, 0, "Ridge");
     }
-    double Cost::HingeLoss(std::vector<std::vector<double>> y_hat, std::vector<std::vector<double>> y, std::vector<double> weights, double C){
+    double Cost::HingeLoss(std::vector<std::vector<double>> y_hat, std::vector<std::vector<double>> y, std::vector<std::vector<double>> weights, double C){
         LinAlg alg; 
         Reg regularization;
         return C * HingeLoss(y_hat, y) + regularization.regTerm(weights, 1, 0, "Ridge");
@@ -363,5 +363,30 @@ namespace MLPP{
         LinAlg alg;
         Reg regularization;
         return alg.scalarMultiply(C, HingeLossDeriv(y_hat, y));
+    }
+
+    double Cost::dualFormSVM(std::vector<double> alpha, std::vector<std::vector<double>> X, std::vector<double> y){
+        LinAlg alg;
+        std::vector<std::vector<double>> Y = alg.diag(y); // Y is a diagnoal matrix. Y[i][j] = y[i] if i = i, else Y[i][j] = 0. Yt = Y.
+        std::vector<std::vector<double>> K = alg.matmult(X, alg.transpose(X)); // TO DO: DON'T forget to add non-linear kernelizations. 
+        std::vector<std::vector<double>> Q = alg.matmult(alg.matmult(alg.transpose(Y), K), Y);
+        double alphaQ = alg.matmult(alg.matmult({alpha}, Q), alg.transpose({alpha}))[0][0];
+        std::vector<double> one = alg.onevec(alpha.size());
+
+        return -alg.dot(one, alpha) + 0.5 * alphaQ;
+    }
+
+    std::vector<double> Cost::dualFormSVMDeriv(std::vector<double> alpha, std::vector<std::vector<double>> X, std::vector<double> y){
+        LinAlg alg;
+        std::vector<std::vector<double>> Y = alg.zeromat(y.size(), y.size());
+        for(int i = 0; i < y.size(); i++){
+            Y[i][i] = y[i]; // Y is a diagnoal matrix. Y[i][j] = y[i] if i = i, else Y[i][j] = 0. Yt = Y.
+        }
+        std::vector<std::vector<double>> K = alg.matmult(X, alg.transpose(X)); // TO DO: DON'T forget to add non-linear kernelizations. 
+        std::vector<std::vector<double>> Q = alg.matmult(alg.matmult(alg.transpose(Y), K), Y);
+        std::vector<double> alphaQDeriv = alg.mat_vec_mult(Q, alpha);
+        std::vector<double> one = alg.onevec(alpha.size());
+
+        return alg.subtraction(alphaQDeriv, one);
     }
 }

@@ -46,6 +46,7 @@
 #include "MLPP/Convolutions/Convolutions.hpp"
 #include "MLPP/SVC/SVC.hpp"
 #include "MLPP/NumericalAnalysis/NumericalAnalysis.hpp"
+#include "MLPP/DualSVC/DualSVC.hpp"
 
 
 using namespace MLPP;
@@ -487,11 +488,11 @@ int main() {
     // alg.printMatrix(wordEmbeddings);
     // std::cout << std::endl;
 
-    std::vector<std::string> textArchive = {"pizza", "pizza hamburger cookie", "hamburger", "ramen", "sushi", "ramen sushi"};
+    // std::vector<std::string> textArchive = {"pizza", "pizza hamburger cookie", "hamburger", "ramen", "sushi", "ramen sushi"};
 
-    alg.printMatrix(data.LSA(textArchive, 2));
-    //alg.printMatrix(data.BOW(textArchive, "Default"));
-    std::cout << std::endl;
+    // alg.printMatrix(data.LSA(textArchive, 2));
+    // //alg.printMatrix(data.BOW(textArchive, "Default"));
+    // std::cout << std::endl;
     
 
     // std::vector<std::vector<double>> inputSet = {{1,2},{2,3},{3,4},{4,5},{5,6}};
@@ -640,8 +641,18 @@ int main() {
     // std::vector<double> b = {4,4,4};
     // alg.printVector(alg.cross(a,b));
 
+    //SUPPORT VECTOR CLASSIFICATION (kernel method)
+    // std::vector<std::vector<double>> inputSet; 
+    // std::vector<double> outputSet; 
+    // data.setData(30, "/Users/marcmelikyan/Desktop/Data/BreastCancerSVM.csv", inputSet, outputSet);
 
+    std::vector<std::vector<double>> inputSet; 
+    std::vector<double> outputSet; 
+    data.setData(4, "/Users/marcmelikyan/Desktop/Data/IrisSVM.csv", inputSet, outputSet);
 
+    DualSVC kernelSVM(inputSet, outputSet, 1000);
+    kernelSVM.gradientDescent(0.0001, 20, 1);
+    
 
     return 0;
 }
