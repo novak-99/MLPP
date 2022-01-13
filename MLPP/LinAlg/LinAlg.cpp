@@ -418,6 +418,18 @@ namespace MLPP{
         return B;
     }
 
+    std::vector<double> LinAlg::max(std::vector<double> a, std::vector<double> b){
+        std::vector<double> c; 
+        c.resize(a.size());
+        for(int i = 0; i < c.size(); i++){
+            if(a[i] >= b[i]) { 
+                c[i] = a[i]; 
+            }
+            else { c[i] = b[i]; }
+        }
+        return c;
+    }
+
     double LinAlg::max(std::vector<std::vector<double>> A){
         return max(flatten(A));
     }
@@ -943,6 +955,18 @@ namespace MLPP{
         else if (axis == 2) {rotationMatrix = {{std::cos(theta), -std::sin(theta), 0}, {std::sin(theta), std::cos(theta), 0}, {1, 0, 0}};}
 
         return matmult(A, rotationMatrix);
+    }
+
+    std::vector<std::vector<double>> LinAlg::max(std::vector<std::vector<double>> A, std::vector<std::vector<double>> B){
+        std::vector<std::vector<double>> C;
+        C.resize(A.size());
+        for(int i = 0; i < C.size(); i++){
+            C[i].resize(A[0].size());
+        }
+        for(int i = 0; i < A.size(); i++){
+            C[i] = max(A[i], B[i]);
+        }
+        return C;
     }
 
     double LinAlg::max(std::vector<double> a){

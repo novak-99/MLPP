@@ -212,18 +212,43 @@ int main() {
     // alg.printVector(model.modelSetTest(inputSet));
 
     // // MULIVARIATE LINEAR REGRESSION
-    // std::vector<std::vector<double>> inputSet = {{1,2,3,4,5,6,7,8,9,10}, {3,5,9,12,15,18,21,24,27,30}};
-    // std::vector<double> outputSet = {2,4,6,8,10,12,14,16,18,20};
+    std::vector<std::vector<double>> inputSet = {{1,2,3,4,5,6,7,8,9,10}, {3,5,9,12,15,18,21,24,27,30}};
+    std::vector<double> outputSet = {2,4,6,8,10,12,14,16,18,20};
 
-    // LinReg model(alg.transpose(inputSet), outputSet); // Can use Lasso, Ridge, ElasticNet Reg
+    LinReg model(alg.transpose(inputSet), outputSet); // Can use Lasso, Ridge, ElasticNet Reg
 
-    // model.gradientDescent(0.001, 30000, 0);
-    // model.SGD(0.001, 30000, 1);
+    //model.gradientDescent(0.001, 30, 0);
+    //model.SGD(0.001, 30000, 1);
     // model.MBGD(0.001, 10000, 2, 1);
-    // model.normalEquation(); 
+    //model.normalEquation(); 
 
-    // alg.printVector(model.modelSetTest((alg.transpose(inputSet))));
-    // std::cout << "ACCURACY: " << 100 * model.score() << "%" << std::endl;
+
+
+    LinReg adamModel(alg.transpose(inputSet), outputSet);
+    adamModel.Nadam(0.1, 5, 1, 0.9, 0.999, 1e-8, 0); // Change batch size = sgd, bgd
+    alg.printVector(adamModel.modelSetTest(alg.transpose(inputSet)));
+    std::cout << "ACCURACY: " << 100 * adamModel.score() << "%" << std::endl;
+
+
+    // const int TRIAL_NUM = 1000; 
+
+    // double scoreSGD = 0; 
+    // double scoreADAM = 0; 
+    // for(int i = 0; i < TRIAL_NUM; i++){
+    //     LinReg model(alg.transpose(inputSet), outputSet);
+    //     model.MBGD(0.001, 5, 1, 0);
+    //     scoreSGD += model.score();
+
+    //     LinReg adamModel(alg.transpose(inputSet), outputSet);
+    //     adamModel.Adam(0.1, 5, 1, 0.9, 0.999, 1e-8, 0); // Change batch size = sgd, bgd
+    //     scoreADAM += adamModel.score();
+    // }
+
+    // std::cout << "ACCURACY, AVG, SGD: " << 100 * scoreSGD/TRIAL_NUM << "%" << std::endl;
+
+    // std::cout << std::endl;
+
+    // std::cout << "ACCURACY, AVG, ADAM: " << 100 * scoreADAM/TRIAL_NUM << "%" << std::endl;
 
 
     // std::cout << "Total epoch num: 300" << std::endl;
@@ -646,12 +671,12 @@ int main() {
     // std::vector<double> outputSet; 
     // data.setData(30, "/Users/marcmelikyan/Desktop/Data/BreastCancerSVM.csv", inputSet, outputSet);
 
-    std::vector<std::vector<double>> inputSet; 
-    std::vector<double> outputSet; 
-    data.setData(4, "/Users/marcmelikyan/Desktop/Data/IrisSVM.csv", inputSet, outputSet);
+    // std::vector<std::vector<double>> inputSet; 
+    // std::vector<double> outputSet; 
+    // data.setData(4, "/Users/marcmelikyan/Desktop/Data/IrisSVM.csv", inputSet, outputSet);
 
-    DualSVC kernelSVM(inputSet, outputSet, 1000);
-    kernelSVM.gradientDescent(0.0001, 20, 1);
+    // DualSVC kernelSVM(inputSet, outputSet, 1000);
+    // kernelSVM.gradientDescent(0.0001, 20, 1);
     
 
     return 0;

@@ -166,6 +166,327 @@ namespace MLPP{
         forwardPass(); 
     }
 
+    void LinReg::Momentum(double learning_rate, int max_epoch, int mini_batch_size, double gamma, bool UI){
+        LinAlg alg;
+        Reg regularization;
+        double cost_prev = 0;
+        int epoch = 1;
+        
+        // Creating the mini-batches
+        int n_mini_batch = n/mini_batch_size;
+        auto [inputMiniBatches, outputMiniBatches] = Utilities::createMiniBatches(inputSet, outputSet, n_mini_batch);
+        
+        // Initializing necessary components for Momentum. 
+        std::vector<double> v = alg.zerovec(weights.size());
+        while(true){
+            for(int i = 0; i < n_mini_batch; i++){
+                std::vector<double> y_hat = Evaluate(inputMiniBatches[i]);
+                cost_prev = Cost(y_hat, outputMiniBatches[i]);
+                
+                std::vector<double> error = alg.subtraction(y_hat, outputMiniBatches[i]);
+
+                // Calculating the weight gradients
+                std::vector<double> gradient = alg.scalarMultiply(1/outputMiniBatches[i].size(), alg.mat_vec_mult(alg.transpose(inputMiniBatches[i]), error));
+                std::vector<double> RegDerivTerm = regularization.regDerivTerm(weights, lambda, alpha, reg);
+                std::vector<double> weight_grad = alg.addition(gradient, RegDerivTerm); // Weight_grad_final
+                
+                v = alg.addition(alg.scalarMultiply(gamma, v), alg.scalarMultiply(learning_rate, weight_grad));
+
+                weights = alg.subtraction(weights, v);
+    
+                // Calculating the bias gradients
+                bias -= learning_rate * alg.sum_elements(error) / outputMiniBatches[i].size(); // As normal
+                y_hat = Evaluate(inputMiniBatches[i]);
+                    
+                if(UI) { 
+                    Utilities::CostInfo(epoch, cost_prev, Cost(y_hat, outputMiniBatches[i]));
+                    Utilities::UI(weights, bias); 
+                }
+            }
+            epoch++;
+            if(epoch > max_epoch) { break; }
+        }
+        forwardPass(); 
+    }
+
+    void LinReg::NAG(double learning_rate, int max_epoch, int mini_batch_size, double gamma, bool UI){
+        LinAlg alg;
+        Reg regularization;
+        double cost_prev = 0;
+        int epoch = 1;
+        
+        // Creating the mini-batches
+        int n_mini_batch = n/mini_batch_size;
+        auto [inputMiniBatches, outputMiniBatches] = Utilities::createMiniBatches(inputSet, outputSet, n_mini_batch);
+        
+        // Initializing necessary components for Momentum. 
+        std::vector<double> v = alg.zerovec(weights.size());
+        while(true){
+            for(int i = 0; i < n_mini_batch; i++){
+                weights = alg.subtraction(weights, alg.scalarMultiply(gamma, v)); // "Aposterori" calculation
+
+                std::vector<double> y_hat = Evaluate(inputMiniBatches[i]);
+                cost_prev = Cost(y_hat, outputMiniBatches[i]);
+                
+                std::vector<double> error = alg.subtraction(y_hat, outputMiniBatches[i]);
+
+                // Calculating the weight gradients
+                std::vector<double> gradient = alg.scalarMultiply(1/outputMiniBatches[i].size(), alg.mat_vec_mult(alg.transpose(inputMiniBatches[i]), error));
+                std::vector<double> RegDerivTerm = regularization.regDerivTerm(weights, lambda, alpha, reg);
+                std::vector<double> weight_grad = alg.addition(gradient, RegDerivTerm); // Weight_grad_final
+                
+                v = alg.addition(alg.scalarMultiply(gamma, v), alg.scalarMultiply(learning_rate, weight_grad));
+
+                weights = alg.subtraction(weights, v);
+    
+                // Calculating the bias gradients
+                bias -= learning_rate * alg.sum_elements(error) / outputMiniBatches[i].size(); // As normal
+                y_hat = Evaluate(inputMiniBatches[i]);
+                    
+                if(UI) { 
+                    Utilities::CostInfo(epoch, cost_prev, Cost(y_hat, outputMiniBatches[i]));
+                    Utilities::UI(weights, bias); 
+                }
+            }
+            epoch++;
+            if(epoch > max_epoch) { break; }
+        }
+        forwardPass(); 
+    }
+
+    void LinReg::Adagrad(double learning_rate, int max_epoch, int mini_batch_size, double e, bool UI){
+        LinAlg alg;
+        Reg regularization;
+        double cost_prev = 0;
+        int epoch = 1;
+        
+        // Creating the mini-batches
+        int n_mini_batch = n/mini_batch_size;
+        auto [inputMiniBatches, outputMiniBatches] = Utilities::createMiniBatches(inputSet, outputSet, n_mini_batch);
+        
+        // Initializing necessary components for Adagrad. 
+        std::vector<double> v = alg.zerovec(weights.size());
+        while(true){
+            for(int i = 0; i < n_mini_batch; i++){
+                std::vector<double> y_hat = Evaluate(inputMiniBatches[i]);
+                cost_prev = Cost(y_hat, outputMiniBatches[i]);
+                
+                std::vector<double> error = alg.subtraction(y_hat, outputMiniBatches[i]);
+
+                // Calculating the weight gradients
+                std::vector<double> gradient = alg.scalarMultiply(1/outputMiniBatches[i].size(), alg.mat_vec_mult(alg.transpose(inputMiniBatches[i]), error));
+                std::vector<double> RegDerivTerm = regularization.regDerivTerm(weights, lambda, alpha, reg);
+                std::vector<double> weight_grad = alg.addition(gradient, RegDerivTerm); // Weight_grad_final
+
+                v = alg.hadamard_product(weight_grad, weight_grad);
+
+                weights = alg.subtraction(weights, alg.scalarMultiply(learning_rate, alg.elementWiseDivision(weight_grad, alg.sqrt(alg.scalarAdd(e, v)))));
+    
+                // Calculating the bias gradients
+                bias -= learning_rate * alg.sum_elements(error) / outputMiniBatches[i].size(); // As normal
+                y_hat = Evaluate(inputMiniBatches[i]);
+                    
+                if(UI) { 
+                    Utilities::CostInfo(epoch, cost_prev, Cost(y_hat, outputMiniBatches[i]));
+                    Utilities::UI(weights, bias); 
+                }
+            }
+            epoch++;
+            if(epoch > max_epoch) { break; }
+        }
+        forwardPass(); 
+    }
+
+    void LinReg::Adadelta(double learning_rate, int max_epoch, int mini_batch_size, double b1, double e, bool UI){
+        // Adagrad upgrade. Momentum is applied. 
+        LinAlg alg;
+        Reg regularization;
+        double cost_prev = 0;
+        int epoch = 1;
+        
+        // Creating the mini-batches
+        int n_mini_batch = n/mini_batch_size;
+        auto [inputMiniBatches, outputMiniBatches] = Utilities::createMiniBatches(inputSet, outputSet, n_mini_batch);
+        
+        // Initializing necessary components for Adagrad. 
+        std::vector<double> v = alg.zerovec(weights.size());
+        while(true){
+            for(int i = 0; i < n_mini_batch; i++){
+                std::vector<double> y_hat = Evaluate(inputMiniBatches[i]);
+                cost_prev = Cost(y_hat, outputMiniBatches[i]);
+                
+                std::vector<double> error = alg.subtraction(y_hat, outputMiniBatches[i]);
+
+                // Calculating the weight gradients
+                std::vector<double> gradient = alg.scalarMultiply(1/outputMiniBatches[i].size(), alg.mat_vec_mult(alg.transpose(inputMiniBatches[i]), error));
+                std::vector<double> RegDerivTerm = regularization.regDerivTerm(weights, lambda, alpha, reg);
+                std::vector<double> weight_grad = alg.addition(gradient, RegDerivTerm); // Weight_grad_final
+
+                v = alg.addition(alg.scalarMultiply(b1, v), alg.scalarMultiply(1 - b1, alg.hadamard_product(weight_grad, weight_grad)));
+
+                weights = alg.subtraction(weights, alg.scalarMultiply(learning_rate, alg.elementWiseDivision(weight_grad, alg.sqrt(alg.scalarAdd(e, v)))));
+    
+                // Calculating the bias gradients
+                bias -= learning_rate * alg.sum_elements(error) / outputMiniBatches[i].size(); // As normal
+                y_hat = Evaluate(inputMiniBatches[i]);
+                    
+                if(UI) { 
+                    Utilities::CostInfo(epoch, cost_prev, Cost(y_hat, outputMiniBatches[i]));
+                    Utilities::UI(weights, bias); 
+                }
+            }
+            epoch++;
+            if(epoch > max_epoch) { break; }
+        }
+        forwardPass(); 
+    }
+
+    void LinReg::Adam(double learning_rate, int max_epoch, int mini_batch_size, double b1, double b2, double e, bool UI){
+        LinAlg alg;
+        Reg regularization;
+        double cost_prev = 0;
+        int epoch = 1;
+        
+        // Creating the mini-batches
+        int n_mini_batch = n/mini_batch_size;
+        auto [inputMiniBatches, outputMiniBatches] = Utilities::createMiniBatches(inputSet, outputSet, n_mini_batch);
+        
+        // Initializing necessary components for Adam. 
+        std::vector<double> m = alg.zerovec(weights.size());
+
+        std::vector<double> v = alg.zerovec(weights.size());
+        while(true){
+            for(int i = 0; i < n_mini_batch; i++){
+                std::vector<double> y_hat = Evaluate(inputMiniBatches[i]);
+                cost_prev = Cost(y_hat, outputMiniBatches[i]);
+                
+                std::vector<double> error = alg.subtraction(y_hat, outputMiniBatches[i]);
+
+                // Calculating the weight gradients
+                std::vector<double> gradient = alg.scalarMultiply(1/outputMiniBatches[i].size(), alg.mat_vec_mult(alg.transpose(inputMiniBatches[i]), error));
+                std::vector<double> RegDerivTerm = regularization.regDerivTerm(weights, lambda, alpha, reg);
+                std::vector<double> weight_grad = alg.addition(gradient, RegDerivTerm); // Weight_grad_final
+
+                m = alg.addition(alg.scalarMultiply(b1, m), alg.scalarMultiply(1 - b1, weight_grad));
+                v = alg.addition(alg.scalarMultiply(b2, v), alg.scalarMultiply(1 - b2, alg.exponentiate(weight_grad, 2)));
+
+                std::vector<double> m_hat = alg.scalarMultiply(1/(1 - pow(b1, epoch)), m);
+                std::vector<double> v_hat = alg.scalarMultiply(1/(1 - pow(b2, epoch)), v);
+                
+                weights = alg.subtraction(weights, alg.scalarMultiply(learning_rate, alg.elementWiseDivision(m_hat, alg.scalarAdd(e, alg.sqrt(v_hat)))));
+    
+                // Calculating the bias gradients
+                bias -= learning_rate * alg.sum_elements(error) / outputMiniBatches[i].size(); // As normal
+                y_hat = Evaluate(inputMiniBatches[i]);
+                    
+                if(UI) { 
+                    Utilities::CostInfo(epoch, cost_prev, Cost(y_hat, outputMiniBatches[i]));
+                    Utilities::UI(weights, bias); 
+                }
+            }
+            epoch++;
+            if(epoch > max_epoch) { break; }
+        }
+        forwardPass(); 
+    }
+
+    void LinReg::Adamax(double learning_rate, int max_epoch, int mini_batch_size, double b1, double b2, double e, bool UI){
+        LinAlg alg;
+        Reg regularization;
+        double cost_prev = 0;
+        int epoch = 1;
+        
+        // Creating the mini-batches
+        int n_mini_batch = n/mini_batch_size;
+        auto [inputMiniBatches, outputMiniBatches] = Utilities::createMiniBatches(inputSet, outputSet, n_mini_batch);
+        
+        std::vector<double> m = alg.zerovec(weights.size());
+
+        std::vector<double> u = alg.zerovec(weights.size());
+        while(true){
+            for(int i = 0; i < n_mini_batch; i++){
+                std::vector<double> y_hat = Evaluate(inputMiniBatches[i]);
+                cost_prev = Cost(y_hat, outputMiniBatches[i]);
+                
+                std::vector<double> error = alg.subtraction(y_hat, outputMiniBatches[i]);
+
+                // Calculating the weight gradients
+                std::vector<double> gradient = alg.scalarMultiply(1/outputMiniBatches[i].size(), alg.mat_vec_mult(alg.transpose(inputMiniBatches[i]), error));
+                std::vector<double> RegDerivTerm = regularization.regDerivTerm(weights, lambda, alpha, reg);
+                std::vector<double> weight_grad = alg.addition(gradient, RegDerivTerm); // Weight_grad_final
+
+                m = alg.addition(alg.scalarMultiply(b1, m), alg.scalarMultiply(1 - b1, weight_grad));
+                u = alg.max(alg.scalarMultiply(b2, u), alg.abs(weight_grad));
+
+                std::vector<double> m_hat = alg.scalarMultiply(1/(1 - pow(b1, epoch)), m);
+                
+                weights = alg.subtraction(weights, alg.scalarMultiply(learning_rate, alg.elementWiseDivision(m_hat, u)));
+    
+                // Calculating the bias gradients
+                bias -= learning_rate * alg.sum_elements(error) / outputMiniBatches[i].size(); // As normal
+                y_hat = Evaluate(inputMiniBatches[i]);
+                    
+                if(UI) { 
+                    Utilities::CostInfo(epoch, cost_prev, Cost(y_hat, outputMiniBatches[i]));
+                    Utilities::UI(weights, bias); 
+                }
+            }
+            epoch++;
+            if(epoch > max_epoch) { break; }
+        }
+        forwardPass(); 
+    }
+
+    void LinReg::Nadam(double learning_rate, int max_epoch, int mini_batch_size, double b1, double b2, double e, bool UI){
+        LinAlg alg;
+        Reg regularization;
+        double cost_prev = 0;
+        int epoch = 1;
+        
+        // Creating the mini-batches
+        int n_mini_batch = n/mini_batch_size;
+        auto [inputMiniBatches, outputMiniBatches] = Utilities::createMiniBatches(inputSet, outputSet, n_mini_batch);
+        
+        // Initializing necessary components for Adam. 
+        std::vector<double> m = alg.zerovec(weights.size());
+        std::vector<double> v = alg.zerovec(weights.size());
+        std::vector<double> m_final = alg.zerovec(weights.size());
+        while(true){
+            for(int i = 0; i < n_mini_batch; i++){
+                std::vector<double> y_hat = Evaluate(inputMiniBatches[i]);
+                cost_prev = Cost(y_hat, outputMiniBatches[i]);
+                
+                std::vector<double> error = alg.subtraction(y_hat, outputMiniBatches[i]);
+
+                // Calculating the weight gradients
+                std::vector<double> gradient = alg.scalarMultiply(1/outputMiniBatches[i].size(), alg.mat_vec_mult(alg.transpose(inputMiniBatches[i]), error));
+                std::vector<double> RegDerivTerm = regularization.regDerivTerm(weights, lambda, alpha, reg);
+                std::vector<double> weight_grad = alg.addition(gradient, RegDerivTerm); // Weight_grad_final
+
+                m = alg.addition(alg.scalarMultiply(b1, m), alg.scalarMultiply(1 - b1, weight_grad));
+                v = alg.addition(alg.scalarMultiply(b2, v), alg.scalarMultiply(1 - b2, alg.exponentiate(weight_grad, 2)));
+                m_final = alg.addition(alg.scalarMultiply(b1, m), alg.scalarMultiply((1 - b1)/(1 - pow(b1, epoch)), weight_grad));
+
+                std::vector<double> m_hat = alg.scalarMultiply(1/(1 - pow(b1, epoch)), m);
+                std::vector<double> v_hat = alg.scalarMultiply(1/(1 - pow(b2, epoch)), v);
+                
+                weights = alg.subtraction(weights, alg.scalarMultiply(learning_rate, alg.elementWiseDivision(m_final, alg.scalarAdd(e, alg.sqrt(v_hat)))));
+    
+                // Calculating the bias gradients
+                bias -= learning_rate * alg.sum_elements(error) / outputMiniBatches[i].size(); // As normal
+                y_hat = Evaluate(inputMiniBatches[i]);
+                    
+                if(UI) { 
+                    Utilities::CostInfo(epoch, cost_prev, Cost(y_hat, outputMiniBatches[i]));
+                    Utilities::UI(weights, bias); 
+                }
+            }
+            epoch++;
+            if(epoch > max_epoch) { break; }
+        }
+        forwardPass(); 
+    }
+
     void LinReg::normalEquation(){
         LinAlg alg;
         Stat stat;
@@ -181,14 +502,14 @@ namespace MLPP{
             std::vector<double> temp;
             temp.resize(k);
             temp = alg.mat_vec_mult(alg.inverse(alg.matmult(alg.transpose(inputSet), inputSet)), alg.mat_vec_mult(alg.transpose(inputSet), outputSet));
-            if(isnan(temp[0])){
+            if(std::isnan(temp[0])){
                 throw 99;
             }
             else{
                 if(reg == "Ridge") {
                     weights = alg.mat_vec_mult(alg.inverse(alg.addition(alg.matmult(alg.transpose(inputSet), inputSet), alg.scalarMultiply(lambda, alg.identity(k)))), alg.mat_vec_mult(alg.transpose(inputSet), outputSet));
                 }
-                else{ weights = alg.mat_vec_mult(alg.inverse(alg.matmult(alg.transpose(inputSet), inputSet)), alg.mat_vec_mult(alg.transpose(inputSet), outputSet));  }
+                else{ weights = alg.mat_vec_mult(alg.inverse(alg.matmult(alg.transpose(inputSet), inputSet)), alg.mat_vec_mult(alg.transpose(inputSet), outputSet)); }
                 
                 bias = stat.mean(outputSet) - alg.dot(weights, x_means);
                 
@@ -198,7 +519,6 @@ namespace MLPP{
         catch(int err_num){
             std::cout << "ERR " << err_num << ": Resulting matrix was noninvertible/degenerate, and so the normal equation could not be performed. Try utilizing gradient descent." << std::endl;
         }
-        
     }
 
     double LinReg::score(){

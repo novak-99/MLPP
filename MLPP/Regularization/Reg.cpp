@@ -7,6 +7,7 @@
 #include <iostream>
 #include <random>
 #include "Reg.hpp"
+#include "LinAlg/LinAlg.hpp"
 #include "Activation/Activation.hpp"
 
 namespace MLPP{
@@ -70,19 +71,48 @@ namespace MLPP{
     }
 
     std::vector<double> Reg::regWeights(std::vector<double> weights, double lambda, double alpha, std::string reg){
-        for(int i = 0; i < weights.size(); i++){
-            weights[i] -= regDerivTerm(weights, lambda, alpha, reg, i);
-        }
-        return weights;
+        LinAlg alg;
+        return alg.subtraction(weights, regDerivTerm(weights, lambda, alpha, reg));
+        // for(int i = 0; i < weights.size(); i++){
+        //     weights[i] -= regDerivTerm(weights, lambda, alpha, reg, i);
+        // }
+        // return weights;
     }
 
     std::vector<std::vector<double>> Reg::regWeights(std::vector<std::vector<double>> weights, double lambda, double alpha, std::string reg){
-        for(int i = 0; i < weights.size(); i++){
-            for(int j = 0; j < weights[i].size(); j++){
-                weights[i][j] -= regDerivTerm(weights, lambda, alpha, reg, i, j);
+        LinAlg alg;
+        return alg.subtraction(weights, regDerivTerm(weights, lambda, alpha, reg));
+        // for(int i = 0; i < weights.size(); i++){
+        //     for(int j = 0; j < weights[i].size(); j++){
+        //         weights[i][j] -= regDerivTerm(weights, lambda, alpha, reg, i, j);
+        //     }
+        // }
+        // return weights;
+    }
+
+    std::vector<double> Reg::regDerivTerm(std::vector<double> weights, double lambda, double alpha, std::string reg){
+        std::vector<double> regDeriv; 
+        regDeriv.resize(weights.size());
+
+        for(int i = 0; i < regDeriv.size(); i++){
+            regDeriv[i] = regDerivTerm(weights, lambda, alpha, reg, i);
+        }
+        return regDeriv;
+    }
+
+    std::vector<std::vector<double>> Reg::regDerivTerm(std::vector<std::vector<double>> weights, double lambda, double alpha, std::string reg){
+        std::vector<std::vector<double>> regDeriv; 
+        regDeriv.resize(weights.size());
+        for(int i = 0; i < regDeriv.size(); i++){
+            regDeriv[i].resize(weights[0].size());
+        }
+
+        for(int i = 0; i < regDeriv.size(); i++){
+            for(int j = 0; j < regDeriv[i].size(); j++){
+                regDeriv[i][j] = regDerivTerm(weights, lambda, alpha, reg, i, j);
             }
         }
-        return weights;
+        return regDeriv;
     }
 
     double Reg::regDerivTerm(std::vector<double> weights, double lambda, double alpha, std::string reg, int j){

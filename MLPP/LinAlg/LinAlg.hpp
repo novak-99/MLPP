@@ -76,6 +76,8 @@ namespace MLPP{
 
         std::vector<std::vector<double>> rotate(std::vector<std::vector<double>> A, double theta, int axis = -1);
 
+        std::vector<std::vector<double>> max(std::vector<std::vector<double>> A, std::vector<std::vector<double>> B);
+
         double max(std::vector<std::vector<double>> A);
 
         double min(std::vector<std::vector<double>> A);
@@ -161,6 +163,8 @@ namespace MLPP{
         std::vector<double> sin(std::vector<double> a);
 
         std::vector<double> cos(std::vector<double> a);
+
+        std::vector<double> max(std::vector<double> a, std::vector<double> b);
 
         double max(std::vector<double> a);
 

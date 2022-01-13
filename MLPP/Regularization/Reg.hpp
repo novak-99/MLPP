@@ -19,6 +19,9 @@ namespace MLPP{
             std::vector<double> regWeights(std::vector<double> weights, double lambda, double alpha, std::string reg);
             std::vector<std::vector<double>> regWeights(std::vector<std::vector<double>> weights, double lambda, double alpha, std::string reg);
 
+            std::vector<double> regDerivTerm(std::vector<double> weights, double lambda, double alpha, std::string reg);
+            std::vector<std::vector<double>> regDerivTerm(std::vector<std::vector<double>>, double lambda, double alpha, std::string reg);
+
         private:
             double regDerivTerm(std::vector<double> weights, double lambda, double alpha, std::string reg, int j);
             double regDerivTerm(std::vector<std::vector<double>> weights, double lambda, double alpha, std::string reg, int i, int j);
