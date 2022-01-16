@@ -148,13 +148,26 @@ The result will be the model's predictions for the entire dataset.
         - Positive Definiteness Checker 
     3. QR Decomposition
 14. ***Numerical Analysis***
+    1. Numerical Diffrentiation 
+        - Univariate Functions 
+        - Multivariate Functions 
+    2. Jacobian Vector Calculator
+    3. Hessian Matrix Calculator
+    4. Function approximator
+        - Constant Approximation
+        - Linear Approximation 
+        - Quadratic Approximation
+        - Cubic Approximation
+    5. Diffrential Equations Solvers 
+        - Euler's Method 
+        - Growth Method
 15. ***Linear Algebra Module***
 16. ***Statistics Module***
 17. ***Data Processing Module***
     1. Setting and Printing Datasets 
     2. Feature Scaling 
     3. Mean Normalization
-S
+    4. One Hot Representation
     5. Reverse One Hot Representation
 17. ***Utilities***
     1. TP, FP, TN, FN function
