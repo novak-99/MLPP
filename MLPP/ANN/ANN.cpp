@@ -58,62 +58,131 @@ namespace MLPP {
 
     void ANN::gradientDescent(double learning_rate, int max_epoch, bool UI){
         class Cost cost; 
-        Activation avn;
         LinAlg alg;
-        Reg regularization;
-
         double cost_prev = 0;
         int epoch = 1;
         forwardPass();
 
+        alg.printMatrix(network[network.size() - 1].weights);
         while(true){
             cost_prev = Cost(y_hat, outputSet);
- 
-            auto costDeriv = outputLayer->costDeriv_map[outputLayer->cost];
-            auto outputAvn = outputLayer->activation_map[outputLayer->activation];
-            outputLayer->delta = alg.hadamard_product((cost.*costDeriv)(y_hat, outputSet), (avn.*outputAvn)(outputLayer->z, 1));
-            std::vector<double> outputWGrad = alg.mat_vec_mult(alg.transpose(outputLayer->input), outputLayer->delta);
 
-            outputLayer->weights = alg.subtraction(outputLayer->weights, alg.scalarMultiply(learning_rate/n, outputWGrad));
-            outputLayer->weights = regularization.regWeights(outputLayer->weights, outputLayer->lambda, outputLayer->alpha, outputLayer->reg);
-            outputLayer->bias -= learning_rate * alg.sum_elements(outputLayer->delta) / n;
+            auto [cumulativeHiddenLayerWGrad, outputWGrad] = computeGradients(y_hat, outputSet);
+            cumulativeHiddenLayerWGrad = alg.scalarMultiply(learning_rate/n, cumulativeHiddenLayerWGrad);
+            outputWGrad = alg.scalarMultiply(learning_rate/n, outputWGrad);
 
-            if(!network.empty()){
-                auto hiddenLayerAvn = network[network.size() - 1].activation_map[network[network.size() - 1].activation];
-                network[network.size() - 1].delta = alg.hadamard_product(alg.outerProduct(outputLayer->delta, outputLayer->weights), (avn.*hiddenLayerAvn)(network[network.size() - 1].z, 1));
-                std::vector<std::vector<double>> hiddenLayerWGrad = alg.matmult(alg.transpose(network[network.size() - 1].input), network[network.size() - 1].delta);
-                
-                network[network.size() - 1].weights = alg.subtraction(network[network.size() - 1].weights, alg.scalarMultiply(learning_rate/n, hiddenLayerWGrad));
-                network[network.size() - 1].weights = regularization.regWeights(network[network.size() - 1].weights, network[network.size() - 1].lambda, network[network.size() - 1].alpha, network[network.size() - 1].reg);
-                network[network.size() - 1].bias = alg.subtractMatrixRows(network[network.size() - 1].bias, alg.scalarMultiply(learning_rate/n, network[network.size() - 1].delta));
+            updateParameters(cumulativeHiddenLayerWGrad, outputWGrad, learning_rate); // subject to change. may want bias to have this matrix too.
 
-                for(int i = network.size() - 2; i >= 0; i--){
-                    auto hiddenLayerAvn = network[i].activation_map[network[i].activation];
-                    network[i].delta = alg.hadamard_product(alg.matmult(network[i + 1].delta, network[i + 1].weights), (avn.*hiddenLayerAvn)(network[i].z, 1));
-                    std::vector<std::vector<double>> hiddenLayerWGrad = alg.matmult(alg.transpose(network[i].input), network[i].delta);
-                    network[i].weights = alg.subtraction(network[i].weights, alg.scalarMultiply(learning_rate/n, hiddenLayerWGrad));
-                    network[i].weights = regularization.regWeights(network[i].weights, network[i].lambda, network[i].alpha, network[i].reg);
-                    network[i].bias = alg.subtractMatrixRows(network[i].bias, alg.scalarMultiply(learning_rate/n, network[i].delta));
-                }
-            }
-            
             forwardPass();
 
-            if(UI) { 
-                Utilities::CostInfo(epoch, cost_prev, Cost(y_hat, outputSet));
-                std::cout << "Layer " << network.size() + 1 << ": " << std::endl;
-                Utilities::UI(outputLayer->weights, outputLayer->bias); 
-                if(!network.empty()){ 
-                    for(int i = network.size() - 1; i >= 0; i--){
-                        std::cout << "Layer " << i + 1 << ": " << std::endl;
-                        Utilities::UI(network[i].weights, network[i].bias); 
-                    }
-                }
-            }
+            if(UI) { ANN::UI(epoch, cost_prev, y_hat, outputSet); }
 
             epoch++;
             if(epoch > max_epoch) { break; }
         }
+    }
+
+    void ANN::MBGD(double learning_rate, int max_epoch, int mini_batch_size, bool UI){
+        class Cost cost; 
+        LinAlg alg;
+
+        double cost_prev = 0;
+        int epoch = 1;
+
+        // Creating the mini-batches
+        int n_mini_batch = n/mini_batch_size;
+        // always evaluate the result 
+        // always do forward pass only ONCE at end.
+        auto [inputMiniBatches, outputMiniBatches] = Utilities::createMiniBatches(inputSet, outputSet, n_mini_batch);
+        while(true){
+            for(int i = 0; i < n_mini_batch; i++){
+                std::vector<double> y_hat = modelSetTest(inputMiniBatches[i]);
+                cost_prev = Cost(y_hat, outputMiniBatches[i]);
+
+                auto [cumulativeHiddenLayerWGrad, outputWGrad] = computeGradients(y_hat, outputMiniBatches[i]);
+                cumulativeHiddenLayerWGrad = alg.scalarMultiply(learning_rate/n, cumulativeHiddenLayerWGrad);
+                outputWGrad = alg.scalarMultiply(learning_rate/n, outputWGrad);
+
+                updateParameters(cumulativeHiddenLayerWGrad, outputWGrad, learning_rate); // subject to change. may want bias to have this matrix too.
+                y_hat = modelSetTest(inputMiniBatches[i]);
+
+                if(UI) { ANN::UI(epoch, cost_prev, y_hat, outputMiniBatches[i]); }
+            }
+            epoch++;
+            if(epoch > max_epoch) { break; }
+        }
+        forwardPass();
+    }
+
+    void ANN::Adam(double learning_rate, int max_epoch, int mini_batch_size, double b1, double b2, double e, bool UI){
+        class Cost cost; 
+        LinAlg alg;
+
+        double cost_prev = 0;
+        int epoch = 1;
+
+        // Creating the mini-batches
+        int n_mini_batch = n/mini_batch_size;
+        // always evaluate the result 
+        // always do forward pass only ONCE at end.
+        auto [inputMiniBatches, outputMiniBatches] = Utilities::createMiniBatches(inputSet, outputSet, n_mini_batch);
+        
+        // Initializing necessary components for Adam. 
+        std::vector<std::vector<std::vector<double>>> m_hidden;
+        std::vector<std::vector<std::vector<double>>> v_hidden;
+
+        std::vector<double> m_output;
+        std::vector<double> v_output;
+        while(true){
+            for(int i = 0; i < n_mini_batch; i++){
+                std::vector<double> y_hat = modelSetTest(inputMiniBatches[i]);
+                cost_prev = Cost(y_hat, outputMiniBatches[i]);
+
+                auto [cumulativeHiddenLayerWGrad, outputWGrad] = computeGradients(y_hat, outputMiniBatches[i]);
+
+                if(!network.empty() && m_hidden.empty() && v_hidden.empty()){ // Initing our tensor
+                    m_hidden.resize(cumulativeHiddenLayerWGrad.size());
+                    v_hidden.resize(cumulativeHiddenLayerWGrad.size());
+                    for(int i = 0; i < cumulativeHiddenLayerWGrad.size(); i++){
+                        m_hidden[i].resize(cumulativeHiddenLayerWGrad[i].size());
+                        v_hidden[i].resize(cumulativeHiddenLayerWGrad[i].size());
+                        for(int j = 0; j < cumulativeHiddenLayerWGrad[i].size(); j++){
+                            m_hidden[i][j].resize(cumulativeHiddenLayerWGrad[i][j].size());
+                            v_hidden[i][j].resize(cumulativeHiddenLayerWGrad[i][j].size());
+                        }
+                    }
+                }
+
+                if(m_output.empty() && v_output.empty()){
+                    m_output.resize(outputWGrad.size());
+                    v_output.resize(outputWGrad.size());
+                }
+
+                m_hidden = alg.addition(alg.scalarMultiply(b1, m_hidden), alg.scalarMultiply(1 - b1, cumulativeHiddenLayerWGrad));
+                v_hidden = alg.addition(alg.scalarMultiply(b2, v_hidden), alg.scalarMultiply(1 - b2, alg.exponentiate(cumulativeHiddenLayerWGrad, 2)));
+
+                m_output = alg.addition(alg.scalarMultiply(b1, m_output), alg.scalarMultiply(1 - b1, outputWGrad));
+                v_output = alg.addition(alg.scalarMultiply(b2, v_output), alg.scalarMultiply(1 - b2, alg.exponentiate(outputWGrad, 2)));
+
+                std::vector<std::vector<std::vector<double>>> m_hidden_hat = alg.scalarMultiply(1/(1 - pow(b1, epoch)), m_hidden);
+                std::vector<std::vector<std::vector<double>>> v_hidden_hat = alg.scalarMultiply(1/(1 - pow(b2, epoch)), v_hidden);
+
+                std::vector<double> m_output_hat = alg.scalarMultiply(1/(1 - pow(b1, epoch)), m_output);
+                std::vector<double> v_output_hat = alg.scalarMultiply(1/(1 - pow(b2, epoch)), v_output);
+
+                std::vector<std::vector<std::vector<double>>> hiddenLayerUpdations = alg.scalarMultiply(learning_rate/n, alg.elementWiseDivision(m_hidden_hat, alg.scalarAdd(e, alg.sqrt(v_hidden_hat))));
+                std::vector<double> outputLayerUpdation = alg.scalarMultiply(learning_rate/n, alg.elementWiseDivision(m_output_hat, alg.scalarAdd(e, alg.sqrt(v_output_hat))));
+
+
+                updateParameters(hiddenLayerUpdations, outputLayerUpdation, learning_rate); // subject to change. may want bias to have this matrix too.
+                y_hat = modelSetTest(inputMiniBatches[i]);
+
+                if(UI) { ANN::UI(epoch, cost_prev, y_hat, outputMiniBatches[i]); }
+            }
+            epoch++;
+            if(epoch > max_epoch) { break; }
+        }
+        forwardPass();
     }
 
     double ANN::score(){
@@ -148,6 +217,7 @@ namespace MLPP {
     }
     
     void ANN::addOutputLayer(std::string activation, std::string loss, std::string weightInit, std::string reg, double lambda, double alpha){
+        LinAlg alg;
         if(!network.empty()){
             outputLayer = new OutputLayer(network[0].n_hidden, activation, loss, network[network.size() - 1].a, weightInit, reg, lambda, alpha);
         }
@@ -186,5 +256,68 @@ namespace MLPP {
         }
         outputLayer->forwardPass();
         y_hat = outputLayer->a;
+    }
+
+    void ANN::updateParameters(std::vector<std::vector<std::vector<double>>> hiddenLayerUpdations, std::vector<double> outputLayerUpdation, double learning_rate){
+        LinAlg alg;
+
+        outputLayer->weights = alg.subtraction(outputLayer->weights, outputLayerUpdation);
+        outputLayer->bias -= learning_rate * alg.sum_elements(outputLayer->delta) / n;
+
+        if(!network.empty()){
+                
+            network[network.size() - 1].weights = alg.subtraction(network[network.size() - 1].weights, hiddenLayerUpdations[0]);
+            network[network.size() - 1].bias = alg.subtractMatrixRows(network[network.size() - 1].bias, alg.scalarMultiply(learning_rate/n, network[network.size() - 1].delta));
+
+            for(int i = network.size() - 2; i >= 0; i--){
+                network[i].weights = alg.subtraction(network[i].weights, hiddenLayerUpdations[(network.size() - 2) - i + 1]);
+                network[i].bias = alg.subtractMatrixRows(network[i].bias, alg.scalarMultiply(learning_rate/n, network[i].delta));
+            }
+        }
+    }
+    
+    std::tuple<std::vector<std::vector<std::vector<double>>>, std::vector<double>> ANN::computeGradients(std::vector<double> y_hat, std::vector<double> outputSet){
+        class Cost cost; 
+        Activation avn;
+        LinAlg alg;
+        Reg regularization;
+
+        std::vector<std::vector<std::vector<double>>> cumulativeHiddenLayerWGrad; // Tensor containing ALL hidden grads. 
+
+        auto costDeriv = outputLayer->costDeriv_map[outputLayer->cost];
+        auto outputAvn = outputLayer->activation_map[outputLayer->activation];
+        outputLayer->delta = alg.hadamard_product((cost.*costDeriv)(y_hat, outputSet), (avn.*outputAvn)(outputLayer->z, 1));
+        std::vector<double> outputWGrad = alg.mat_vec_mult(alg.transpose(outputLayer->input), outputLayer->delta);
+        outputWGrad = alg.addition(outputWGrad, regularization.regDerivTerm(outputLayer->weights, outputLayer->lambda, outputLayer->alpha, outputLayer->reg));
+
+        if(!network.empty()){
+            auto hiddenLayerAvn = network[network.size() - 1].activation_map[network[network.size() - 1].activation];
+            network[network.size() - 1].delta = alg.hadamard_product(alg.outerProduct(outputLayer->delta, outputLayer->weights), (avn.*hiddenLayerAvn)(network[network.size() - 1].z, 1));
+            std::vector<std::vector<double>> hiddenLayerWGrad = alg.matmult(alg.transpose(network[network.size() - 1].input), network[network.size() - 1].delta);
+
+            cumulativeHiddenLayerWGrad.push_back(alg.addition(hiddenLayerWGrad, regularization.regDerivTerm(network[network.size() - 1].weights, network[network.size() - 1].lambda, network[network.size() - 1].alpha, network[network.size() - 1].reg))); // Adding to our cumulative hidden layer grads. Maintain reg terms as well.
+
+            for(int i = network.size() - 2; i >= 0; i--){
+                auto hiddenLayerAvn = network[i].activation_map[network[i].activation];
+                network[i].delta = alg.hadamard_product(alg.matmult(network[i + 1].delta, network[i + 1].weights), (avn.*hiddenLayerAvn)(network[i].z, 1));
+                std::vector<std::vector<double>> hiddenLayerWGrad = alg.matmult(alg.transpose(network[i].input), network[i].delta);
+
+                cumulativeHiddenLayerWGrad.push_back(alg.addition(hiddenLayerWGrad, regularization.regDerivTerm(network[i].weights, network[i].lambda, network[i].alpha, network[i].reg))); // Adding to our cumulative hidden layer grads. Maintain reg terms as well.
+
+            }
+        }
+        return {cumulativeHiddenLayerWGrad, outputWGrad};
+    }
+
+    void ANN::UI(int epoch, double cost_prev, std::vector<double> y_hat, std::vector<double> outputSet){
+        Utilities::CostInfo(epoch, cost_prev, Cost(y_hat, outputSet));
+        std::cout << "Layer " << network.size() + 1 << ": " << std::endl;
+        Utilities::UI(outputLayer->weights, outputLayer->bias); 
+        if(!network.empty()){ 
+            for(int i = network.size() - 1; i >= 0; i--){
+                std::cout << "Layer " << i + 1 << ": " << std::endl;
+                Utilities::UI(network[i].weights, network[i].bias); 
+            }
+        }
     }
 }

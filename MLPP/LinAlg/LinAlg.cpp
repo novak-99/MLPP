@@ -1059,6 +1059,34 @@ namespace MLPP{
         return c;
     }
 
+    std::vector<std::vector<std::vector<double>>> LinAlg::addition(std::vector<std::vector<std::vector<double>>> A, std::vector<std::vector<std::vector<double>>> B){
+        for(int i = 0; i < A.size(); i++){
+            A[i] = addition(A[i], B[i]);
+        }
+        return A;
+    }
+
+    std::vector<std::vector<std::vector<double>>> LinAlg::elementWiseDivision(std::vector<std::vector<std::vector<double>>> A, std::vector<std::vector<std::vector<double>>> B){
+        for(int i = 0; i < A.size(); i++){
+            A[i] = elementWiseDivision(A[i], B[i]);
+        }
+        return A;
+    }
+
+    std::vector<std::vector<std::vector<double>>> LinAlg::sqrt(std::vector<std::vector<std::vector<double>>> A){
+        for(int i = 0; i < A.size(); i++){
+            A[i] = sqrt(A[i]);
+        }
+        return A;
+    }
+
+    std::vector<std::vector<std::vector<double>>> LinAlg::exponentiate(std::vector<std::vector<std::vector<double>>> A, double p){
+        for(int i = 0; i < A.size(); i++){
+            A[i] = exponentiate(A[i], p);
+        }
+        return A;
+    }
+
     std::vector<std::vector<double>> LinAlg::tensor_vec_mult(std::vector<std::vector<std::vector<double>>> A, std::vector<double> b){
         std::vector<std::vector<double>> C;
         C.resize(A.size());
@@ -1087,5 +1115,19 @@ namespace MLPP{
             printMatrix(A[i]);
             if(i != A.size() - 1) { std::cout << std::endl; }
         }
+    }
+
+    std::vector<std::vector<std::vector<double>>> LinAlg::scalarMultiply(double scalar, std::vector<std::vector<std::vector<double>>> A){
+        for(int i = 0; i < A.size(); i++){
+            A[i] = scalarMultiply(scalar, A[i]);
+        }
+        return A; 
+    }
+
+    std::vector<std::vector<std::vector<double>>> LinAlg::scalarAdd(double scalar, std::vector<std::vector<std::vector<double>>> A){
+        for(int i = 0; i < A.size(); i++){
+            A[i] = scalarAdd(scalar, A[i]);
+        }
+        return A;
     }
 }

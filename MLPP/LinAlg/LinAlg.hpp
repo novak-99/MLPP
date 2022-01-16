@@ -190,11 +190,25 @@ namespace MLPP{
         std::vector<double> mat_vec_mult(std::vector<std::vector<double>> A, std::vector<double> b);
 
         // TENSOR FUNCTIONS
+        std::vector<std::vector<std::vector<double>>> addition(std::vector<std::vector<std::vector<double>>> A, std::vector<std::vector<std::vector<double>>> B);
+
+        std::vector<std::vector<std::vector<double>>> elementWiseDivision(std::vector<std::vector<std::vector<double>>> A, std::vector<std::vector<std::vector<double>>> B);
+
+        std::vector<std::vector<std::vector<double>>> sqrt(std::vector<std::vector<std::vector<double>>> A);
+
+        std::vector<std::vector<std::vector<double>>> exponentiate(std::vector<std::vector<std::vector<double>>> A, double p);
+
         std::vector<std::vector<double>> tensor_vec_mult(std::vector<std::vector<std::vector<double>>> A, std::vector<double> b);
 
         std::vector<double> flatten(std::vector<std::vector<std::vector<double>>> A);
         
         void printTensor(std::vector<std::vector<std::vector<double>>> A);
+
+        std::vector<std::vector<std::vector<double>>> scalarMultiply(double scalar, std::vector<std::vector<std::vector<double>>> A);
+
+        std::vector<std::vector<std::vector<double>>> scalarAdd(double scalar, std::vector<std::vector<std::vector<double>>> A);
+
+        std::vector<std::vector<std::vector<double>>> resize(std::vector<std::vector<std::vector<double>>> A, std::vector<std::vector<std::vector<double>>> B);
 
         private:
     };

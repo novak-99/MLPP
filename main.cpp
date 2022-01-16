@@ -212,10 +212,10 @@ int main() {
     // alg.printVector(model.modelSetTest(inputSet));
 
     // // MULIVARIATE LINEAR REGRESSION
-    std::vector<std::vector<double>> inputSet = {{1,2,3,4,5,6,7,8,9,10}, {3,5,9,12,15,18,21,24,27,30}};
-    std::vector<double> outputSet = {2,4,6,8,10,12,14,16,18,20};
+    // std::vector<std::vector<double>> inputSet = {{1,2,3,4,5,6,7,8,9,10}, {3,5,9,12,15,18,21,24,27,30}};
+    // std::vector<double> outputSet = {2,4,6,8,10,12,14,16,18,20};
 
-    LinReg model(alg.transpose(inputSet), outputSet); // Can use Lasso, Ridge, ElasticNet Reg
+    //LinReg model(alg.transpose(inputSet), outputSet); // Can use Lasso, Ridge, ElasticNet Reg
 
     //model.gradientDescent(0.001, 30, 0);
     //model.SGD(0.001, 30000, 1);
@@ -224,10 +224,10 @@ int main() {
 
 
 
-    LinReg adamModel(alg.transpose(inputSet), outputSet);
-    adamModel.Nadam(0.1, 5, 1, 0.9, 0.999, 1e-8, 0); // Change batch size = sgd, bgd
-    alg.printVector(adamModel.modelSetTest(alg.transpose(inputSet)));
-    std::cout << "ACCURACY: " << 100 * adamModel.score() << "%" << std::endl;
+    // LinReg adamModel(alg.transpose(inputSet), outputSet);
+    // adamModel.Nadam(0.1, 5, 1, 0.9, 0.999, 1e-8, 0); // Change batch size = sgd, bgd
+    // alg.printVector(adamModel.modelSetTest(alg.transpose(inputSet)));
+    // std::cout << "ACCURACY: " << 100 * adamModel.score() << "%" << std::endl;
 
 
     // const int TRIAL_NUM = 1000; 
@@ -361,15 +361,16 @@ int main() {
     // Possible Weight Init Methods: Default, Uniform, HeNormal, HeUniform, XavierNormal, XavierUniform
     // Possible Activations: Linear, Sigmoid, Swish, Softplus, Softsign, CLogLog, Ar{Sinh, Cosh, Tanh, Csch, Sech, Coth},  GaussianCDF, GELU, UnitStep
     // Possible Loss Functions: MSE, RMSE, MBE, LogLoss, CrossEntropy, HingeLoss
-    // std::vector<std::vector<double>> inputSet = {{0,0,1,1}, {0,1,0,1}};
-    // std::vector<double> outputSet = {0,1,1,0};
-    // ANN ann(alg.transpose(inputSet), outputSet);
-    // ann.addLayer(10, "RELU", "Default", "Ridge", 0.0001);
-    // ann.addLayer(10, "Sigmoid", "Default");
-    // ann.addOutputLayer("Sigmoid", "LogLoss", "XavierNormal");
-    // ann.gradientDescent(0.1, 80000, 0);
-    // alg.printVector(ann.modelSetTest(alg.transpose(inputSet)));
-    // std::cout << "ACCURACY: " << 100 * ann.score() << "%" << std::endl;
+    std::vector<std::vector<double>> inputSet = {{0,0,1,1}, {0,1,0,1}};
+    std::vector<double> outputSet = {0,1,1,0};
+    ANN ann(alg.transpose(inputSet), outputSet);
+    //ann.addLayer(10, "RELU", "Default", "Ridge", 0.0001);
+    ann.addLayer(10, "RELU", "Default", "XavierNormal");
+    ann.addOutputLayer("Sigmoid", "LogLoss");
+    ann.Adam(0.1, 800, 2, 0.9, 0.999, 1e-8, 1);
+    //ann.MBGD(0.1, 1000, 2, 1);
+    alg.printVector(ann.modelSetTest(alg.transpose(inputSet)));
+    std::cout << "ACCURACY: " << 100 * ann.score() << "%" << std::endl;
 
     // typedef std::vector<std::vector<double>> Matrix;
     // typedef std::vector<double> Vector;
