@@ -105,8 +105,8 @@ The result will be the model's predictions for the entire dataset.
         - AMSGrad Optimizer 
         - 2nd Order Newton-Raphson Optimizer*
         - Normal Equation*
-        
-        * Only available for linear regression
+        <p></p>
+        *Only available for linear regression
     3. Possible Loss Functions
         - MSE
         - RMSE 
