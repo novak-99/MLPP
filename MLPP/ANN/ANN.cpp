@@ -114,7 +114,158 @@ namespace MLPP {
         forwardPass();
     }
 
-    void ANN::Adam(double learning_rate, int max_epoch, int mini_batch_size, double b1, double b2, double e, bool UI){
+    void ANN::Momentum(double learning_rate, int max_epoch, int mini_batch_size, double gamma, bool NAG, bool UI){
+        class Cost cost; 
+        LinAlg alg;
+
+        double cost_prev = 0;
+        int epoch = 1;
+
+        // Creating the mini-batches
+        int n_mini_batch = n/mini_batch_size;
+        // always evaluate the result 
+        // always do forward pass only ONCE at end.
+        auto [inputMiniBatches, outputMiniBatches] = Utilities::createMiniBatches(inputSet, outputSet, n_mini_batch);
+        
+        // Initializing necessary components for Adam. 
+        std::vector<std::vector<std::vector<double>>> v_hidden;
+        
+        std::vector<double> v_output;
+        while(true){
+            for(int i = 0; i < n_mini_batch; i++){
+                std::vector<double> y_hat = modelSetTest(inputMiniBatches[i]);
+                cost_prev = Cost(y_hat, outputMiniBatches[i]);
+                
+                auto [cumulativeHiddenLayerWGrad, outputWGrad] = computeGradients(y_hat, outputMiniBatches[i]);
+
+                if(!network.empty() && v_hidden.empty()){ // Initing our tensor
+                    v_hidden = alg.resize(v_hidden, cumulativeHiddenLayerWGrad);
+                }
+
+                if(v_output.empty()){
+                    v_output.resize(outputWGrad.size());
+                }
+
+                if(NAG){ // "Aposterori" calculation
+                    updateParameters(v_hidden, v_output, 0); // DON'T update bias.
+                }
+
+                v_hidden = alg.addition(alg.scalarMultiply(gamma, v_hidden), alg.scalarMultiply(learning_rate/n, cumulativeHiddenLayerWGrad));
+
+                v_output = alg.addition(alg.scalarMultiply(gamma, v_output), alg.scalarMultiply(learning_rate/n, outputWGrad));
+
+                updateParameters(v_hidden, v_output, learning_rate); // subject to change. may want bias to have this matrix too.
+                y_hat = modelSetTest(inputMiniBatches[i]);
+
+                if(UI) { ANN::UI(epoch, cost_prev, y_hat, outputMiniBatches[i]); }
+            }
+            epoch++;
+            if(epoch > max_epoch) { break; }
+        }
+        forwardPass();
+    }
+
+    void ANN::Adagrad(double learning_rate, int max_epoch, int mini_batch_size, double e, bool UI){
+        class Cost cost; 
+        LinAlg alg;
+
+        double cost_prev = 0;
+        int epoch = 1;
+
+        // Creating the mini-batches
+        int n_mini_batch = n/mini_batch_size;
+        // always evaluate the result 
+        // always do forward pass only ONCE at end.
+        auto [inputMiniBatches, outputMiniBatches] = Utilities::createMiniBatches(inputSet, outputSet, n_mini_batch);
+        
+        // Initializing necessary components for Adam. 
+        std::vector<std::vector<std::vector<double>>> v_hidden;
+        
+        std::vector<double> v_output;
+        while(true){
+            for(int i = 0; i < n_mini_batch; i++){
+                std::vector<double> y_hat = modelSetTest(inputMiniBatches[i]);
+                cost_prev = Cost(y_hat, outputMiniBatches[i]);
+
+                auto [cumulativeHiddenLayerWGrad, outputWGrad] = computeGradients(y_hat, outputMiniBatches[i]);
+
+                if(!network.empty() && v_hidden.empty()){ // Initing our tensor
+                    v_hidden = alg.resize(v_hidden, cumulativeHiddenLayerWGrad);
+                }
+
+                if(v_output.empty()){
+                    v_output.resize(outputWGrad.size());
+                }
+
+                v_hidden = alg.addition(v_hidden, alg.exponentiate(cumulativeHiddenLayerWGrad, 2));
+
+                v_output = alg.addition(v_output, alg.exponentiate(outputWGrad, 2));
+
+                std::vector<std::vector<std::vector<double>>> hiddenLayerUpdations = alg.scalarMultiply(learning_rate/n, alg.elementWiseDivision(cumulativeHiddenLayerWGrad, alg.scalarAdd(e, alg.sqrt(v_hidden))));
+                std::vector<double> outputLayerUpdation = alg.scalarMultiply(learning_rate/n, alg.elementWiseDivision(outputWGrad, alg.scalarAdd(e, alg.sqrt(v_output))));
+
+                updateParameters(hiddenLayerUpdations, outputLayerUpdation, learning_rate); // subject to change. may want bias to have this matrix too.
+                y_hat = modelSetTest(inputMiniBatches[i]);
+
+                if(UI) { ANN::UI(epoch, cost_prev, y_hat, outputMiniBatches[i]); }
+            }
+            epoch++;
+            if(epoch > max_epoch) { break; }
+        }
+        forwardPass();
+    }
+
+    void ANN::Adadelta(double learning_rate, int max_epoch, int mini_batch_size, double b1, double e, bool UI){
+        class Cost cost; 
+        LinAlg alg;
+
+        double cost_prev = 0;
+        int epoch = 1;
+
+        // Creating the mini-batches
+        int n_mini_batch = n/mini_batch_size;
+        // always evaluate the result 
+        // always do forward pass only ONCE at end.
+        auto [inputMiniBatches, outputMiniBatches] = Utilities::createMiniBatches(inputSet, outputSet, n_mini_batch);
+        
+        // Initializing necessary components for Adam. 
+        std::vector<std::vector<std::vector<double>>> v_hidden;
+        
+        std::vector<double> v_output;
+        while(true){
+            for(int i = 0; i < n_mini_batch; i++){
+                std::vector<double> y_hat = modelSetTest(inputMiniBatches[i]);
+                cost_prev = Cost(y_hat, outputMiniBatches[i]);
+
+                auto [cumulativeHiddenLayerWGrad, outputWGrad] = computeGradients(y_hat, outputMiniBatches[i]);
+
+                if(!network.empty() && v_hidden.empty()){ // Initing our tensor
+                    v_hidden = alg.resize(v_hidden, cumulativeHiddenLayerWGrad);
+                }
+
+                if(v_output.empty()){
+                    v_output.resize(outputWGrad.size());
+                }
+
+                v_hidden = alg.addition(alg.scalarMultiply(1 - b1, v_hidden), alg.scalarMultiply(b1, alg.exponentiate(cumulativeHiddenLayerWGrad, 2)));
+
+                v_output = alg.addition(v_output, alg.exponentiate(outputWGrad, 2));
+
+                std::vector<std::vector<std::vector<double>>> hiddenLayerUpdations = alg.scalarMultiply(learning_rate/n, alg.elementWiseDivision(cumulativeHiddenLayerWGrad, alg.scalarAdd(e, alg.sqrt(v_hidden))));
+                std::vector<double> outputLayerUpdation = alg.scalarMultiply(learning_rate/n, alg.elementWiseDivision(outputWGrad, alg.scalarAdd(e, alg.sqrt(v_output))));
+
+                updateParameters(hiddenLayerUpdations, outputLayerUpdation, learning_rate); // subject to change. may want bias to have this matrix too.
+                y_hat = modelSetTest(inputMiniBatches[i]);
+
+                if(UI) { ANN::UI(epoch, cost_prev, y_hat, outputMiniBatches[i]); }
+            }
+            epoch++;
+            if(epoch > max_epoch) { break; }
+        }
+        forwardPass();
+    }
+
+void ANN::Adam(double learning_rate, int max_epoch, int mini_batch_size, double b1, double b2, double e, bool UI){
         class Cost cost; 
         LinAlg alg;
 
@@ -139,18 +290,9 @@ namespace MLPP {
                 cost_prev = Cost(y_hat, outputMiniBatches[i]);
 
                 auto [cumulativeHiddenLayerWGrad, outputWGrad] = computeGradients(y_hat, outputMiniBatches[i]);
-
                 if(!network.empty() && m_hidden.empty() && v_hidden.empty()){ // Initing our tensor
-                    m_hidden.resize(cumulativeHiddenLayerWGrad.size());
-                    v_hidden.resize(cumulativeHiddenLayerWGrad.size());
-                    for(int i = 0; i < cumulativeHiddenLayerWGrad.size(); i++){
-                        m_hidden[i].resize(cumulativeHiddenLayerWGrad[i].size());
-                        v_hidden[i].resize(cumulativeHiddenLayerWGrad[i].size());
-                        for(int j = 0; j < cumulativeHiddenLayerWGrad[i].size(); j++){
-                            m_hidden[i][j].resize(cumulativeHiddenLayerWGrad[i][j].size());
-                            v_hidden[i][j].resize(cumulativeHiddenLayerWGrad[i][j].size());
-                        }
-                    }
+                    m_hidden = alg.resize(m_hidden, cumulativeHiddenLayerWGrad);
+                    v_hidden = alg.resize(v_hidden, cumulativeHiddenLayerWGrad);
                 }
 
                 if(m_output.empty() && v_output.empty()){
@@ -172,6 +314,198 @@ namespace MLPP {
 
                 std::vector<std::vector<std::vector<double>>> hiddenLayerUpdations = alg.scalarMultiply(learning_rate/n, alg.elementWiseDivision(m_hidden_hat, alg.scalarAdd(e, alg.sqrt(v_hidden_hat))));
                 std::vector<double> outputLayerUpdation = alg.scalarMultiply(learning_rate/n, alg.elementWiseDivision(m_output_hat, alg.scalarAdd(e, alg.sqrt(v_output_hat))));
+
+
+                updateParameters(hiddenLayerUpdations, outputLayerUpdation, learning_rate); // subject to change. may want bias to have this matrix too.
+                y_hat = modelSetTest(inputMiniBatches[i]);
+
+                if(UI) { ANN::UI(epoch, cost_prev, y_hat, outputMiniBatches[i]); }
+            }
+            epoch++;
+            if(epoch > max_epoch) { break; }
+        }
+        forwardPass();
+    }
+
+    void ANN::Adamax(double learning_rate, int max_epoch, int mini_batch_size, double b1, double b2, double e, bool UI){
+        class Cost cost; 
+        LinAlg alg;
+
+        double cost_prev = 0;
+        int epoch = 1;
+
+        // Creating the mini-batches
+        int n_mini_batch = n/mini_batch_size;
+        // always evaluate the result 
+        // always do forward pass only ONCE at end.
+        auto [inputMiniBatches, outputMiniBatches] = Utilities::createMiniBatches(inputSet, outputSet, n_mini_batch);
+        
+        // Initializing necessary components for Adam. 
+        std::vector<std::vector<std::vector<double>>> m_hidden;
+        std::vector<std::vector<std::vector<double>>> u_hidden;
+
+        std::vector<double> m_output;
+        std::vector<double> u_output;
+        while(true){
+            for(int i = 0; i < n_mini_batch; i++){
+                std::vector<double> y_hat = modelSetTest(inputMiniBatches[i]);
+                cost_prev = Cost(y_hat, outputMiniBatches[i]);
+
+                auto [cumulativeHiddenLayerWGrad, outputWGrad] = computeGradients(y_hat, outputMiniBatches[i]);
+                if(!network.empty() && m_hidden.empty() && u_hidden.empty()){ // Initing our tensor
+                    m_hidden = alg.resize(m_hidden, cumulativeHiddenLayerWGrad);
+                    u_hidden = alg.resize(u_hidden, cumulativeHiddenLayerWGrad);
+                }
+
+                if(m_output.empty() && u_output.empty()){
+                    m_output.resize(outputWGrad.size());
+                    u_output.resize(outputWGrad.size());
+                }
+
+                m_hidden = alg.addition(alg.scalarMultiply(b1, m_hidden), alg.scalarMultiply(1 - b1, cumulativeHiddenLayerWGrad));
+                u_hidden = alg.max(alg.scalarMultiply(b2, u_hidden), alg.abs(cumulativeHiddenLayerWGrad));
+
+                m_output = alg.addition(alg.scalarMultiply(b1, m_output), alg.scalarMultiply(1 - b1, outputWGrad));
+                u_output = alg.max(alg.scalarMultiply(b2, u_output), alg.abs(outputWGrad));
+
+                std::vector<std::vector<std::vector<double>>> m_hidden_hat = alg.scalarMultiply(1/(1 - pow(b1, epoch)), m_hidden);
+
+                std::vector<double> m_output_hat = alg.scalarMultiply(1/(1 - pow(b1, epoch)), m_output);
+
+                std::vector<std::vector<std::vector<double>>> hiddenLayerUpdations = alg.scalarMultiply(learning_rate/n, alg.elementWiseDivision(m_hidden_hat, alg.scalarAdd(e, u_hidden)));
+                std::vector<double> outputLayerUpdation = alg.scalarMultiply(learning_rate/n, alg.elementWiseDivision(m_output_hat, alg.scalarAdd(e, u_output)));
+
+
+                updateParameters(hiddenLayerUpdations, outputLayerUpdation, learning_rate); // subject to change. may want bias to have this matrix too.
+                y_hat = modelSetTest(inputMiniBatches[i]);
+
+                if(UI) { ANN::UI(epoch, cost_prev, y_hat, outputMiniBatches[i]); }
+            }
+            epoch++;
+            if(epoch > max_epoch) { break; }
+        }
+        forwardPass();
+    }
+    
+    void ANN::Nadam(double learning_rate, int max_epoch, int mini_batch_size, double b1, double b2, double e, bool UI){
+        class Cost cost; 
+        LinAlg alg;
+
+        double cost_prev = 0;
+        int epoch = 1;
+
+        // Creating the mini-batches
+        int n_mini_batch = n/mini_batch_size;
+        // always evaluate the result 
+        // always do forward pass only ONCE at end.
+        auto [inputMiniBatches, outputMiniBatches] = Utilities::createMiniBatches(inputSet, outputSet, n_mini_batch);
+        
+        // Initializing necessary components for Adam. 
+        std::vector<std::vector<std::vector<double>>> m_hidden;
+        std::vector<std::vector<std::vector<double>>> v_hidden;
+        std::vector<std::vector<std::vector<double>>> m_hidden_final;
+
+        std::vector<double> m_output;
+        std::vector<double> v_output;
+        while(true){
+            for(int i = 0; i < n_mini_batch; i++){
+                std::vector<double> y_hat = modelSetTest(inputMiniBatches[i]);
+                cost_prev = Cost(y_hat, outputMiniBatches[i]);
+
+                auto [cumulativeHiddenLayerWGrad, outputWGrad] = computeGradients(y_hat, outputMiniBatches[i]);
+                if(!network.empty() && m_hidden.empty() && v_hidden.empty()){ // Initing our tensor
+                    m_hidden = alg.resize(m_hidden, cumulativeHiddenLayerWGrad);
+                    v_hidden = alg.resize(v_hidden, cumulativeHiddenLayerWGrad);
+                }
+
+                if(m_output.empty() && v_output.empty()){
+                    m_output.resize(outputWGrad.size());
+                    v_output.resize(outputWGrad.size());
+                }
+
+                m_hidden = alg.addition(alg.scalarMultiply(b1, m_hidden), alg.scalarMultiply(1 - b1, cumulativeHiddenLayerWGrad));
+                v_hidden = alg.addition(alg.scalarMultiply(b2, v_hidden), alg.scalarMultiply(1 - b2, alg.exponentiate(cumulativeHiddenLayerWGrad, 2)));
+                
+
+                m_output = alg.addition(alg.scalarMultiply(b1, m_output), alg.scalarMultiply(1 - b1, outputWGrad));
+                v_output = alg.addition(alg.scalarMultiply(b2, v_output), alg.scalarMultiply(1 - b2, alg.exponentiate(outputWGrad, 2)));
+
+                std::vector<std::vector<std::vector<double>>> m_hidden_hat = alg.scalarMultiply(1/(1 - pow(b1, epoch)), m_hidden);
+                std::vector<std::vector<std::vector<double>>> v_hidden_hat = alg.scalarMultiply(1/(1 - pow(b2, epoch)), v_hidden);
+                std::vector<std::vector<std::vector<double>>> m_hidden_final = alg.addition(alg.scalarMultiply(b1, m_hidden_hat), alg.scalarMultiply((1 - b1)/(1 - pow(b1, epoch)), cumulativeHiddenLayerWGrad));
+
+                std::vector<double> m_output_hat = alg.scalarMultiply(1/(1 - pow(b1, epoch)), m_output);
+                std::vector<double> v_output_hat = alg.scalarMultiply(1/(1 - pow(b2, epoch)), v_output);
+                std::vector<double> m_output_final = alg.addition(alg.scalarMultiply(b1, m_output_hat), alg.scalarMultiply((1 - b1)/(1 - pow(b1, epoch)), outputWGrad));
+
+                std::vector<std::vector<std::vector<double>>> hiddenLayerUpdations = alg.scalarMultiply(learning_rate/n, alg.elementWiseDivision(m_hidden_final, alg.scalarAdd(e, alg.sqrt(v_hidden_hat))));
+                std::vector<double> outputLayerUpdation = alg.scalarMultiply(learning_rate/n, alg.elementWiseDivision(m_output_final, alg.scalarAdd(e, alg.sqrt(v_output_hat))));
+
+
+                updateParameters(hiddenLayerUpdations, outputLayerUpdation, learning_rate); // subject to change. may want bias to have this matrix too.
+                y_hat = modelSetTest(inputMiniBatches[i]);
+
+                if(UI) { ANN::UI(epoch, cost_prev, y_hat, outputMiniBatches[i]); }
+            }
+            epoch++;
+            if(epoch > max_epoch) { break; }
+        }
+        forwardPass();
+    }
+
+    void ANN::AMSGrad(double learning_rate, int max_epoch, int mini_batch_size, double b1, double b2, double e, bool UI){
+        class Cost cost; 
+        LinAlg alg;
+
+        double cost_prev = 0;
+        int epoch = 1;
+
+        // Creating the mini-batches
+        int n_mini_batch = n/mini_batch_size;
+        // always evaluate the result 
+        // always do forward pass only ONCE at end.
+        auto [inputMiniBatches, outputMiniBatches] = Utilities::createMiniBatches(inputSet, outputSet, n_mini_batch);
+        
+        // Initializing necessary components for Adam. 
+        std::vector<std::vector<std::vector<double>>> m_hidden;
+        std::vector<std::vector<std::vector<double>>> v_hidden;
+
+        std::vector<std::vector<std::vector<double>>> v_hidden_hat;
+
+        std::vector<double> m_output;
+        std::vector<double> v_output;
+
+        std::vector<double> v_output_hat;
+        while(true){
+            for(int i = 0; i < n_mini_batch; i++){
+                std::vector<double> y_hat = modelSetTest(inputMiniBatches[i]);
+                cost_prev = Cost(y_hat, outputMiniBatches[i]);
+
+                auto [cumulativeHiddenLayerWGrad, outputWGrad] = computeGradients(y_hat, outputMiniBatches[i]);
+                if(!network.empty() && m_hidden.empty() && v_hidden.empty()){ // Initing our tensor
+                    m_hidden = alg.resize(m_hidden, cumulativeHiddenLayerWGrad);
+                    v_hidden = alg.resize(v_hidden, cumulativeHiddenLayerWGrad);
+                    v_hidden_hat = alg.resize(v_hidden_hat, cumulativeHiddenLayerWGrad);
+                }
+
+                if(m_output.empty() && v_output.empty()){
+                    m_output.resize(outputWGrad.size());
+                    v_output.resize(outputWGrad.size());
+                    v_output_hat.resize(outputWGrad.size());
+                }
+
+                m_hidden = alg.addition(alg.scalarMultiply(b1, m_hidden), alg.scalarMultiply(1 - b1, cumulativeHiddenLayerWGrad));
+                v_hidden = alg.addition(alg.scalarMultiply(b2, v_hidden), alg.scalarMultiply(1 - b2, alg.exponentiate(cumulativeHiddenLayerWGrad, 2)));
+
+                m_output = alg.addition(alg.scalarMultiply(b1, m_output), alg.scalarMultiply(1 - b1, outputWGrad));
+                v_output = alg.addition(alg.scalarMultiply(b2, v_output), alg.scalarMultiply(1 - b2, alg.exponentiate(outputWGrad, 2)));
+
+                v_hidden_hat = alg.max(v_hidden_hat, v_hidden);
+
+                v_output_hat = alg.max(v_output_hat, v_output);
+
+                std::vector<std::vector<std::vector<double>>> hiddenLayerUpdations = alg.scalarMultiply(learning_rate/n, alg.elementWiseDivision(m_hidden, alg.scalarAdd(e, alg.sqrt(v_hidden_hat))));
+                std::vector<double> outputLayerUpdation = alg.scalarMultiply(learning_rate/n, alg.elementWiseDivision(m_output, alg.scalarAdd(e, alg.sqrt(v_output_hat))));
 
 
                 updateParameters(hiddenLayerUpdations, outputLayerUpdation, learning_rate); // subject to change. may want bias to have this matrix too.

@@ -91,7 +91,23 @@ The result will be the model's predictions for the entire dataset.
         - Arcsch
         - Arsech
         - Arcoth
-    2. Possible Loss Functions
+    2. Possible Optimization Algorithms
+        - Batch Gradient Descent
+        - Mini-Batch Gradient Descent 
+        - Stochastic Gradient Descent 
+        - Gradient Descent with Momentum
+        - Nesterov Accelerated Gradient
+        - Adagrad Optimizer 
+        - Adadelta Optimizer 
+        - Adam Optimizer 
+        - Adamax Optimizer 
+        - Nadam Optimizer 
+        - AMSGrad Optimizer 
+        - 2nd Order Newton-Raphson Optimizer*
+        - Normal Equation*
+        
+        * Only available for linear regression
+    3. Possible Loss Functions
         - MSE
         - RMSE 
         - MAE
@@ -99,11 +115,11 @@ The result will be the model's predictions for the entire dataset.
         - Log Loss
         - Cross Entropy
         - Hinge Loss
-    3. Possible Regularization Methods
+    4. Possible Regularization Methods
         - Lasso
         - Ridge
         - ElasticNet
-    4. Possible Weight Initialization Methods
+    5. Possible Weight Initialization Methods
         - Uniform 
         - Xavier Normal
         - Xavier Uniform

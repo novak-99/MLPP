@@ -210,6 +210,12 @@ namespace MLPP{
 
         std::vector<std::vector<std::vector<double>>> resize(std::vector<std::vector<std::vector<double>>> A, std::vector<std::vector<std::vector<double>>> B);
 
+        std::vector<std::vector<std::vector<double>>> hadamard_product(std::vector<std::vector<std::vector<double>>> A, std::vector<std::vector<std::vector<double>>> B);
+
+        std::vector<std::vector<std::vector<double>>> max(std::vector<std::vector<std::vector<double>>> A, std::vector<std::vector<std::vector<double>>> B);
+
+        std::vector<std::vector<std::vector<double>>> abs(std::vector<std::vector<std::vector<double>>> A);
+
         private:
     };
 

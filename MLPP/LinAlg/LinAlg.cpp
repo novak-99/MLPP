@@ -1130,4 +1130,29 @@ namespace MLPP{
         }
         return A;
     }
+
+    std::vector<std::vector<std::vector<double>>> LinAlg::resize(std::vector<std::vector<std::vector<double>>> A, std::vector<std::vector<std::vector<double>>> B){
+        A.resize(B.size());
+        for(int i = 0; i < B.size(); i++){
+            A[i].resize(B[i].size());
+            for(int j = 0; j < B[i].size(); j++){
+                A[i][j].resize(B[i][j].size());
+            }
+        }
+        return A; 
+    }
+
+    std::vector<std::vector<std::vector<double>>> LinAlg::max(std::vector<std::vector<std::vector<double>>> A, std::vector<std::vector<std::vector<double>>> B){
+        for(int i = 0; i < A.size(); i++){
+            A[i] = max(A[i], B[i]);
+        }
+        return A;
+    }
+
+    std::vector<std::vector<std::vector<double>>> LinAlg::abs(std::vector<std::vector<std::vector<double>>> A){
+        for(int i = 0; i < A.size(); i++){
+            A[i] = abs(A[i]);
+        }
+        return A;
+    }
 }

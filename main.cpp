@@ -364,10 +364,12 @@ int main() {
     std::vector<std::vector<double>> inputSet = {{0,0,1,1}, {0,1,0,1}};
     std::vector<double> outputSet = {0,1,1,0};
     ANN ann(alg.transpose(inputSet), outputSet);
-    //ann.addLayer(10, "RELU", "Default", "Ridge", 0.0001);
-    ann.addLayer(10, "RELU", "Default", "XavierNormal");
+    //ann.addLayer(10, "RELU");
+    ann.addLayer(10, "Sigmoid");
     ann.addOutputLayer("Sigmoid", "LogLoss");
-    ann.Adam(0.1, 800, 2, 0.9, 0.999, 1e-8, 1);
+    //ann.AMSGrad(0.1, 10000, 1, 0.9, 0.999, 0.000001, 1);
+    //ann.Adadelta(1, 1000, 2, 0.9, 0.000001, 1);
+    ann.Momentum(0.1, 8000, 2, 0.9, true, 1);
     //ann.MBGD(0.1, 1000, 2, 1);
     alg.printVector(ann.modelSetTest(alg.transpose(inputSet)));
     std::cout << "ACCURACY: " << 100 * ann.score() << "%" << std::endl;
