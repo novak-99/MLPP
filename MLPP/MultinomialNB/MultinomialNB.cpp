@@ -9,6 +9,7 @@
 #include "LinAlg/LinAlg.hpp"
 
 #include <iostream>
+#include <algorithm>
 #include <random>
 
 namespace MLPP{

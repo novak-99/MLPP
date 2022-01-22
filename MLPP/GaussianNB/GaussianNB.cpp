@@ -10,6 +10,7 @@
 #include "Utilities/Utilities.hpp"
 
 #include <iostream>
+#include <algorithm>
 #include <random>
 
 namespace MLPP{

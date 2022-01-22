@@ -8,6 +8,7 @@
 #include "LinAlg/LinAlg.hpp"
 #include "Activation.hpp"
 #include <cmath>
+#include <algorithm>
 
 namespace MLPP{
 
@@ -80,7 +81,7 @@ namespace MLPP{
     std::vector<double> Activation::adjSoftmax(std::vector<double> z){
         LinAlg alg;
         std::vector<double> a;
-        double C = -*max_element(z.begin(), z.end());
+        double C = -*std::max_element(z.begin(), z.end());
         z = alg.scalarAdd(C, z);
 
         return softmax(z);
