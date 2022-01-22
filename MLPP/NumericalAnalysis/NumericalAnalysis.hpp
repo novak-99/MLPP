@@ -7,6 +7,7 @@
 #define NumericalAnalysis_hpp
 
 #include <vector>
+#include <string>
 
 namespace MLPP{
     class NumericalAnalysis{

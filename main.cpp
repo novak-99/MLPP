@@ -148,13 +148,14 @@ int main() {
     // std::vector<std::vector<double>> inputSet = {{0,0,1,1}, {0,1,0,1}};
     // std::vector<double> outputSet = {0,1,1,0};
 
-    // // STATISTICS
-    // std::vector<double> x = {1,2,3,4,5,6,7,8,9,10};
-    // std::vector<double> y = {10,9,8,7,6,5,4,3,2,1};
-    // std::vector<double> w = {0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1};
+    // STATISTICS
+    std::vector<double> x = {1,2,3,4,5,6,5,8,9,10,1};
+    std::vector<double> y = {10,9,8,7,6,5,4,3,2,1};
+    std::vector<double> w = {0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1};
 
     // std::cout << "Arithmetic Mean: " << stat.mean(x) << std::endl;
-    // std::cout << "Median: " << stat.median(x) << std::endl;
+    std::cout << "Median: " << stat.median(x) << std::endl;
+    alg.printVector(x);
     // alg.printVector(stat.mode(x));
     // std::cout << "Range: " << stat.range(x) << std::endl;
     // std::cout << "Midrange: " << stat.midrange(x) << std::endl;
@@ -361,18 +362,18 @@ int main() {
     // Possible Weight Init Methods: Default, Uniform, HeNormal, HeUniform, XavierNormal, XavierUniform
     // Possible Activations: Linear, Sigmoid, Swish, Softplus, Softsign, CLogLog, Ar{Sinh, Cosh, Tanh, Csch, Sech, Coth},  GaussianCDF, GELU, UnitStep
     // Possible Loss Functions: MSE, RMSE, MBE, LogLoss, CrossEntropy, HingeLoss
-    std::vector<std::vector<double>> inputSet = {{0,0,1,1}, {0,1,0,1}};
-    std::vector<double> outputSet = {0,1,1,0};
-    ANN ann(alg.transpose(inputSet), outputSet);
-    //ann.addLayer(10, "RELU");
-    ann.addLayer(10, "Sigmoid");
-    ann.addOutputLayer("Sigmoid", "LogLoss");
-    //ann.AMSGrad(0.1, 10000, 1, 0.9, 0.999, 0.000001, 1);
-    //ann.Adadelta(1, 1000, 2, 0.9, 0.000001, 1);
-    ann.Momentum(0.1, 8000, 2, 0.9, true, 1);
-    //ann.MBGD(0.1, 1000, 2, 1);
-    alg.printVector(ann.modelSetTest(alg.transpose(inputSet)));
-    std::cout << "ACCURACY: " << 100 * ann.score() << "%" << std::endl;
+    // std::vector<std::vector<double>> inputSet = {{0,0,1,1}, {0,1,0,1}};
+    // std::vector<double> outputSet = {0,1,1,0};
+    // ANN ann(alg.transpose(inputSet), outputSet);
+    // //ann.addLayer(10, "RELU");
+    // ann.addLayer(10, "Sigmoid");
+    // ann.addOutputLayer("Sigmoid", "LogLoss");
+    // //ann.AMSGrad(0.1, 10000, 1, 0.9, 0.999, 0.000001, 1);
+    // //ann.Adadelta(1, 1000, 2, 0.9, 0.000001, 1);
+    // ann.Momentum(0.1, 8000, 2, 0.9, true, 1);
+    // //ann.MBGD(0.1, 1000, 2, 1);
+    // alg.printVector(ann.modelSetTest(alg.transpose(inputSet)));
+    // std::cout << "ACCURACY: " << 100 * ann.score() << "%" << std::endl;
 
     // typedef std::vector<std::vector<double>> Matrix;
     // typedef std::vector<double> Vector;

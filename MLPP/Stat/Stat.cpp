@@ -31,7 +31,6 @@ namespace MLPP{
 
     double Stat::median(std::vector<double> x){
         double center = double(x.size())/double(2); 
-        std::vector<double> original_vec = x;
         sort(x.begin(), x.end());
         if(x.size() % 2 == 0){
             return mean({x[center - 1], x[center]});
@@ -39,7 +38,6 @@ namespace MLPP{
         else{
             return x[center - 1 + 0.5];
         }
-        x = original_vec;
     }
 
     std::vector<double> Stat::mode(std::vector<double> x){
