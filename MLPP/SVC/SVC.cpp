@@ -80,9 +80,9 @@ namespace MLPP{
 
             double y_hat = Evaluate(inputSet[outputIndex]);
             double z = propagate(inputSet[outputIndex]);
-            cost_prev = Cost(std::vector<double>({z}), std::vector<double>({outputSet[outputIndex]}), weights, C);
+            cost_prev = Cost({z}, {outputSet[outputIndex]}, weights, C);
 
-            double costDeriv = cost.HingeLossDeriv({z}, {outputSet[outputIndex]}, C)[0];
+            double costDeriv = cost.HingeLossDeriv(std::vector<double>({z}), std::vector<double>({outputSet[outputIndex]}), C)[0]; // Explicit conversion to avoid ambiguity with overloaded function. Error occured on Ubuntu.
 
             // Weight Updation
             weights = alg.subtraction(weights, alg.scalarMultiply(learning_rate * costDeriv, inputSet[outputIndex]));
