@@ -8,9 +8,18 @@ Machine learning is a vast and exiciting discipline, garnering attention from sp
 </p>
 
 ## Installation
-Begin by downloading the header files for the ML++ library. You can do this by cloning the repository and extracting the MLPP directory within it, as well as the "MLPP.so" file.
+Begin by downloading the header files for the ML++ library. You can do this by cloning the repository and extracting the MLPP directory within it:
 ```
 git clone https://github.com/novak-99/MLPP
+```
+Next, execute the "./buildSO.sh" shell script. If you lack the necessary permissions, be sure to change those, too:
+```
+chmod +x buildSO.sh
+./buildSO.sh
+```
+To allow your projects to access the ML++ library, move the shared object file to the /usr/local/lib directory:
+```
+sudo mv SharedLib/MLPP.so /usr/local/lib
 ```
 After doing so, maintain the ML++ source files in a local directory and include them in this fashion: 
 ```cpp
@@ -20,9 +29,9 @@ int main(){
 ...
 }
 ```
-Finally, after you have concluded creating a project, compile it using g++. Be sure to store the MLPP.so file in a local directory.
+Finally, after you have concluded creating a project, compile it using g++:
 ```
-g++ main.cpp MLPP.so --std=c++17
+g++ main.cpp /usr/local/lib/MLPP.so --std=c++17
 ```
 
 ## Usage
