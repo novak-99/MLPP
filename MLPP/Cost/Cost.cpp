@@ -157,7 +157,7 @@ namespace MLPP{
         double sum = 0;
         double eps = 1e-8;
         for(int i = 0; i < y_hat.size(); i++){
-            sum += -(y[i] * log(y_hat[i] + eps) + (1 - y[i]) * log(1 - y_hat[i] + eps));
+            sum += -(y[i] * std::log(y_hat[i] + eps) + (1 - y[i]) * std::log(1 - y_hat[i] + eps));
         }
         
         return sum / y_hat.size();
@@ -168,7 +168,7 @@ namespace MLPP{
         double eps = 1e-8;
         for(int i = 0; i < y_hat.size(); i++){
             for(int j = 0; j < y_hat[i].size(); j++){
-                sum += -(y[i][j] * log(y_hat[i][j] + eps) + (1 - y[i][j]) * log(1 - y_hat[i][j] + eps));
+                sum += -(y[i][j] * std::log(y_hat[i][j] + eps) + (1 - y[i][j]) * std::log(1 - y_hat[i][j] + eps));
             }
         }
         
@@ -188,7 +188,7 @@ namespace MLPP{
     double Cost::CrossEntropy(std::vector<double> y_hat, std::vector<double> y){
         double sum = 0;
         for(int i = 0; i < y_hat.size(); i++){
-            sum += y[i] * log(y_hat[i]);
+            sum += y[i] * std::log(y_hat[i]);
         }
         
         return -1 * sum;
@@ -198,7 +198,7 @@ namespace MLPP{
         double sum = 0;
         for(int i = 0; i < y_hat.size(); i++){
             for(int j = 0; j < y_hat[i].size(); j++){
-                sum += y[i][j] * log(y_hat[i][j]);
+                sum += y[i][j] * std::log(y_hat[i][j]);
             }
         }
         

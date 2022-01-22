@@ -34,7 +34,7 @@ namespace MLPP{
 
         std::vector<std::vector<double>> scalarAdd(double scalar, std::vector<std::vector<double>> A);
 
-        std::vector<std::vector<double>> log(std::vector<std::vector<double>> A);
+        std::vector<std::vector<double>> std::log(std::vector<std::vector<double>> A);
 
         std::vector<std::vector<double>> log10(std::vector<std::vector<double>> A);
 
@@ -132,7 +132,7 @@ namespace MLPP{
 
         std::vector<double> subtractMatrixRows(std::vector<double> a, std::vector<std::vector<double>> B);
 
-        std::vector<double> log(std::vector<double> a);
+        std::vector<double> std::log(std::vector<double> a);
 
         std::vector<double> log10(std::vector<double> a);
 

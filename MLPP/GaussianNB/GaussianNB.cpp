@@ -36,7 +36,7 @@ namespace MLPP{
         double score[class_num];
         double y_hat_i = 1;
         for(int i = class_num - 1; i >= 0; i--){
-            y_hat_i += log(priors[i] * (1 / sqrt(2 * M_PI * sigma[i] * sigma[i])) * exp(-(x[i] * mu[i]) * (x[i] * mu[i]) / (2 * sigma[i] * sigma[i])));
+            y_hat_i += std::log(priors[i] * (1 / sqrt(2 * M_PI * sigma[i] * sigma[i])) * exp(-(x[i] * mu[i]) * (x[i] * mu[i]) / (2 * sigma[i] * sigma[i])));
             score[i] = exp(y_hat_i);
         }
         return std::distance(score, std::max_element(score, score + sizeof(score) / sizeof(double)));
@@ -79,7 +79,7 @@ namespace MLPP{
             double y_hat_i = 1;
             for(int j = class_num - 1; j >= 0; j--){
                 for(int k = 0; k < inputSet[i].size(); k++){
-                    y_hat_i += log(priors[j] * (1 / sqrt(2 * M_PI * sigma[j] * sigma[j])) * exp(-(inputSet[i][k] * mu[j]) * (inputSet[i][k] * mu[j]) / (2 * sigma[j] * sigma[j])));
+                    y_hat_i += std::log(priors[j] * (1 / sqrt(2 * M_PI * sigma[j] * sigma[j])) * exp(-(inputSet[i][k] * mu[j]) * (inputSet[i][k] * mu[j]) / (2 * sigma[j] * sigma[j])));
                 }
                 score[j] = exp(y_hat_i);
                 std::cout << score[j] << std::endl;

@@ -385,7 +385,7 @@ namespace MLPP{
         IDF.resize(frequency.size());
 
         for(int i = 0; i < IDF.size(); i++){
-            IDF[i] = log((double)segmented_sentences.size() / (double)frequency[i]);
+            IDF[i] = std::log((double)segmented_sentences.size() / (double)frequency[i]);
         }
 
         std::vector<std::vector<double>> TFIDF;

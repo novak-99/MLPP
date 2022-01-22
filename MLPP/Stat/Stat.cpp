@@ -214,6 +214,6 @@ namespace MLPP{
         if(x == y){
             return x; 
         }
-        return (y - x) / (log(y) - log(x)); 
+        return (y - x) / (log(y) - std::log(x)); 
     }
 }

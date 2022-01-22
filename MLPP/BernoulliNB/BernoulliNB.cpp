@@ -139,8 +139,8 @@ namespace MLPP{
             for(int j = 0; j < inputSet.size(); j++){
                 for(int k = 0; k < vocab.size(); k++){
                     if(inputSet[i][j] == vocab[k]){
-                        score_0 += log(theta[0][vocab[k]]);
-                        score_1 += log(theta[1][vocab[k]]);
+                        score_0 += std::log(theta[0][vocab[k]]);
+                        score_1 += std::log(theta[1][vocab[k]]);
 
                         foundIndices.push_back(k);
                     }
@@ -155,13 +155,13 @@ namespace MLPP{
                     }
                 }
                 if(!found){
-                    score_0 += log(1 - theta[0][vocab[i]]);
-                    score_1 += log(1 - theta[1][vocab[i]]);
+                    score_0 += std::log(1 - theta[0][vocab[i]]);
+                    score_1 += std::log(1 - theta[1][vocab[i]]);
                 }
             }
             
-            score_0 += log(prior_0);
-            score_1 += log(prior_1);
+            score_0 += std::log(prior_0);
+            score_1 += std::log(prior_1);
 
             score_0 = exp(score_0);
             score_1 = exp(score_1);

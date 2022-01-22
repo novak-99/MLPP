@@ -142,7 +142,7 @@ namespace MLPP{
 
     double Activation::softplus(double z, bool deriv){
         if(deriv){ return sigmoid(z); }
-        return log(1 + exp(z)); 
+        return std::log(1 + exp(z)); 
     }
             
     std::vector<double> Activation::softplus(std::vector<double> z, bool deriv){
@@ -752,7 +752,7 @@ namespace MLPP{
 
     double Activation::arsinh(double z, bool deriv){
         if(deriv){ return 1 / sqrt(z * z + 1); }
-        return log(z + sqrt(z * z + 1));
+        return std::log(z + sqrt(z * z + 1));
     }
 
     std::vector<double> Activation::arsinh(std::vector<double> z, bool deriv){
@@ -771,7 +771,7 @@ namespace MLPP{
         if(deriv){
             return 1/sqrt(z * z - 1);
         }
-        return log(z + sqrt(z * z - 1));
+        return std::log(z + sqrt(z * z - 1));
     }
 
     std::vector<double> Activation::arcosh(std::vector<double> z, bool deriv){
@@ -790,7 +790,7 @@ namespace MLPP{
         if(deriv){
             return 1/(1 - z * z);
         }
-        return 0.5 * log((1 + z)/(1 - z));
+        return 0.5 * std::log((1 + z)/(1 - z));
     }
 
     std::vector<double> Activation::artanh(std::vector<double> z, bool deriv){
@@ -809,7 +809,7 @@ namespace MLPP{
         if(deriv){
             return -1/((z * z) * sqrt(1 + (1/(z * z))));
         }
-        return log(sqrt(1 + (1 / (z * z))) + (1/z));
+        return std::log(sqrt(1 + (1 / (z * z))) + (1/z));
     }
 
     std::vector<double> Activation::arcsch(std::vector<double> z, bool deriv){
@@ -829,7 +829,7 @@ namespace MLPP{
         if(deriv){
             return -1/(z * sqrt(1 - z * z));
         }
-        return log((1/z) + ((1/z) + 1) * ((1/z) - 1));
+        return std::log((1/z) + ((1/z) + 1) * ((1/z) - 1));
     }
 
     std::vector<double> Activation::arsech(std::vector<double> z, bool deriv){
@@ -848,7 +848,7 @@ namespace MLPP{
         if(deriv){
             return 1/(1 - z * z);
         }
-        return 0.5 * log((1 + z)/(z - 1));
+        return 0.5 * std::log((1 + z)/(z - 1));
     }
 
     std::vector<double> Activation::arcoth(std::vector<double> z, bool deriv){

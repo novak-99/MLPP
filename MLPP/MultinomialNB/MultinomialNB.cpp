@@ -35,14 +35,14 @@ namespace MLPP{
             for(int k = 0; k < vocab.size(); k++){
                 if(x[j] == vocab[k]){
                     for(int p = class_num - 1; p >= 0; p--){
-                        score[p] += log(theta[p][vocab[k]]);
+                        score[p] += std::log(theta[p][vocab[k]]);
                     }
                 }
             }
         }
 
         for(int i = 0; i < priors.size(); i++){
-            score[i] += log(priors[i]);
+            score[i] += std::log(priors[i]);
         }
 
         return std::distance(score, std::max_element(score, score + sizeof(score) / sizeof(double)));
@@ -98,14 +98,14 @@ namespace MLPP{
                 for(int k = 0; k < vocab.size(); k++){
                     if(inputSet[i][j] == vocab[k]){
                         for(int p = class_num - 1; p >= 0; p--){
-                            score[p] += log(theta[i][vocab[k]]);
+                            score[p] += std::log(theta[i][vocab[k]]);
                         }
                     }
                 }
             }
 
             for(int i = 0; i < priors.size(); i++){
-                score[i] += log(priors[i]);
+                score[i] += std::log(priors[i]);
                 score[i] = exp(score[i]);
             }
 
