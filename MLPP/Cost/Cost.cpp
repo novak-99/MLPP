@@ -5,6 +5,7 @@
 //
 
 #include <iostream>
+#include <cmath>
 #include "Cost.hpp"
 #include "LinAlg/LinAlg.hpp"
 #include "Regularization/Reg.hpp"

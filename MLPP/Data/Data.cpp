@@ -10,6 +10,7 @@
 #include "Stat/Stat.hpp"
 #include "SoftmaxNet/SoftmaxNet.hpp"
 #include <iostream>
+#include <cmath>
 #include <fstream>
 #include <sstream>
 
