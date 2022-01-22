@@ -10,6 +10,7 @@
 
 #include <iostream>
 #include <random>
+#include <climits>
 
 namespace MLPP{
     KMeans::KMeans(std::vector<std::vector<double>> inputSet, int k, std::string init_type)

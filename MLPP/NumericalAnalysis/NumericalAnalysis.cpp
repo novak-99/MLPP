@@ -7,6 +7,9 @@
 #include "NumericalAnalysis.hpp"
 #include "LinAlg/LinAlg.hpp"
 #include <iostream>
+#include <string>
+#include <cmath>
+#include <climits>
 
 namespace MLPP{
 
@@ -177,7 +180,7 @@ namespace MLPP{
         */
 
         // auto growthFunction = [&C, &k](double t) { return C * exp(k * t); };
-        return C * exp(k * t);
+        return C * std::exp(k * t);
     }
     
     std::vector<double> NumericalAnalysis::jacobian(double(*function)(std::vector<double>), std::vector<double> x){
