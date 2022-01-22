@@ -49,14 +49,14 @@ namespace MLPP{
                 // Calculating the weight gradient
                 double sum = 0;
                 for(int j = 0; j < n; j++){
-                    sum += error[j] * inputSet[j][i] * pow(weights[i], inputSet[j][i] - 1);
+                    sum += error[j] * inputSet[j][i] * std::pow(weights[i], inputSet[j][i] - 1);
                 }
                 double w_gradient = sum / n;
                     
                 // Calculating the initial gradient
                 double sum2 = 0;
                 for(int j = 0; j < n; j++){
-                    sum2 += error[j] * pow(weights[i], inputSet[j][i]);
+                    sum2 += error[j] * std::pow(weights[i], inputSet[j][i]);
                 }
 
 
@@ -110,8 +110,8 @@ namespace MLPP{
                     
                 // Calculating the weight gradients
                 
-                double w_gradient = (y_hat - outputSet[outputIndex]) * inputSet[outputIndex][i] * pow(weights[i], inputSet[outputIndex][i] - 1);
-                double i_gradient = (y_hat - outputSet[outputIndex]) * pow(weights[i], inputSet[outputIndex][i]);
+                double w_gradient = (y_hat - outputSet[outputIndex]) * inputSet[outputIndex][i] * std::pow(weights[i], inputSet[outputIndex][i] - 1);
+                double i_gradient = (y_hat - outputSet[outputIndex]) * std::pow(weights[i], inputSet[outputIndex][i]);
 
                 // Weight/initial updation
                 weights[i] -= learning_rate * w_gradient;
@@ -157,14 +157,14 @@ namespace MLPP{
                     // Calculating the weight gradient
                     double sum = 0;
                     for(int k = 0; k < outputMiniBatches[i].size(); k++){
-                        sum += error[k] * inputMiniBatches[i][k][j] * pow(weights[j], inputMiniBatches[i][k][j] - 1);
+                        sum += error[k] * inputMiniBatches[i][k][j] * std::pow(weights[j], inputMiniBatches[i][k][j] - 1);
                     }
                     double w_gradient = sum / outputMiniBatches[i].size();
                         
                     // Calculating the initial gradient
                     double sum2 = 0;
                     for(int k = 0; k < outputMiniBatches[i].size(); k++){
-                        sum2 += error[k] * pow(weights[j], inputMiniBatches[i][k][j]);
+                        sum2 += error[k] * std::pow(weights[j], inputMiniBatches[i][k][j]);
                     }
 
 
@@ -217,7 +217,7 @@ namespace MLPP{
         for(int i = 0; i < X.size(); i++){
             y_hat[i] = 0;
             for(int j = 0; j < X[i].size(); j++){
-                y_hat[i] += initial[j] * pow(weights[j], X[i][j]);
+                y_hat[i] += initial[j] * std::pow(weights[j], X[i][j]);
             }
             y_hat[i] += bias;
         }
@@ -227,7 +227,7 @@ namespace MLPP{
     double ExpReg::Evaluate(std::vector<double> x){
         double y_hat = 0;
         for(int i = 0; i < x.size(); i++){
-            y_hat += initial[i] * pow(weights[i], x[i]);
+            y_hat += initial[i] * std::pow(weights[i], x[i]);
         }
         
         return y_hat + bias;

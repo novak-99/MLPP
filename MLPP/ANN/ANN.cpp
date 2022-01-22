@@ -12,6 +12,7 @@
 #include "Cost/Cost.hpp"
 
 #include <iostream>
+#include <cmath>
 
 namespace MLPP {
     ANN::ANN(std::vector<std::vector<double>> inputSet, std::vector<double> outputSet)
@@ -306,11 +307,11 @@ void ANN::Adam(double learning_rate, int max_epoch, int mini_batch_size, double 
                 m_output = alg.addition(alg.scalarMultiply(b1, m_output), alg.scalarMultiply(1 - b1, outputWGrad));
                 v_output = alg.addition(alg.scalarMultiply(b2, v_output), alg.scalarMultiply(1 - b2, alg.exponentiate(outputWGrad, 2)));
 
-                std::vector<std::vector<std::vector<double>>> m_hidden_hat = alg.scalarMultiply(1/(1 - pow(b1, epoch)), m_hidden);
-                std::vector<std::vector<std::vector<double>>> v_hidden_hat = alg.scalarMultiply(1/(1 - pow(b2, epoch)), v_hidden);
+                std::vector<std::vector<std::vector<double>>> m_hidden_hat = alg.scalarMultiply(1/(1 - std::pow(b1, epoch)), m_hidden);
+                std::vector<std::vector<std::vector<double>>> v_hidden_hat = alg.scalarMultiply(1/(1 - std::pow(b2, epoch)), v_hidden);
 
-                std::vector<double> m_output_hat = alg.scalarMultiply(1/(1 - pow(b1, epoch)), m_output);
-                std::vector<double> v_output_hat = alg.scalarMultiply(1/(1 - pow(b2, epoch)), v_output);
+                std::vector<double> m_output_hat = alg.scalarMultiply(1/(1 - std::pow(b1, epoch)), m_output);
+                std::vector<double> v_output_hat = alg.scalarMultiply(1/(1 - std::pow(b2, epoch)), v_output);
 
                 std::vector<std::vector<std::vector<double>>> hiddenLayerUpdations = alg.scalarMultiply(learning_rate/n, alg.elementWiseDivision(m_hidden_hat, alg.scalarAdd(e, alg.sqrt(v_hidden_hat))));
                 std::vector<double> outputLayerUpdation = alg.scalarMultiply(learning_rate/n, alg.elementWiseDivision(m_output_hat, alg.scalarAdd(e, alg.sqrt(v_output_hat))));
@@ -368,9 +369,9 @@ void ANN::Adam(double learning_rate, int max_epoch, int mini_batch_size, double 
                 m_output = alg.addition(alg.scalarMultiply(b1, m_output), alg.scalarMultiply(1 - b1, outputWGrad));
                 u_output = alg.max(alg.scalarMultiply(b2, u_output), alg.abs(outputWGrad));
 
-                std::vector<std::vector<std::vector<double>>> m_hidden_hat = alg.scalarMultiply(1/(1 - pow(b1, epoch)), m_hidden);
+                std::vector<std::vector<std::vector<double>>> m_hidden_hat = alg.scalarMultiply(1/(1 - std::pow(b1, epoch)), m_hidden);
 
-                std::vector<double> m_output_hat = alg.scalarMultiply(1/(1 - pow(b1, epoch)), m_output);
+                std::vector<double> m_output_hat = alg.scalarMultiply(1/(1 - std::pow(b1, epoch)), m_output);
 
                 std::vector<std::vector<std::vector<double>>> hiddenLayerUpdations = alg.scalarMultiply(learning_rate/n, alg.elementWiseDivision(m_hidden_hat, alg.scalarAdd(e, u_hidden)));
                 std::vector<double> outputLayerUpdation = alg.scalarMultiply(learning_rate/n, alg.elementWiseDivision(m_output_hat, alg.scalarAdd(e, u_output)));
@@ -430,13 +431,13 @@ void ANN::Adam(double learning_rate, int max_epoch, int mini_batch_size, double 
                 m_output = alg.addition(alg.scalarMultiply(b1, m_output), alg.scalarMultiply(1 - b1, outputWGrad));
                 v_output = alg.addition(alg.scalarMultiply(b2, v_output), alg.scalarMultiply(1 - b2, alg.exponentiate(outputWGrad, 2)));
 
-                std::vector<std::vector<std::vector<double>>> m_hidden_hat = alg.scalarMultiply(1/(1 - pow(b1, epoch)), m_hidden);
-                std::vector<std::vector<std::vector<double>>> v_hidden_hat = alg.scalarMultiply(1/(1 - pow(b2, epoch)), v_hidden);
-                std::vector<std::vector<std::vector<double>>> m_hidden_final = alg.addition(alg.scalarMultiply(b1, m_hidden_hat), alg.scalarMultiply((1 - b1)/(1 - pow(b1, epoch)), cumulativeHiddenLayerWGrad));
+                std::vector<std::vector<std::vector<double>>> m_hidden_hat = alg.scalarMultiply(1/(1 - std::pow(b1, epoch)), m_hidden);
+                std::vector<std::vector<std::vector<double>>> v_hidden_hat = alg.scalarMultiply(1/(1 - std::pow(b2, epoch)), v_hidden);
+                std::vector<std::vector<std::vector<double>>> m_hidden_final = alg.addition(alg.scalarMultiply(b1, m_hidden_hat), alg.scalarMultiply((1 - b1)/(1 - std::pow(b1, epoch)), cumulativeHiddenLayerWGrad));
 
-                std::vector<double> m_output_hat = alg.scalarMultiply(1/(1 - pow(b1, epoch)), m_output);
-                std::vector<double> v_output_hat = alg.scalarMultiply(1/(1 - pow(b2, epoch)), v_output);
-                std::vector<double> m_output_final = alg.addition(alg.scalarMultiply(b1, m_output_hat), alg.scalarMultiply((1 - b1)/(1 - pow(b1, epoch)), outputWGrad));
+                std::vector<double> m_output_hat = alg.scalarMultiply(1/(1 - std::pow(b1, epoch)), m_output);
+                std::vector<double> v_output_hat = alg.scalarMultiply(1/(1 - std::pow(b2, epoch)), v_output);
+                std::vector<double> m_output_final = alg.addition(alg.scalarMultiply(b1, m_output_hat), alg.scalarMultiply((1 - b1)/(1 - std::pow(b1, epoch)), outputWGrad));
 
                 std::vector<std::vector<std::vector<double>>> hiddenLayerUpdations = alg.scalarMultiply(learning_rate/n, alg.elementWiseDivision(m_hidden_final, alg.scalarAdd(e, alg.sqrt(v_hidden_hat))));
                 std::vector<double> outputLayerUpdation = alg.scalarMultiply(learning_rate/n, alg.elementWiseDivision(m_output_final, alg.scalarAdd(e, alg.sqrt(v_output_hat))));

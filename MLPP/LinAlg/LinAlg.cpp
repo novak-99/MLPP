@@ -209,7 +209,7 @@ namespace MLPP{
     std::vector<std::vector<double>> LinAlg::exponentiate(std::vector<std::vector<double>> A, double p){
         for(int i = 0; i < A.size(); i++){
             for(int j = 0; j < A[i].size(); j++){
-                A[i][j] = pow(A[i][j], p); 
+                A[i][j] = std::pow(A[i][j], p); 
             }
         }
         return A; 
@@ -281,7 +281,7 @@ namespace MLPP{
                     }
                     sub_i++;
                 }
-                deter += pow(-1, i) * A[0][i] * det(B, d-1);
+                deter += std::pow(-1, i) * A[0][i] * det(B, d-1);
             }
         }
         return deter;
@@ -862,7 +862,7 @@ namespace MLPP{
         std::vector<double> b; 
         b.resize(a.size());
         for(int i = 0; i < b.size(); i++){
-            b[i] = pow(a[i], p); 
+            b[i] = std::pow(a[i], p); 
         }
         return b;
     }

@@ -546,9 +546,9 @@ namespace MLPP{
 
     double Activation::GELU(double z, bool deriv){
         if (deriv){
-            return 0.5 * tanh(0.0356774 * pow(z, 3) + 0.797885 * z) + (0.0535161 * pow(z, 3) + 0.398942 * z) * pow(sech(0.0356774 * pow(z, 3) + 0.797885 * z), 2) + 0.5;
+            return 0.5 * tanh(0.0356774 * std::pow(z, 3) + 0.797885 * z) + (0.0535161 * std::pow(z, 3) + 0.398942 * z) * std::pow(sech(0.0356774 * std::pow(z, 3) + 0.797885 * z), 2) + 0.5;
         }
-        return 0.5 * z * (1 + tanh(sqrt(2/M_PI) * (z + 0.044715 * pow(z, 3))));
+        return 0.5 * z * (1 + tanh(sqrt(2/M_PI) * (z + 0.044715 * std::pow(z, 3))));
     }
 
     std::vector<double> Activation::GELU(std::vector<double> z, bool deriv){

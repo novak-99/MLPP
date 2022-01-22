@@ -154,17 +154,17 @@ namespace MLPP{
     double Stat::powerMean(std::vector<double> x, double p){
         double sum = 0; 
         for(int i = 0; i < x.size(); i++){
-            sum += pow(x[i], p); 
+            sum += std::pow(x[i], p); 
         }
-        return pow(sum / x.size(), 1/p);
+        return std::pow(sum / x.size(), 1/p);
     }
     
     double Stat::lehmerMean(std::vector<double> x, double p){
         double num = 0; 
         double den = 0; 
         for(int i = 0; i < x.size(); i++){
-            num += pow(x[i], p); 
-            den += pow(x[i], p - 1);
+            num += std::pow(x[i], p); 
+            den += std::pow(x[i], p - 1);
         }
         return num/den;
     }
@@ -173,8 +173,8 @@ namespace MLPP{
         double num = 0; 
         double den = 0; 
         for(int i = 0; i < x.size(); i++){
-            num += weights[i] * pow(x[i], p); 
-            den += weights[i] * pow(x[i], p - 1);
+            num += weights[i] * std::pow(x[i], p); 
+            den += weights[i] * std::pow(x[i], p - 1);
         }
         return num/den;
     }
@@ -188,7 +188,7 @@ namespace MLPP{
     }
 
     double Stat::heinzMean(double A, double B, double x){
-        return (pow(A, x) * pow(B, 1 - x) + pow(A, 1 - x) * pow(B, x)) / 2;
+        return (std::pow(A, x) * std::pow(B, 1 - x) + std::pow(A, 1 - x) * std::pow(B, x)) / 2;
     }
 
     double Stat::neumanSandorMean(double a, double b){
@@ -200,14 +200,14 @@ namespace MLPP{
         if(x == y){
             return x; 
         }
-        return pow((pow(x, p) - pow(y, p)) / (p * (x - y)), 1/(p - 1));
+        return std::pow((std::pow(x, p) - std::pow(y, p)) / (p * (x - y)), 1/(p - 1));
     }
 
     double Stat::identricMean(double x, double y){
         if(x == y){
             return x; 
         }
-        return (1/M_E) * pow(pow(x, x) / pow(y, y), 1/(x-y));
+        return (1/M_E) * std::pow(std::pow(x, x) / std::pow(y, y), 1/(x-y));
     }
 
     double Stat::logMean(double x, double y){
