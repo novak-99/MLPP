@@ -21,7 +21,7 @@ namespace MLPP{
         y_hat.resize(n);
         bias = Utilities::biasInitialization();
         alpha = Utilities::weightInitialization(n); // One alpha for all training examples, as per the lagrangian multipliers.
-        K = createK(); // For now this is unused. When non-linear kernels are added, the K will be manipulated.
+        K = kernelFunction(inputSet, inputSet, kernel); // For now this is unused. When non-linear kernels are added, the K will be manipulated.
     }
 
     std::vector<double> DualSVC::modelSetTest(std::vector<std::vector<double>> X){
@@ -225,14 +225,14 @@ namespace MLPP{
         }
     }
 
-    double DualSVC::kernelFunction(std::vector<double> u, std::vector<double> v){
+    double DualSVC::kernelFunction(std::vector<double> u, std::vector<double> v, std::string kernel){
         LinAlg alg;
         if(kernel == "Linear"){
             return alg.dot(u, v);
-        }
+        } // warning: non-void function does not return a value in all control paths [-Wreturn-type]
     }
 
-    std::vector<std::vector<double>> DualSVC::createK(){
+    std::vector<std::vector<double>> DualSVC::kernelFunction(std::vector<std::vector<double>> A, std::vector<std::vector<double>> B, std::string kernel){
         LinAlg alg;
         if(kernel == "Linear"){
             return alg.matmult(inputSet, alg.transpose(inputSet));

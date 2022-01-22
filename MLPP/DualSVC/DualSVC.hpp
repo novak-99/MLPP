@@ -43,8 +43,8 @@ namespace MLPP {
 
             void alphaProjection();
 
-            double kernelFunction(std::vector<double> u, std::vector<double> v);
-            std::vector<std::vector<double>> createK();
+            double kernelFunction(std::vector<double> v, std::vector<double> u, std::string kernel);
+            std::vector<std::vector<double>> kernelFunction(std::vector<std::vector<double>> U, std::vector<std::vector<double>> V, std::string kernel);
         
             std::vector<std::vector<double>> inputSet;
             std::vector<double> outputSet;
