@@ -12,14 +12,9 @@ Begin by downloading the header files for the ML++ library. You can do this by c
 ```
 git clone https://github.com/novak-99/MLPP
 ```
-Next, execute the "./buildSO.sh" shell script. If you lack the necessary permissions, be sure to change those, too:
+Next, execute the "./buildSO.sh" shell script. 
 ```
-chmod +x buildSO.sh
-./buildSO.sh
-```
-To allow your projects to access the ML++ library, move the shared object file to the /usr/local/lib directory:
-```
-sudo mv SharedLib/MLPP.so /usr/local/lib
+sudo ./buildSO.sh
 ```
 After doing so, maintain the ML++ source files in a local directory and include them in this fashion: 
 ```cpp
