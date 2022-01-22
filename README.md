@@ -151,6 +151,8 @@ The result will be the model's predictions for the entire dataset.
         - Horizontal/Vertical Sobel Filter
         - Horizontal/Vertical Scharr Filter
         - Horizontal/Vertical Roberts Filter
+        - Gaussian Filter
+        - Harris Corner Detector
 6. ***Principal Component Analysis***
 7. ***Naive Bayes Classifiers***
     1. Multinomial Naive Bayes
