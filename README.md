@@ -135,14 +135,16 @@ The result will be the model's predictions for the entire dataset.
     1. Multilayer Peceptron
     2. Autoencoder
     3. Softmax Network
-4. ***Natural Language Processing***
+4. ***Generative Modeling***
+    1. Tabular Generative Adversarial Networks
+5. ***Natural Language Processing***
     1. Word2Vec (Continous Bag of Words, Skip-Gram)
     2. Stemming
     3. Bag of Words
     4. TFIDF
     5. Tokenization 
     6. Auxiliary Text Processing Functions
-5. ***Computer Vision***
+6. ***Computer Vision***
     1. The Convolution Operation
     2. Max, Min, Average Pooling
     3. Global Max, Min, Average Pooling
@@ -153,12 +155,12 @@ The result will be the model's predictions for the entire dataset.
         - Horizontal/Vertical Roberts Filter
         - Gaussian Filter
         - Harris Corner Detector
-6. ***Principal Component Analysis***
-7. ***Naive Bayes Classifiers***
+7. ***Principal Component Analysis***
+8. ***Naive Bayes Classifiers***
     1. Multinomial Naive Bayes
     2. Bernoulli Naive Bayes 
     3. Gaussian Naive Bayes
-8. ***Support Vector Classification***
+9. ***Support Vector Classification***
     1. Primal Formulation (Hinge Loss Objective) 
     2. Dual Formulation (Via Lagrangian Multipliers)
 10. ***K-Means***
@@ -191,7 +193,7 @@ The result will be the model's predictions for the entire dataset.
     3. Mean Normalization
     4. One Hot Representation
     5. Reverse One Hot Representation
-17. ***Utilities***
+18. ***Utilities***
     1. TP, FP, TN, FN function
     2. Precision
     3. Recall 
