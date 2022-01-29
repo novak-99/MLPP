@@ -12,7 +12,7 @@ Begin by downloading the header files for the ML++ library. You can do this by c
 ```
 git clone https://github.com/novak-99/MLPP
 ```
-Next, execute the "./buildSO.sh" shell script:
+Next, execute the "buildSO.sh" shell script:
 ```
 sudo ./buildSO.sh
 ```

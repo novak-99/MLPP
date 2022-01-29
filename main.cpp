@@ -47,6 +47,7 @@
 #include "MLPP/SVC/SVC.hpp"
 #include "MLPP/NumericalAnalysis/NumericalAnalysis.hpp"
 #include "MLPP/DualSVC/DualSVC.hpp"
+#include "MLPP/GAN/GAN.hpp"
 
 
 using namespace MLPP;
@@ -154,8 +155,8 @@ int main() {
     std::vector<double> w = {0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1};
 
     // std::cout << "Arithmetic Mean: " << stat.mean(x) << std::endl;
-    std::cout << "Median: " << stat.median(x) << std::endl;
-    alg.printVector(x);
+    // std::cout << "Median: " << stat.median(x) << std::endl;
+    // alg.printVector(x);
     // alg.printVector(stat.mode(x));
     // std::cout << "Range: " << stat.range(x) << std::endl;
     // std::cout << "Midrange: " << stat.midrange(x) << std::endl;
@@ -365,7 +366,7 @@ int main() {
     // std::vector<std::vector<double>> inputSet = {{0,0,1,1}, {0,1,0,1}};
     // std::vector<double> outputSet = {0,1,1,0};
     // ANN ann(alg.transpose(inputSet), outputSet);
-    // //ann.addLayer(10, "RELU");
+    // //ann.addLayer(10, "Sigmoid");
     // ann.addLayer(10, "Sigmoid");
     // ann.addOutputLayer("Sigmoid", "LogLoss");
     // //ann.AMSGrad(0.1, 10000, 1, 0.9, 0.999, 0.000001, 1);
@@ -375,6 +376,19 @@ int main() {
     // alg.printVector(ann.modelSetTest(alg.transpose(inputSet)));
     // std::cout << "ACCURACY: " << 100 * ann.score() << "%" << std::endl;
 
+    std::vector<std::vector<double>> outputSet = {{1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20}, 
+                                                {2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40}};
+    //Vector outputSet = {0,1,1,0};
+    GAN gan(2, alg.transpose(outputSet));
+    gan.addLayer(5, "Sigmoid");
+    gan.addLayer(2, "RELU");
+    gan.addLayer(5, "Sigmoid");
+    gan.addOutputLayer("Sigmoid", "LogLoss");
+    gan.gradientDescent(0.1, 25000, 0);
+    std::cout << "GENERATED INPUT: (Gaussian-sampled noise):" << std::endl;
+    alg.printMatrix(gan.generateExample(5));
+
+
     // typedef std::vector<std::vector<double>> Matrix;
     // typedef std::vector<double> Vector;
 
@@ -382,10 +396,10 @@ int main() {
     // Vector outputSet = {0,1,1,0};
 
     // ANN ann(inputSet, outputSet);
-    // ann.addLayer(10, "Sigmoid");
-    // ann.addLayer(10, "Sigmoid"); // Add more layers as needed. 
+    // ann.addLayer(5, "Sigmoid");
+    // ann.addLayer(8, "Sigmoid"); // Add more layers as needed. 
     // ann.addOutputLayer("Sigmoid", "LogLoss");
-    // ann.gradientDescent(0.1, 20000, 0);
+    // ann.gradientDescent(1, 20000, 1);
 
     // Vector predictions = ann.modelSetTest(inputSet);
     // alg.printVector(predictions); // Testing out the model's preds for train set.

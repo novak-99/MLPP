@@ -16,6 +16,8 @@ namespace MLPP{
         
         // MATRIX FUNCTIONS
 
+        std::vector<std::vector<double>> gaussianNoise(int n, int m);
+
         std::vector<std::vector<double>> addition(std::vector<std::vector<double>> A, std::vector<std::vector<double>> B);
 
         std::vector<std::vector<double>> subtraction(std::vector<std::vector<double>> A, std::vector<std::vector<double>> B);

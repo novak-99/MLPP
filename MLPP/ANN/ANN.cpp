@@ -554,7 +554,7 @@ void ANN::Adam(double learning_rate, int max_epoch, int mini_batch_size, double 
     void ANN::addOutputLayer(std::string activation, std::string loss, std::string weightInit, std::string reg, double lambda, double alpha){
         LinAlg alg;
         if(!network.empty()){
-            outputLayer = new OutputLayer(network[0].n_hidden, activation, loss, network[network.size() - 1].a, weightInit, reg, lambda, alpha);
+            outputLayer = new OutputLayer(network[network.size() - 1].n_hidden, activation, loss, network[network.size() - 1].a, weightInit, reg, lambda, alpha);
         }
         else{
             outputLayer = new OutputLayer(k, activation, loss, inputSet, weightInit, reg, lambda, alpha);
@@ -612,6 +612,8 @@ void ANN::Adam(double learning_rate, int max_epoch, int mini_batch_size, double 
     }
     
     std::tuple<std::vector<std::vector<std::vector<double>>>, std::vector<double>> ANN::computeGradients(std::vector<double> y_hat, std::vector<double> outputSet){
+        std::cout << "BEGIN" << std::endl;
+        std::cout << k << std::endl;
         class Cost cost; 
         Activation avn;
         LinAlg alg;
@@ -630,13 +632,12 @@ void ANN::Adam(double learning_rate, int max_epoch, int mini_batch_size, double 
             network[network.size() - 1].delta = alg.hadamard_product(alg.outerProduct(outputLayer->delta, outputLayer->weights), (avn.*hiddenLayerAvn)(network[network.size() - 1].z, 1));
             std::vector<std::vector<double>> hiddenLayerWGrad = alg.matmult(alg.transpose(network[network.size() - 1].input), network[network.size() - 1].delta);
 
-            cumulativeHiddenLayerWGrad.push_back(alg.addition(hiddenLayerWGrad, regularization.regDerivTerm(network[network.size() - 1].weights, network[network.size() - 1].lambda, network[network.size() - 1].alpha, network[network.size() - 1].reg))); // Adding to our cumulative hidden layer grads. Maintain reg terms as well.
+            cumulativeHiddenLayerWGrad.push_back(alg.addition(hiddenLayerWGrad, regularization.regDerivTerm(network[network.size() - 1].weights, network[network.size() - 1].lambda, network[network.size() - 1].alpha, network[network.size() - 1].reg))); // Adding to our cumulative hidden layer grads. Maintain reg terms as well. 
 
             for(int i = network.size() - 2; i >= 0; i--){
                 auto hiddenLayerAvn = network[i].activation_map[network[i].activation];
-                network[i].delta = alg.hadamard_product(alg.matmult(network[i + 1].delta, network[i + 1].weights), (avn.*hiddenLayerAvn)(network[i].z, 1));
+                network[i].delta = alg.hadamard_product(alg.matmult(network[i + 1].delta, alg.transpose(network[i + 1].weights)), (avn.*hiddenLayerAvn)(network[i].z, 1));
                 std::vector<std::vector<double>> hiddenLayerWGrad = alg.matmult(alg.transpose(network[i].input), network[i].delta);
-
                 cumulativeHiddenLayerWGrad.push_back(alg.addition(hiddenLayerWGrad, regularization.regDerivTerm(network[i].weights, network[i].lambda, network[i].alpha, network[i].reg))); // Adding to our cumulative hidden layer grads. Maintain reg terms as well.
 
             }

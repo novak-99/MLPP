@@ -7,10 +7,27 @@
 #include "LinAlg.hpp"
 #include "Stat/Stat.hpp"
 #include <iostream>
+#include <random>
 #include <map>
 #include <cmath>
 
 namespace MLPP{
+
+    std::vector<std::vector<double>> LinAlg::gaussianNoise(int n, int m){
+        std::random_device rd;
+        std::default_random_engine generator(rd());
+
+        std::vector<std::vector<double>> A;
+        A.resize(n);
+        for(int i = 0; i < n; i++){
+            A[i].resize(m);
+            for(int j = 0; j < m; j++){
+                std::normal_distribution<double> distribution(0, 1); // Standard normal distribution. Mean of 0, std of 1. 
+                A[i][j] = distribution(generator);
+            }
+        }
+        return A; 
+    }
 
     std::vector<std::vector<double>> LinAlg::addition(std::vector<std::vector<double>> A, std::vector<std::vector<double>> B){
         std::vector<std::vector<double>> C;
