@@ -4,6 +4,9 @@
 //  Created by Marc Melikyan on 10/2/20.
 //
 
+
+// https://towardsdatascience.com/svm-implementation-from-scratch-python-2db2fc52e5c2
+// Illustratd a practical definition of the Hinge Loss function and its gradient when optimizing with SGD.
 #ifndef SVC_hpp
 #define SVC_hpp
 
