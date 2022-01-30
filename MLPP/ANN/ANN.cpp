@@ -566,6 +566,7 @@ void ANN::Adam(double learning_rate, int max_epoch, int mini_batch_size, double 
          else if(lrScheduler == "Epoch"){
              return learningRate * (decayConstant / std::sqrt(epoch));
          }
+         return learningRate;
      }
 
     void ANN::addLayer(int n_hidden, std::string activation, std::string weightInit, std::string reg, double lambda, double alpha){
