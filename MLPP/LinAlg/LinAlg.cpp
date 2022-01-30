@@ -13,6 +13,17 @@
 
 namespace MLPP{
 
+    std::vector<std::vector<double>> LinAlg::gramMatrix(std::vector<std::vector<double>> A){
+        return matmult(transpose(A), A); // AtA
+    }
+
+    bool LinAlg::linearIndependenceChecker(std::vector<std::vector<double>> A){
+        if (det(gramMatrix(A), A.size()) == 0){
+            return false; 
+        }
+        return true; 
+    }
+
     std::vector<std::vector<double>> LinAlg::gaussianNoise(int n, int m){
         std::random_device rd;
         std::default_random_engine generator(rd());

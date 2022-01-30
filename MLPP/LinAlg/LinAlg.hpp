@@ -16,6 +16,10 @@ namespace MLPP{
         
         // MATRIX FUNCTIONS
 
+        std::vector<std::vector<double>> gramMatrix(std::vector<std::vector<double>> A);
+
+        bool linearIndependenceChecker(std::vector<std::vector<double>> A);
+
         std::vector<std::vector<double>> gaussianNoise(int n, int m);
 
         std::vector<std::vector<double>> addition(std::vector<std::vector<double>> A, std::vector<std::vector<double>> B);
