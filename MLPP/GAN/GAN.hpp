@@ -21,7 +21,6 @@ class GAN{
         GAN(double k, std::vector<std::vector<double>> outputSet);
         ~GAN();
         std::vector<std::vector<double>> generateExample(int n);
-        double modelTest(std::vector<double> x);
         void gradientDescent(double learning_rate, int max_epoch, bool UI = 1);
         double score(); 
         void save(std::string fileName);

@@ -34,6 +34,9 @@ class ANN{
         double score(); 
         void save(std::string fileName);
 
+        void setLearningRateScheduler(std::string type, double k);
+        double applyLearningRateScheduler(double learningRate, double decayConstant, double epoch);
+
         void addLayer(int n_hidden, std::string activation, std::string weightInit = "Default", std::string reg = "None", double lambda = 0.5, double alpha = 0.5); 
         void addOutputLayer(std::string activation, std::string loss, std::string weightInit = "Default", std::string reg = "None", double lambda = 0.5, double alpha = 0.5); 
         
@@ -56,6 +59,9 @@ class ANN{
 
             int n;
             int k;
+
+            std::string lrScheduler;
+            double decayConstant;
     };
 }
 

@@ -131,6 +131,10 @@ The result will be the model's predictions for the entire dataset.
         - He Uniform
         - LeCun Normal
         - LeCun Uniform
+    6. Possible Learning Rate Schedulers
+        - Time Based 
+        - Exponential 
+        - Epoch Based
 3. ***Prebuilt Neural Networks***
     1. Multilayer Peceptron
     2. Autoencoder

@@ -363,30 +363,31 @@ int main() {
     // Possible Weight Init Methods: Default, Uniform, HeNormal, HeUniform, XavierNormal, XavierUniform
     // Possible Activations: Linear, Sigmoid, Swish, Softplus, Softsign, CLogLog, Ar{Sinh, Cosh, Tanh, Csch, Sech, Coth},  GaussianCDF, GELU, UnitStep
     // Possible Loss Functions: MSE, RMSE, MBE, LogLoss, CrossEntropy, HingeLoss
-    // std::vector<std::vector<double>> inputSet = {{0,0,1,1}, {0,1,0,1}};
-    // std::vector<double> outputSet = {0,1,1,0};
-    // ANN ann(alg.transpose(inputSet), outputSet);
-    // //ann.addLayer(10, "Sigmoid");
-    // ann.addLayer(10, "Sigmoid");
-    // ann.addOutputLayer("Sigmoid", "LogLoss");
-    // //ann.AMSGrad(0.1, 10000, 1, 0.9, 0.999, 0.000001, 1);
-    // //ann.Adadelta(1, 1000, 2, 0.9, 0.000001, 1);
-    // ann.Momentum(0.1, 8000, 2, 0.9, true, 1);
-    // //ann.MBGD(0.1, 1000, 2, 1);
-    // alg.printVector(ann.modelSetTest(alg.transpose(inputSet)));
-    // std::cout << "ACCURACY: " << 100 * ann.score() << "%" << std::endl;
+    std::vector<std::vector<double>> inputSet = {{0,0,1,1}, {0,1,0,1}};
+    std::vector<double> outputSet = {0,1,1,0};
+    ANN ann(alg.transpose(inputSet), outputSet);
+    ann.addLayer(2, "Sigmoid");
+    ann.addLayer(2, "Sigmoid");
+    ann.addOutputLayer("Sigmoid", "LogLoss");
+    //ann.AMSGrad(0.1, 10000, 1, 0.9, 0.999, 0.000001, 1);
+    //ann.Adadelta(1, 1000, 2, 0.9, 0.000001, 1);
+    //ann.Momentum(0.1, 8000, 2, 0.9, true, 1);
+    ann.setLearningRateScheduler("Time", 0.000000000001);
+    ann.gradientDescent(0.1, 20000, 1);
+    alg.printVector(ann.modelSetTest(alg.transpose(inputSet)));
+    std::cout << "ACCURACY: " << 100 * ann.score() << "%" << std::endl;
 
-    std::vector<std::vector<double>> outputSet = {{1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20}, 
-                                                {2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40}};
+    //std::vector<std::vector<double>> outputSet = {{1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20}, 
+    //                                            {2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40}};
     //Vector outputSet = {0,1,1,0};
-    GAN gan(2, alg.transpose(outputSet));
-    gan.addLayer(5, "Sigmoid");
-    gan.addLayer(2, "RELU");
-    gan.addLayer(5, "Sigmoid");
-    gan.addOutputLayer("Sigmoid", "LogLoss");
-    gan.gradientDescent(0.1, 25000, 0);
-    std::cout << "GENERATED INPUT: (Gaussian-sampled noise):" << std::endl;
-    alg.printMatrix(gan.generateExample(5));
+    // GAN gan(2, alg.transpose(outputSet));
+    // gan.addLayer(5, "Sigmoid");
+    // gan.addLayer(2, "RELU");
+    // gan.addLayer(5, "Sigmoid");
+    // gan.addOutputLayer("Sigmoid", "LogLoss");
+    // gan.gradientDescent(0.1, 25000, 0);
+    // std::cout << "GENERATED INPUT: (Gaussian-sampled noise):" << std::endl;
+    // alg.printMatrix(gan.generateExample(100));
 
 
     // typedef std::vector<std::vector<double>> Matrix;
