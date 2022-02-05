@@ -16,7 +16,7 @@
 
 namespace MLPP {
     ANN::ANN(std::vector<std::vector<double>> inputSet, std::vector<double> outputSet)
-    : inputSet(inputSet), outputSet(outputSet), n(inputSet.size()), k(inputSet[0].size()), lrScheduler("None"), decayConstant(0)
+    : inputSet(inputSet), outputSet(outputSet), n(inputSet.size()), k(inputSet[0].size()), lrScheduler("None"), decayConstant(0), dropRate(0)
     {
 
     }
@@ -63,10 +63,11 @@ namespace MLPP {
         double cost_prev = 0;
         int epoch = 1;
         forwardPass();
+        double initial_learning_rate = learning_rate;
 
         alg.printMatrix(network[network.size() - 1].weights);
         while(true){
-            learning_rate = applyLearningRateScheduler(learning_rate, decayConstant, epoch);
+            learning_rate = applyLearningRateScheduler(initial_learning_rate, decayConstant, epoch, dropRate);
             cost_prev = Cost(y_hat, outputSet);
 
             auto [cumulativeHiddenLayerWGrad, outputWGrad] = computeGradients(y_hat, outputSet);
@@ -90,6 +91,7 @@ namespace MLPP {
 
         double cost_prev = 0;
         int epoch = 1;
+        double initial_learning_rate = learning_rate;
 
         // Creating the mini-batches
         int n_mini_batch = n/mini_batch_size;
@@ -97,7 +99,7 @@ namespace MLPP {
         // always do forward pass only ONCE at end.
         auto [inputMiniBatches, outputMiniBatches] = Utilities::createMiniBatches(inputSet, outputSet, n_mini_batch);
         while(true){
-            learning_rate = applyLearningRateScheduler(learning_rate, decayConstant, epoch);
+            learning_rate = applyLearningRateScheduler(initial_learning_rate, decayConstant, epoch, dropRate);
             for(int i = 0; i < n_mini_batch; i++){
                 std::vector<double> y_hat = modelSetTest(inputMiniBatches[i]);
                 cost_prev = Cost(y_hat, outputMiniBatches[i]);
@@ -123,6 +125,7 @@ namespace MLPP {
 
         double cost_prev = 0;
         int epoch = 1;
+        double initial_learning_rate = learning_rate;
 
         // Creating the mini-batches
         int n_mini_batch = n/mini_batch_size;
@@ -135,7 +138,7 @@ namespace MLPP {
         
         std::vector<double> v_output;
         while(true){
-            learning_rate = applyLearningRateScheduler(learning_rate, decayConstant, epoch);
+            learning_rate = applyLearningRateScheduler(initial_learning_rate, decayConstant, epoch, dropRate);
             for(int i = 0; i < n_mini_batch; i++){
                 std::vector<double> y_hat = modelSetTest(inputMiniBatches[i]);
                 cost_prev = Cost(y_hat, outputMiniBatches[i]);
@@ -175,6 +178,7 @@ namespace MLPP {
 
         double cost_prev = 0;
         int epoch = 1;
+        double initial_learning_rate = learning_rate;
 
         // Creating the mini-batches
         int n_mini_batch = n/mini_batch_size;
@@ -187,7 +191,7 @@ namespace MLPP {
         
         std::vector<double> v_output;
         while(true){
-            learning_rate = applyLearningRateScheduler(learning_rate, decayConstant, epoch);
+            learning_rate = applyLearningRateScheduler(initial_learning_rate, decayConstant, epoch, dropRate);
             for(int i = 0; i < n_mini_batch; i++){
                 std::vector<double> y_hat = modelSetTest(inputMiniBatches[i]);
                 cost_prev = Cost(y_hat, outputMiniBatches[i]);
@@ -226,6 +230,7 @@ namespace MLPP {
 
         double cost_prev = 0;
         int epoch = 1;
+        double initial_learning_rate = learning_rate;
 
         // Creating the mini-batches
         int n_mini_batch = n/mini_batch_size;
@@ -238,7 +243,7 @@ namespace MLPP {
         
         std::vector<double> v_output;
         while(true){
-            learning_rate = applyLearningRateScheduler(learning_rate, decayConstant, epoch);
+            learning_rate = applyLearningRateScheduler(initial_learning_rate, decayConstant, epoch, dropRate);
             for(int i = 0; i < n_mini_batch; i++){
                 std::vector<double> y_hat = modelSetTest(inputMiniBatches[i]);
                 cost_prev = Cost(y_hat, outputMiniBatches[i]);
@@ -277,6 +282,7 @@ void ANN::Adam(double learning_rate, int max_epoch, int mini_batch_size, double 
 
         double cost_prev = 0;
         int epoch = 1;
+        double initial_learning_rate = learning_rate;
 
         // Creating the mini-batches
         int n_mini_batch = n/mini_batch_size;
@@ -291,7 +297,7 @@ void ANN::Adam(double learning_rate, int max_epoch, int mini_batch_size, double 
         std::vector<double> m_output;
         std::vector<double> v_output;
         while(true){
-            learning_rate = applyLearningRateScheduler(learning_rate, decayConstant, epoch);
+            learning_rate = applyLearningRateScheduler(initial_learning_rate, decayConstant, epoch, dropRate);
             for(int i = 0; i < n_mini_batch; i++){
                 std::vector<double> y_hat = modelSetTest(inputMiniBatches[i]);
                 cost_prev = Cost(y_hat, outputMiniBatches[i]);
@@ -340,6 +346,7 @@ void ANN::Adam(double learning_rate, int max_epoch, int mini_batch_size, double 
 
         double cost_prev = 0;
         int epoch = 1;
+        double initial_learning_rate = learning_rate;
 
         // Creating the mini-batches
         int n_mini_batch = n/mini_batch_size;
@@ -354,7 +361,7 @@ void ANN::Adam(double learning_rate, int max_epoch, int mini_batch_size, double 
         std::vector<double> m_output;
         std::vector<double> u_output;
         while(true){
-            learning_rate = applyLearningRateScheduler(learning_rate, decayConstant, epoch);
+            learning_rate = applyLearningRateScheduler(initial_learning_rate, decayConstant, epoch, dropRate);
             for(int i = 0; i < n_mini_batch; i++){
                 std::vector<double> y_hat = modelSetTest(inputMiniBatches[i]);
                 cost_prev = Cost(y_hat, outputMiniBatches[i]);
@@ -401,6 +408,7 @@ void ANN::Adam(double learning_rate, int max_epoch, int mini_batch_size, double 
 
         double cost_prev = 0;
         int epoch = 1;
+        double initial_learning_rate = learning_rate;
 
         // Creating the mini-batches
         int n_mini_batch = n/mini_batch_size;
@@ -416,7 +424,7 @@ void ANN::Adam(double learning_rate, int max_epoch, int mini_batch_size, double 
         std::vector<double> m_output;
         std::vector<double> v_output;
         while(true){
-            learning_rate = applyLearningRateScheduler(learning_rate, decayConstant, epoch);
+            learning_rate = applyLearningRateScheduler(initial_learning_rate, decayConstant, epoch, dropRate);
             for(int i = 0; i < n_mini_batch; i++){
                 std::vector<double> y_hat = modelSetTest(inputMiniBatches[i]);
                 cost_prev = Cost(y_hat, outputMiniBatches[i]);
@@ -468,6 +476,7 @@ void ANN::Adam(double learning_rate, int max_epoch, int mini_batch_size, double 
 
         double cost_prev = 0;
         int epoch = 1;
+        double initial_learning_rate = learning_rate;
 
         // Creating the mini-batches
         int n_mini_batch = n/mini_batch_size;
@@ -486,7 +495,7 @@ void ANN::Adam(double learning_rate, int max_epoch, int mini_batch_size, double 
 
         std::vector<double> v_output_hat;
         while(true){
-            learning_rate = applyLearningRateScheduler(learning_rate, decayConstant, epoch);
+            learning_rate = applyLearningRateScheduler(initial_learning_rate, decayConstant, epoch, dropRate);
             for(int i = 0; i < n_mini_batch; i++){
                 std::vector<double> y_hat = modelSetTest(inputMiniBatches[i]);
                 cost_prev = Cost(y_hat, outputMiniBatches[i]);
@@ -554,17 +563,26 @@ void ANN::Adam(double learning_rate, int max_epoch, int mini_batch_size, double 
         ANN::decayConstant = decayConstant;
      }
 
+     void ANN::setLearningRateScheduler(std::string type, double decayConstant, double dropRate){
+         lrScheduler = type; 
+         ANN::decayConstant = decayConstant;
+         ANN::dropRate = dropRate;
+     }
+
     // https://en.wikipedia.org/wiki/Learning_rate
     // Learning Rate Decay (C2W2L09) - Andrew Ng - Deep Learning Specialization
-     double ANN::applyLearningRateScheduler(double learningRate, double decayConstant, double epoch){
+     double ANN::applyLearningRateScheduler(double learningRate, double decayConstant, double epoch, double dropRate){
          if(lrScheduler == "Time"){
              return learningRate / (1 + decayConstant * epoch);
          }
-         else if(lrScheduler == "Exponential"){
-             return learningRate * std::exp(-decayConstant * epoch);
-         }
          else if(lrScheduler == "Epoch"){
              return learningRate * (decayConstant / std::sqrt(epoch));
+         }
+         else if(lrScheduler == "Step"){
+            return learningRate * std::pow(decayConstant, int((1 + epoch)/dropRate)); // Utilizing an explicit int conversion implicitly takes the floor.
+         }
+        else if(lrScheduler == "Exponential"){
+             return learningRate * std::exp(-decayConstant * epoch);
          }
          return learningRate;
      }
