@@ -558,6 +558,8 @@ void ANN::Adam(double learning_rate, int max_epoch, int mini_batch_size, double 
         }
      }
      
+    // https://www.youtube.com/watch?v=4qDt4QUl4zE
+    // The above video detailed the necessary components of the line search algorithm.
     double ANN::backTrackingLineSearch(double beta, double learningRate){
         LinAlg alg;
         forwardPass();

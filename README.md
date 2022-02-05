@@ -136,6 +136,8 @@ The result will be the model's predictions for the entire dataset.
         - Epoch Based
         - Step Based
         - Exponential 
+    7. Learning Rate Finders
+        - Backtracking Line Search Optimization
 3. ***Prebuilt Neural Networks***
     1. Multilayer Peceptron
     2. Autoencoder
