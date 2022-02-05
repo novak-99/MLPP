@@ -34,6 +34,8 @@ class ANN{
         double score(); 
         void save(std::string fileName);
 
+        double backTrackingLineSearch(double beta, double learningRate); // Use this to find an optimal learning rate value. 
+
         void setLearningRateScheduler(std::string type, double decayConstant);
         void setLearningRateScheduler(std::string type, double decayConstant, double dropRate);
 

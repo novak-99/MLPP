@@ -480,6 +480,16 @@ namespace MLPP{
         return B;
     }
 
+     double LinAlg::norm_2(std::vector<std::vector<double>> A){
+         double sum = 0; 
+         for(int i = 0; i < A.size(); i++){
+             for(int j = 0; j < A[i].size(); j++){
+                sum += A[i][j] * A[i][j];
+             }
+         }
+         return std::sqrt(sum);
+     }
+
     std::vector<std::vector<double>> LinAlg::identity(double d){
         std::vector<std::vector<double>> identityMat; 
         identityMat.resize(d);
@@ -1182,5 +1192,17 @@ namespace MLPP{
             A[i] = abs(A[i]);
         }
         return A;
+    }
+
+    double LinAlg::norm_2(std::vector<std::vector<std::vector<double>>> A){
+        double sum = 0; 
+        for(int i = 0; i < A.size(); i++){
+            for(int j = 0; j < A[i].size(); j++){
+                for(int k = 0; k < A[i][j].size(); k++){
+                    sum += A[i][j][k] * A[i][j][k];
+                }
+            }
+        }
+        return std::sqrt(sum);
     }
 }

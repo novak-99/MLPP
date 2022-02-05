@@ -372,10 +372,12 @@ int main() {
     //ann.AMSGrad(0.1, 10000, 1, 0.9, 0.999, 0.000001, 1);
     //ann.Adadelta(1, 1000, 2, 0.9, 0.000001, 1);
     //ann.Momentum(0.1, 8000, 2, 0.9, true, 1);
-    ann.setLearningRateScheduler("Step", 0.5, 1000);
-    ann.gradientDescent(0.1, 20000, 1);
-    alg.printVector(ann.modelSetTest(alg.transpose(inputSet)));
-    std::cout << "ACCURACY: " << 100 * ann.score() << "%" << std::endl;
+
+    std::cout << ann.backTrackingLineSearch(0.707, 0.1) << std::endl;
+    //ann.setLearningRateScheduler("Step", 0.5, 1000);
+    //ann.gradientDescent(0.1, 20000, 1);
+    //alg.printVector(ann.modelSetTest(alg.transpose(inputSet)));
+    //std::cout << "ACCURACY: " << 100 * ann.score() << "%" << std::endl;
 
     //std::vector<std::vector<double>> outputSet = {{1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20}, 
     //                                            {2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40}};

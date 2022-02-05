@@ -557,6 +557,50 @@ void ANN::Adam(double learning_rate, int max_epoch, int mini_batch_size, double 
             util.saveParameters(fileName, outputLayer->weights, outputLayer->bias, 0, network.size() + 1);
         }
      }
+     
+    double ANN::backTrackingLineSearch(double beta, double learningRate){
+        LinAlg alg;
+        forwardPass();
+        std::vector<double> outputLayerWeights = outputLayer->weights;
+        std::vector<std::vector<std::vector<double>>> cumulativeHiddenWeights;
+
+        if(!network.empty()){
+                
+            cumulativeHiddenWeights.push_back(network[network.size() - 1].weights);
+
+            for(int i = network.size() - 2; i >= 0; i--){
+                 cumulativeHiddenWeights.push_back(network[i].weights);
+            }
+        }
+
+        while(true){
+            auto [cumulativeHiddenLayerWGrad, outputWGrad] = computeGradients(y_hat, outputSet);
+            cumulativeHiddenLayerWGrad = alg.scalarMultiply(learningRate/n, cumulativeHiddenLayerWGrad);
+            outputWGrad = alg.scalarMultiply(learningRate/n, outputWGrad);
+
+            updateParameters(cumulativeHiddenLayerWGrad, outputWGrad, learningRate); // subject to change. may want bias to have this matrix too.
+
+            forwardPass();
+
+            if(Cost(y_hat, outputSet) > Cost(y_hat, outputSet) - (learningRate/2) * (alg.norm_2(cumulativeHiddenLayerWGrad) + alg.norm_2(outputWGrad))){
+                learningRate *= beta;
+            }
+            else { 
+                outputLayer->weights = outputLayerWeights;
+
+                if(!network.empty()){  
+                    network[network.size() - 1].weights = cumulativeHiddenWeights[0];
+
+                    for(int i = network.size() - 2; i >= 0; i--){
+                        network[i].weights = cumulativeHiddenWeights[(network.size() - 2) - i + 1];
+                    }
+                }
+                return learningRate;
+                break; 
+            }
+        }
+
+    }
 
      void ANN::setLearningRateScheduler(std::string type, double decayConstant){
         lrScheduler = type;

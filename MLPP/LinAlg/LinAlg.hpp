@@ -89,6 +89,8 @@ namespace MLPP{
         double min(std::vector<std::vector<double>> A);
 
         std::vector<std::vector<double>> round(std::vector<std::vector<double>> A);
+
+        double norm_2(std::vector<std::vector<double>> A);
         
         std::vector<std::vector<double>> identity(double d);
 
@@ -221,6 +223,8 @@ namespace MLPP{
         std::vector<std::vector<std::vector<double>>> max(std::vector<std::vector<std::vector<double>>> A, std::vector<std::vector<std::vector<double>>> B);
 
         std::vector<std::vector<std::vector<double>>> abs(std::vector<std::vector<std::vector<double>>> A);
+
+        double norm_2(std::vector<std::vector<std::vector<double>>> A);
 
         private:
     };
