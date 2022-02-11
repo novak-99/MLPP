@@ -373,9 +373,8 @@ int main() {
     //ann.Adadelta(1, 1000, 2, 0.9, 0.000001, 1);
     //ann.Momentum(0.1, 8000, 2, 0.9, true, 1);
 
-    std::cout << ann.backTrackingLineSearch(0.707, 0.1) << std::endl;
     //ann.setLearningRateScheduler("Step", 0.5, 1000);
-    //ann.gradientDescent(0.1, 20000, 1);
+    ann.gradientDescent(1, 5, 1);
     //alg.printVector(ann.modelSetTest(alg.transpose(inputSet)));
     //std::cout << "ACCURACY: " << 100 * ann.score() << "%" << std::endl;
 

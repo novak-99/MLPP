@@ -32,9 +32,7 @@ class ANN{
         void Nadam(double learning_rate, int max_epoch, int mini_batch_size, double b1, double b2, double e, bool UI = 1);
         void AMSGrad(double learning_rate, int max_epoch, int mini_batch_size, double b1, double b2, double e, bool UI = 1);
         double score(); 
-        void save(std::string fileName);
-
-        double backTrackingLineSearch(double beta, double learningRate); // Use this to find an optimal learning rate value. 
+        void save(std::string fileName); 
 
         void setLearningRateScheduler(std::string type, double decayConstant);
         void setLearningRateScheduler(std::string type, double decayConstant, double dropRate);
