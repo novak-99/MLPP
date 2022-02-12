@@ -190,9 +190,11 @@ The result will be the model's predictions for the entire dataset.
     5. Diffrential Equations Solvers 
         - Euler's Method 
         - Growth Method
-15. ***Linear Algebra Module***
-16. ***Statistics Module***
-17. ***Data Processing Module***
+15. ***Mathematical Transforms***
+    1. Discrete Cosine Transform
+16. ***Linear Algebra Module***
+17. ***Statistics Module***
+18. ***Data Processing Module***
     1. Setting and Printing Datasets 
     2. Feature Scaling 
     3. Mean Normalization
@@ -204,7 +206,7 @@ The result will be the model's predictions for the entire dataset.
         - RGB to YCbCr
         - RGB to XYZ
         - XYZ to RGB
-18. ***Utilities***
+19. ***Utilities***
     1. TP, FP, TN, FN function
     2. Precision
     3. Recall 
