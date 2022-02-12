@@ -198,6 +198,10 @@ The result will be the model's predictions for the entire dataset.
     3. Mean Normalization
     4. One Hot Representation
     5. Reverse One Hot Representation
+    6. Supported Color Space Conversions 
+        - RGB to Grayscale
+        - RGB to HSV
+        - RGB to YCbCr
 18. ***Utilities***
     1. TP, FP, TN, FN function
     2. Precision
