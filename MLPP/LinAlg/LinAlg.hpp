@@ -226,6 +226,8 @@ namespace MLPP{
 
         double norm_2(std::vector<std::vector<std::vector<double>>> A);
 
+        std::vector<std::vector<std::vector<double>>> vector_wise_tensor_product(std::vector<std::vector<std::vector<double>>> A, std::vector<std::vector<double>> B);
+
         private:
     };
 

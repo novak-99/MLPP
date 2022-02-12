@@ -159,8 +159,8 @@ namespace MLPP{
         LinAlg alg;
         std::vector<std::vector<std::vector<double>>> YCbCr;
         YCbCr = alg.resize(YCbCr, input);
-        for(int i = 0; i < YCbCr.size(); i++){
-            for(int j = 0; j < YCbCr[i].size(); j++){
+        for(int i = 0; i < YCbCr[0].size(); i++){
+            for(int j = 0; j < YCbCr[0][i].size(); j++){
                 YCbCr[0][i][j] = 0.299 * input[0][i][j] + 0.587 * input[1][i][j] + 0.114 * input[2][i][j];
                 YCbCr[1][i][j] = -0.169 * input[0][i][j] - 0.331 * input[1][i][j] + 0.500 * input[2][i][j];
                 YCbCr[2][i][j] = 0.500 * input[0][i][j] - 0.419 * input[1][i][j] - 0.081 * input[2][i][j];
@@ -169,12 +169,14 @@ namespace MLPP{
         return YCbCr;
     }
 
+    // Conversion formulas available here: 
+    // https://www.rapidtables.com/convert/color/rgb-to-hsv.html
     std::vector<std::vector<std::vector<double>>> Data::rgb2hsv(std::vector<std::vector<std::vector<double>>> input){
         LinAlg alg;
         std::vector<std::vector<std::vector<double>>> HSV;
         HSV = alg.resize(HSV, input);
-        for(int i = 0; i < HSV.size(); i++){
-            for(int j = 0; j < HSV[i].size(); j++){
+        for(int i = 0; i < HSV[0].size(); i++){
+            for(int j = 0; j < HSV[0][i].size(); j++){
                 double rPrime = input[0][i][j] / 255;
                 double gPrime = input[1][i][j] / 255;
                 double bPrime = input[2][i][j] / 255; 
@@ -210,6 +212,23 @@ namespace MLPP{
             }
         }
         return HSV;
+    }
+
+    // http://machinethatsees.blogspot.com/2013/07/how-to-convert-rgb-to-xyz-or-vice-versa.html
+    std::vector<std::vector<std::vector<double>>> Data::rgb2xyz(std::vector<std::vector<std::vector<double>>> input){
+        LinAlg alg;
+        std::vector<std::vector<std::vector<double>>> XYZ;
+        XYZ = alg.resize(XYZ, input);
+        std::vector<std::vector<double>> RGB2XYZ = {{0.4124564, 0.3575761, 0.1804375}, {0.2126726, 0.7151522, 0.0721750}, {0.0193339, 0.1191920, 0.9503041}};
+        return alg.vector_wise_tensor_product(input, RGB2XYZ);
+    }
+
+    std::vector<std::vector<std::vector<double>>> Data::xyz2rgb(std::vector<std::vector<std::vector<double>>> input){
+        LinAlg alg;
+        std::vector<std::vector<std::vector<double>>> XYZ;
+        XYZ = alg.resize(XYZ, input);
+        std::vector<std::vector<double>> RGB2XYZ = alg.inverse({{0.4124564, 0.3575761, 0.1804375}, {0.2126726, 0.7151522, 0.0721750}, {0.0193339, 0.1191920, 0.9503041}});
+        return alg.vector_wise_tensor_product(input, RGB2XYZ);
     }
     
     // TEXT-BASED & NLP

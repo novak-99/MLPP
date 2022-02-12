@@ -1205,4 +1205,27 @@ namespace MLPP{
         }
         return std::sqrt(sum);
     }
+
+    // Bad implementation. Change this later. 
+    std::vector<std::vector<std::vector<double>>> LinAlg::vector_wise_tensor_product(std::vector<std::vector<std::vector<double>>> A, std::vector<std::vector<double>> B){
+        std::vector<std::vector<std::vector<double>>> C; 
+        C = resize(C, A);
+        for(int i = 0; i < A[0].size(); i++){
+            for(int j = 0; j < A[0][i].size(); j++){
+                std::vector<double> currentVector;
+                currentVector.resize(A.size());
+
+                for(int k = 0; k < C.size(); k++){
+                    currentVector[k] = A[k][i][j];
+                }
+
+                currentVector = mat_vec_mult(B, currentVector);
+
+                for(int k = 0; k < C.size(); k++){
+                    C[k][i][j] = currentVector[k];
+                }
+            }
+        }
+        return C;
+    }
 }

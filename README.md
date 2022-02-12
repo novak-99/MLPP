@@ -202,6 +202,8 @@ The result will be the model's predictions for the entire dataset.
         - RGB to Grayscale
         - RGB to HSV
         - RGB to YCbCr
+        - RGB to XYZ
+        - XYZ to RGB
 18. ***Utilities***
     1. TP, FP, TN, FN function
     2. Precision

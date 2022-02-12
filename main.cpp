@@ -467,14 +467,7 @@ int main() {
 
     // // CONVOLUTION, POOLING, ETC.. 
     std::vector<std::vector<double>> input = {
-        {255,255,255,255,0,0,0,0},
-        {1,1,1,1,0,0,0,0},
-        {1,1,1,1,0,0,0,0},
-        {1,1,1,1,0,0,0,0},
-        {1,1,1,1,0,0,0,0},
-        {1,1,1,1,0,0,0,0},
-        {1,1,1,1,0,0,0,0},
-        {1,1,1,1,0,0,0,0}
+        {1},
     };
 
     std::vector<std::vector<std::vector<double>>> tensorSet; 
@@ -482,7 +475,7 @@ int main() {
     tensorSet.push_back(input);
     tensorSet.push_back(input);
 
-    alg.printTensor(data.rgb2hsv(tensorSet));
+    alg.printTensor(data.rgb2xyz(tensorSet));
 
     // alg.printMatrix(conv.convolve(input, conv.getPrewittVertical(), 1)); // Can use padding
     // alg.printMatrix(conv.pool(input, 4, 4, "Max")); // Can use Max, Min, or Average pooling. 
