@@ -363,20 +363,22 @@ int main() {
     // Possible Weight Init Methods: Default, Uniform, HeNormal, HeUniform, XavierNormal, XavierUniform
     // Possible Activations: Linear, Sigmoid, Swish, Softplus, Softsign, CLogLog, Ar{Sinh, Cosh, Tanh, Csch, Sech, Coth},  GaussianCDF, GELU, UnitStep
     // Possible Loss Functions: MSE, RMSE, MBE, LogLoss, CrossEntropy, HingeLoss
-    // std::vector<std::vector<double>> inputSet = {{0,0,1,1}, {0,1,0,1}};
-    // std::vector<double> outputSet = {0,1,1,0};
-    // ANN ann(alg.transpose(inputSet), outputSet);
-    // ann.addLayer(2, "Sigmoid");
-    // ann.addLayer(2, "Sigmoid");
-    // ann.addOutputLayer("Sigmoid", "LogLoss");
-    //ann.AMSGrad(0.1, 10000, 1, 0.9, 0.999, 0.000001, 1);
-    //ann.Adadelta(1, 1000, 2, 0.9, 0.000001, 1);
-    //ann.Momentum(0.1, 8000, 2, 0.9, true, 1);
+    std::vector<std::vector<double>> inputSet = {{0,0,1,1}, {0,1,0,1}};
+    std::vector<double> outputSet = {0,1,1,0};
+    ANN ann(alg.transpose(inputSet), outputSet);
+    ann.addLayer(2, "Sigmoid");
+    ann.addLayer(2, "Sigmoid");
+    ann.addOutputLayer("Sigmoid", "LogLoss");
+
+
+    // ann.AMSGrad(0.1, 10000, 1, 0.9, 0.999, 0.000001, 1);
+    // ann.Adadelta(1, 1000, 2, 0.9, 0.000001, 1);
+    // ann.Momentum(0.1, 8000, 2, 0.9, true, 1);
 
     //ann.setLearningRateScheduler("Step", 0.5, 1000);
-    // ann.gradientDescent(1, 5, 1);
-    //alg.printVector(ann.modelSetTest(alg.transpose(inputSet)));
-    //std::cout << "ACCURACY: " << 100 * ann.score() << "%" << std::endl;
+    ann.SGD(1, 30000);
+    alg.printVector(ann.modelSetTest(alg.transpose(inputSet)));
+    std::cout << "ACCURACY: " << 100 * ann.score() << "%" << std::endl;
 
     //std::vector<std::vector<double>> outputSet = {{1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20}, 
     //                                            {2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40}};
@@ -477,20 +479,20 @@ int main() {
 
     // alg.printTensor(data.rgb2xyz(tensorSet));
 
-    std::vector<std::vector<double>> input = {
-        {62,55,55,54,49,48,47,55},
-        {62,57,54,52,48,47,48,53},
-        {61,60,52,49,48,47,49,54},
-        {63,61,60,60,63,65,68,65},
-        {67,67,70,74,79,85,91,92},
-        {82,95,101,106,114,115,112,117},
-        {96,111,115,119,128,128,130,127},
-        {109,121,127,133,139,141,140,133},
-    };
+    // std::vector<std::vector<double>> input = {
+    //     {62,55,55,54,49,48,47,55},
+    //     {62,57,54,52,48,47,48,53},
+    //     {61,60,52,49,48,47,49,54},
+    //     {63,61,60,60,63,65,68,65},
+    //     {67,67,70,74,79,85,91,92},
+    //     {82,95,101,106,114,115,112,117},
+    //     {96,111,115,119,128,128,130,127},
+    //     {109,121,127,133,139,141,140,133},
+    // };
 
-    Transforms trans; 
+    // Transforms trans; 
 
-    alg.printMatrix(trans.discreteCosineTransform(input));
+    // alg.printMatrix(trans.discreteCosineTransform(input));
 
     // alg.printMatrix(conv.convolve(input, conv.getPrewittVertical(), 1)); // Can use padding
     // alg.printMatrix(conv.pool(input, 4, 4, "Max")); // Can use Max, Min, or Average pooling. 

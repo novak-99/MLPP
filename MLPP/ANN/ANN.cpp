@@ -13,6 +13,7 @@
 
 #include <iostream>
 #include <cmath>
+#include <random>
 
 namespace MLPP {
     ANN::ANN(std::vector<std::vector<double>> inputSet, std::vector<double> outputSet)
@@ -85,6 +86,40 @@ namespace MLPP {
             epoch++;
             if(epoch > max_epoch) { break; }
         }
+    }
+
+    void ANN::SGD(double learning_rate, int max_epoch, bool UI){
+        class Cost cost; 
+        LinAlg alg;
+
+        double cost_prev = 0;
+        int epoch = 1;
+        double initial_learning_rate = learning_rate;
+
+        while(true){
+            learning_rate = applyLearningRateScheduler(initial_learning_rate, decayConstant, epoch, dropRate);
+
+            std::random_device rd;
+            std::default_random_engine generator(rd()); 
+            std::uniform_int_distribution<int> distribution(0, int(n - 1));
+            int outputIndex = distribution(generator);
+
+            std::vector<double> y_hat = modelSetTest({inputSet[outputIndex]});
+            cost_prev = Cost({y_hat}, {outputSet[outputIndex]});
+
+            auto [cumulativeHiddenLayerWGrad, outputWGrad] = computeGradients(y_hat,  {outputSet[outputIndex]});
+            cumulativeHiddenLayerWGrad = alg.scalarMultiply(learning_rate/n, cumulativeHiddenLayerWGrad);
+            outputWGrad = alg.scalarMultiply(learning_rate/n, outputWGrad);
+
+            updateParameters(cumulativeHiddenLayerWGrad, outputWGrad, learning_rate); // subject to change. may want bias to have this matrix too.
+            y_hat = modelSetTest({inputSet[outputIndex]});
+
+            if(UI) { ANN::UI(epoch, cost_prev, y_hat, {outputSet[outputIndex]}); }
+            
+            epoch++;
+            if(epoch > max_epoch) { break; }
+        }
+        forwardPass();
     }
 
     void ANN::MBGD(double learning_rate, int max_epoch, int mini_batch_size, bool UI){
