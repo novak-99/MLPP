@@ -363,18 +363,18 @@ int main() {
     // Possible Weight Init Methods: Default, Uniform, HeNormal, HeUniform, XavierNormal, XavierUniform
     // Possible Activations: Linear, Sigmoid, Swish, Softplus, Softsign, CLogLog, Ar{Sinh, Cosh, Tanh, Csch, Sech, Coth},  GaussianCDF, GELU, UnitStep
     // Possible Loss Functions: MSE, RMSE, MBE, LogLoss, CrossEntropy, HingeLoss
-    std::vector<std::vector<double>> inputSet = {{0,0,1,1}, {0,1,0,1}};
-    std::vector<double> outputSet = {0,1,1,0};
-    ANN ann(alg.transpose(inputSet), outputSet);
-    ann.addLayer(2, "Sigmoid");
-    ann.addLayer(2, "Sigmoid");
-    ann.addOutputLayer("Sigmoid", "LogLoss");
+    // std::vector<std::vector<double>> inputSet = {{0,0,1,1}, {0,1,0,1}};
+    // std::vector<double> outputSet = {0,1,1,0};
+    // ANN ann(alg.transpose(inputSet), outputSet);
+    // ann.addLayer(2, "Sigmoid");
+    // ann.addLayer(2, "Sigmoid");
+    // ann.addOutputLayer("Sigmoid", "LogLoss");
     //ann.AMSGrad(0.1, 10000, 1, 0.9, 0.999, 0.000001, 1);
     //ann.Adadelta(1, 1000, 2, 0.9, 0.000001, 1);
     //ann.Momentum(0.1, 8000, 2, 0.9, true, 1);
 
     //ann.setLearningRateScheduler("Step", 0.5, 1000);
-    ann.gradientDescent(1, 5, 1);
+    // ann.gradientDescent(1, 5, 1);
     //alg.printVector(ann.modelSetTest(alg.transpose(inputSet)));
     //std::cout << "ACCURACY: " << 100 * ann.score() << "%" << std::endl;
 
@@ -466,16 +466,23 @@ int main() {
 
 
     // // CONVOLUTION, POOLING, ETC.. 
-    // std::vector<std::vector<double>> input = {
-    //     {1,1,1,1,0,0,0,0},
-    //     {1,1,1,1,0,0,0,0},
-    //     {1,1,1,1,0,0,0,0},
-    //     {1,1,1,1,0,0,0,0},
-    //     {1,1,1,1,0,0,0,0},
-    //     {1,1,1,1,0,0,0,0},
-    //     {1,1,1,1,0,0,0,0},
-    //     {1,1,1,1,0,0,0,0}
-    // };
+    std::vector<std::vector<double>> input = {
+        {255,255,255,255,0,0,0,0},
+        {1,1,1,1,0,0,0,0},
+        {1,1,1,1,0,0,0,0},
+        {1,1,1,1,0,0,0,0},
+        {1,1,1,1,0,0,0,0},
+        {1,1,1,1,0,0,0,0},
+        {1,1,1,1,0,0,0,0},
+        {1,1,1,1,0,0,0,0}
+    };
+
+    std::vector<std::vector<std::vector<double>>> tensorSet; 
+    tensorSet.push_back(input);
+    tensorSet.push_back(input);
+    tensorSet.push_back(input);
+
+    alg.printTensor(data.rgb2hsv(tensorSet));
 
     // alg.printMatrix(conv.convolve(input, conv.getPrewittVertical(), 1)); // Can use padding
     // alg.printMatrix(conv.pool(input, 4, 4, "Max")); // Can use Max, Min, or Average pooling. 

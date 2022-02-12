@@ -30,6 +30,8 @@ class Data{
 
         // Images
         std::vector<std::vector<double>> rgb2gray(std::vector<std::vector<std::vector<double>>> input);
+        std::vector<std::vector<std::vector<double>>> rgb2ycbcr(std::vector<std::vector<std::vector<double>>> input);
+        std::vector<std::vector<std::vector<double>>> rgb2hsv(std::vector<std::vector<std::vector<double>>> input);
 
         // Text-Based & NLP
         std::string toLower(std::string text);

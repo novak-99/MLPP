@@ -154,6 +154,63 @@ namespace MLPP{
         }
         return grayScale;
     }
+
+    std::vector<std::vector<std::vector<double>>> Data::rgb2ycbcr(std::vector<std::vector<std::vector<double>>> input){
+        LinAlg alg;
+        std::vector<std::vector<std::vector<double>>> YCbCr;
+        YCbCr = alg.resize(YCbCr, input);
+        for(int i = 0; i < YCbCr.size(); i++){
+            for(int j = 0; j < YCbCr[i].size(); j++){
+                YCbCr[0][i][j] = 0.299 * input[0][i][j] + 0.587 * input[1][i][j] + 0.114 * input[2][i][j];
+                YCbCr[1][i][j] = -0.169 * input[0][i][j] - 0.331 * input[1][i][j] + 0.500 * input[2][i][j];
+                YCbCr[2][i][j] = 0.500 * input[0][i][j] - 0.419 * input[1][i][j] - 0.081 * input[2][i][j];
+            }
+        }
+        return YCbCr;
+    }
+
+    std::vector<std::vector<std::vector<double>>> Data::rgb2hsv(std::vector<std::vector<std::vector<double>>> input){
+        LinAlg alg;
+        std::vector<std::vector<std::vector<double>>> HSV;
+        HSV = alg.resize(HSV, input);
+        for(int i = 0; i < HSV.size(); i++){
+            for(int j = 0; j < HSV[i].size(); j++){
+                double rPrime = input[0][i][j] / 255;
+                double gPrime = input[1][i][j] / 255;
+                double bPrime = input[2][i][j] / 255; 
+
+                double cMax = alg.max({rPrime, gPrime, bPrime});
+                double cMin = alg.min({rPrime, gPrime, bPrime});
+                double delta = cMax - cMin; 
+
+                // H calculation.
+                if(delta == 0){
+                    HSV[0][i][j] = 0; 
+                }
+                else{
+                    if(cMax == rPrime){
+                        HSV[0][i][j] = 60 * fmod(((gPrime - bPrime) / delta), 6);
+                    }
+                    else if(cMax == gPrime){
+                        HSV[0][i][j] = 60 * ( (bPrime - rPrime)  / delta + 2); 
+                    }
+                    else{ // cMax == bPrime
+                        HSV[0][i][j] = 60 * ( (rPrime - gPrime)  / delta + 6); 
+                    }
+                }
+                
+                // S calculation.
+                if(cMax == 0){
+                    HSV[1][i][j] = 0; 
+                }
+                else{ HSV[1][i][j] = delta/cMax; }
+
+                // V calculation. 
+                HSV[2][i][j] = cMax;
+            }
+        }
+        return HSV;
+    }
     
     // TEXT-BASED & NLP
     std::string Data::toLower(std::string text){
