@@ -171,14 +171,14 @@ namespace MLPP{
                 num[i] = 0;
             }
             
-            int den = 0;
+            double den = 0;
             for(int j = 0; j < r.size(); j++){
                 num = alg.addition(num, alg.scalarMultiply(r[j][i], inputSet[j]));
             }
             for(int j = 0; j < r.size(); j++){
                 den += r[j][i];
             }
-            mu[i] = alg.scalarMultiply(1/den, num);
+            mu[i] = alg.scalarMultiply(double(1)/double(den), num);
         }
         
     }

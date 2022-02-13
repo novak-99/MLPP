@@ -77,13 +77,13 @@ namespace MLPP{
             C[i].resize(B[0].size());
         }
         
-        for(int i = 0; i < A.size(); i++){
-            for(int j = 0; j < B[0].size(); j++){
-                for(int k = 0; k < B.size(); k++){
-                    C[i][j] += A[i][k] * B[k][j];
-                }
-            }
-        }
+    for(int i = 0; i < A.size(); i++){ 
+        for(int k = 0; k < B.size(); k++){ 
+            for(int j = 0; j < B[0].size(); j++){ 
+                C[i][j] += A[i][k] * B[k][j]; 
+            } 
+        } 
+    } 
         return C;
     }
 
