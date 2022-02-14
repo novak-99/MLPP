@@ -30,7 +30,7 @@ g++ main.cpp /usr/local/lib/MLPP.so --std=c++17
 ```
 
 ## Usage
-Please note that ML++ uses the ```std::vector<double>``` data type for emulating vectors, and the ```std::vector<std::vector<double>>``` data type for emulating matricies.
+Please note that ML++ uses the ```std::vector<double>``` data type for emulating vectors, and the ```std::vector<std::vector<double>>``` data type for emulating matrices.
 
 Begin by including the respective header file of your choice.
 ```cpp
@@ -40,7 +40,7 @@ Next, instantiate an object of the class. Don't forget to pass the input set and
 ```cpp
 LinReg model(inputSet, outputSet);
 ```
-Afterwards, call the optimizer that you would like to use. For iterative optimizers such as gradient descent, include the learning rate, epoch number, and whether or not to utilize the UI pannel. 
+Afterwards, call the optimizer that you would like to use. For iterative optimizers such as gradient descent, include the learning rate, epoch number, and whether or not to utilize the UI panel. 
 ```cpp
 model.gradientDescent(0.001, 1000, 0);
 ```
