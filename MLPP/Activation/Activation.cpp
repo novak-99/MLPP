@@ -221,7 +221,7 @@ namespace MLPP{
 
     double Activation::logit(double z, bool deriv){
         if(deriv) { return 1/z - 1/(z-1); }
-        return std::log(z / (1 + z));
+        return std::log(z / (1 - z));
     }
 
     std::vector<double> Activation::logit(std::vector<double> z, bool deriv){
