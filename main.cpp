@@ -149,10 +149,10 @@ int main() {
     // std::vector<std::vector<double>> inputSet = {{0,0,1,1}, {0,1,0,1}};
     // std::vector<double> outputSet = {0,1,1,0};
 
-    // STATISTICS
-    std::vector<double> x = {1,2,3,4,5,6,5,8,9,10,1};
-    std::vector<double> y = {10,9,8,7,6,5,4,3,2,1};
-    std::vector<double> w = {0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1};
+    // // STATISTICS
+    // std::vector<double> x = {1,2,3,4,5,6,7,8,9,10};
+    // std::vector<double> y = {10,9,8,7,6,5,4,3,2,1};
+    // std::vector<double> w = {0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1};
 
     // std::cout << "Arithmetic Mean: " << stat.mean(x) << std::endl;
     // std::cout << "Median: " << stat.median(x) << std::endl;
@@ -175,7 +175,7 @@ int main() {
     // std::cout << "Power Mean (p = 5): " << stat.powerMean(x, 5) << std::endl;
     // std::cout << "Lehmer Mean (p = 5): " << stat.lehmerMean(x, 5) << std::endl;
     // std::cout << "Weighted Lehmer Mean (p = 5): " << stat.weightedLehmerMean(x, w, 5) << std::endl;
-    // std::cout << "Contraharmonic Mean: " << stat.contraharmonicMean(x) << std::endl;
+    // std::cout << "Contraharmonic Mean: " << stat.contraHarmonicMean(x) << std::endl;
     // std::cout << "Hernonian Mean: " << stat.heronianMean(1, 10) << std::endl;
     // std::cout << "Heinz Mean (x = 1): " << stat.heinzMean(1, 10, 1) << std::endl;
     // std::cout << "Neuman-Sandor Mean: " << stat.neumanSandorMean(1, 10) << std::endl;
@@ -204,32 +204,25 @@ int main() {
     // std::cout << std::endl;
     // alg.printMatrix(alg.identity(10));
 
-    // // UNIVARIATE LINEAR REGRESSION 
-    // // Univariate, simple linear regression case where k = 1
-    // std::vector<double> inputSet; 
-    // std::vector<double> outputSet; 
-    // // Analytical solution used for calculating the parameters. 
-    // data.setData("/Users/marcmelikyan/Desktop/Data/FiresAndCrime.csv", inputSet, outputSet);
+    // UNIVARIATE LINEAR REGRESSION 
+    // Univariate, simple linear regression, case where k = 1
+    // auto [inputSet, outputSet] = data.loadFiresAndCrime();
     // UniLinReg model(inputSet, outputSet);
     // alg.printVector(model.modelSetTest(inputSet));
 
     // // MULIVARIATE LINEAR REGRESSION
-    // std::vector<std::vector<double>> inputSet = {{1,2,3,4,5,6,7,8,9,10}, {3,5,9,12,15,18,21,24,27,30}};
-    // std::vector<double> outputSet = {2,4,6,8,10,12,14,16,18,20};
+    // auto [inputSet, outputSet] = data.loadCaliforniaHousing();
 
-    //LinReg model(alg.transpose(inputSet), outputSet); // Can use Lasso, Ridge, ElasticNet Reg
+    // LinReg model(inputSet, outputSet); // Can use Lasso, Ridge, ElasticNet Reg
 
     //model.gradientDescent(0.001, 30, 0);
-    //model.SGD(0.001, 30000, 1);
-    // model.MBGD(0.001, 10000, 2, 1);
+    //model.SGD(0.00000001, 300000, 1);
+    //model.MBGD(0.001, 10000, 2, 1);
     //model.normalEquation(); 
 
-
-
     // LinReg adamModel(alg.transpose(inputSet), outputSet);
-    // adamModel.Nadam(0.1, 5, 1, 0.9, 0.999, 1e-8, 0); // Change batch size = sgd, bgd
-    // alg.printVector(adamModel.modelSetTest(alg.transpose(inputSet)));
-    // std::cout << "ACCURACY: " << 100 * adamModel.score() << "%" << std::endl;
+    // alg.printVector(model.modelSetTest(inputSet));
+    // std::cout << "ACCURACY: " << 100 * model.score() << "%" << std::endl;
 
 
     // const int TRIAL_NUM = 1000; 
@@ -270,12 +263,9 @@ int main() {
 
 
     // // LOGISTIC REGRESSION
-    // std::vector<std::vector<double>> inputSet; 
-    // std::vector<double> outputSet; 
-    // data.setData(30, "/Users/marcmelikyan/Desktop/Data/BreastCancer.csv", inputSet, outputSet);
+    // auto [inputSet, outputSet] = data.load rastCancer();
     // LogReg model(inputSet, outputSet); 
     // model.SGD(0.001, 100000, 0);
-    // model.MLE(0.1, 10000, 0);
     // alg.printVector(model.modelSetTest(inputSet));
     // std::cout << "ACCURACY: " << 100 * model.score() << "%" << std::endl;
 
@@ -313,15 +303,14 @@ int main() {
     // std::cout << "ACCURACY: " << 100 * model.score() << "%" << std::endl;
 
     // // SOFTMAX REGRESSION
-    // std::vector<std::vector<double>> inputSet; 
-    // std::vector<double> tempOutputSet; 
-    // data.setData(4, "/Users/marcmelikyan/Desktop/Data/Iris.csv", inputSet, tempOutputSet);
-    // std::vector<std::vector<double>> outputSet = data.oneHotRep(tempOutputSet, 3);
+    // auto [inputSet, outputSet] = data.loadIris();
+    // SoftmaxReg model(inputSet, outputSet);
+    // model.SGD(0.1, 10000, 1);
+    // alg.printMatrix(model.modelSetTest(inputSet));
+    // std::cout << "ACCURACY: " << 100 * model.score() << "%" << std::endl;
 
     // // SUPPORT VECTOR CLASSIFICATION
-    // std::vector<std::vector<double>> inputSet; 
-    // std::vector<double> outputSet; 
-    // data.setData(30, "/Users/marcmelikyan/Desktop/Data/BreastCancerSVM.csv", inputSet, outputSet);
+    // auto [inputSet, outputSet] = data.loadBreastCancerSVC();
     // SVC model(inputSet, outputSet, 1); 
     // model.SGD(0.00001, 100000, 1);
     // alg.printVector(model.modelSetTest(inputSet));
@@ -342,13 +331,9 @@ int main() {
     // std::cout << "ACCURACY: " << 100 * model.score() << "%" << std::endl;
 
     // // SOFTMAX NETWORK
-    // std::vector<std::vector<double>> inputSet; 
-    // std::vector<double> tempOutputSet; 
-    // data.setData(13, "/Users/marcmelikyan/Desktop/Data/Wine.csv", inputSet, tempOutputSet);
-    // std::vector<std::vector<double>> outputSet = data.oneHotRep(tempOutputSet, 3);
-
-    // SoftmaxNet model(inputSet, outputSet, 5); 
-    // model.SGD(0.1, 500000, 0);
+    // auto [inputSet, outputSet] = data.loadWine();
+    // SoftmaxNet model(inputSet, outputSet, 1); 
+    // model.gradientDescent(0.01, 100000, 1);
     // alg.printMatrix(model.modelSetTest(inputSet));
     // std::cout << "ACCURACY: " << 100 * model.score() << "%" << std::endl;
 
@@ -363,12 +348,11 @@ int main() {
     // Possible Weight Init Methods: Default, Uniform, HeNormal, HeUniform, XavierNormal, XavierUniform
     // Possible Activations: Linear, Sigmoid, Swish, Softplus, Softsign, CLogLog, Ar{Sinh, Cosh, Tanh, Csch, Sech, Coth},  GaussianCDF, GELU, UnitStep
     // Possible Loss Functions: MSE, RMSE, MBE, LogLoss, CrossEntropy, HingeLoss
-    std::vector<std::vector<double>> inputSet = {{0,0,1,1}, {0,1,0,1}};
-    std::vector<double> outputSet = {0,1,1,0};
-    ANN ann(alg.transpose(inputSet), outputSet);
-    ann.addLayer(2, "Sigmoid");
-    ann.addLayer(2, "Sigmoid");
-    ann.addOutputLayer("Sigmoid", "LogLoss");
+    // std::vector<std::vector<double>> inputSet = {{0,0,1,1}, {0,1,0,1}};
+    // std::vector<double> outputSet = {0,1,1,0};
+    // ANN ann(alg.transpose(inputSet), outputSet);
+    // ann.addLayer(2, "Cosh");
+    // ann.addOutputLayer("Sigmoid", "LogLoss");
 
 
     // ann.AMSGrad(0.1, 10000, 1, 0.9, 0.999, 0.000001, 1);
@@ -376,9 +360,9 @@ int main() {
     // ann.Momentum(0.1, 8000, 2, 0.9, true, 1);
 
     //ann.setLearningRateScheduler("Step", 0.5, 1000);
-    ann.SGD(1, 30000);
-    alg.printVector(ann.modelSetTest(alg.transpose(inputSet)));
-    std::cout << "ACCURACY: " << 100 * ann.score() << "%" << std::endl;
+    // ann.gradientDescent(0.01, 30000);
+    // alg.printVector(ann.modelSetTest(alg.transpose(inputSet)));
+    // std::cout << "ACCURACY: " << 100 * ann.score() << "%" << std::endl;
 
     //std::vector<std::vector<double>> outputSet = {{1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20}, 
     //                                            {2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40}};
@@ -424,16 +408,23 @@ int main() {
     // data.setData(4, "/Users/marcmelikyan/Desktop/Data/Iris.csv", inputSet, tempOutputSet);
     // std::vector<std::vector<double>> outputSet = data.oneHotRep(tempOutputSet, 3);
 
-    // std::vector<std::vector<double>> inputSet;
-    // std::vector<double> tempOutputSet;
-    // data.setData(784, "mini_mnist.csv", inputSet, tempOutputSet);
-    // std::vector<std::vector<double>> outputSet = data.oneHotRep(tempOutputSet, 10);
+    // TRAIN TEST SPLIT CHECK
+    // std::vector<std::vector<double>> inputSet1 = {{1,2,3,4,5,6,7,8,9,10}, {3,5,9,12,15,18,21,24,27,30}};
+    // std::vector<std::vector<double>> outputSet1 = {{2,4,6,8,10,12,14,16,18,20}};
+    // auto [inputSet, outputSet, inputTestSet, outputTestSet] = data.trainTestSplit(alg.transpose(inputSet1), alg.transpose(outputSet1), 0.2);
+    // alg.printMatrix(inputSet);
+    // alg.printMatrix(outputSet);
+    // alg.printMatrix(inputTestSet);
+    // alg.printMatrix(outputTestSet);
+
+
+    // alg.printMatrix(inputSet);
+    // alg.printMatrix(outputSet);
 
     // MANN mann(inputSet, outputSet);
-    // mann.addLayer(2, "RELU");
-    // mann.addLayer(2, "RELU");
-    // mann.addOutputLayer("Softmax", "CrossEntropy");
-    // mann.gradientDescent(0.001, 80000, 1);
+    // mann.addLayer(100, "RELU", "XavierNormal");
+    // mann.addOutputLayer("Softmax", "CrossEntropy", "XavierNormal");
+    // mann.gradientDescent(0.1, 80000, 1);
     // alg.printMatrix(mann.modelSetTest(inputSet));
     // std::cout << "ACCURACY: " << 100 * mann.score() << "%" << std::endl;
 

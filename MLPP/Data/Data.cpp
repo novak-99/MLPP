@@ -10,6 +10,7 @@
 #include "Stat/Stat.hpp"
 #include "SoftmaxNet/SoftmaxNet.hpp"
 #include <iostream>
+#include <random>
 #include <cmath>
 #include <fstream>
 #include <sstream>
@@ -17,6 +18,113 @@
 
 
 namespace MLPP{
+    // Loading Datasets
+    std::tuple<std::vector<std::vector<double>>, std::vector<double>> Data::loadBreastCancer(){
+        const int BREAST_CANCER_SIZE = 30; // k = 30
+        std::vector<std::vector<double>> inputSet;
+        std::vector<double> outputSet;
+
+        setData(BREAST_CANCER_SIZE, "MLPP/Data/Datasets/BreastCancer.csv", inputSet, outputSet);
+        return {inputSet, outputSet};
+    }
+
+    std::tuple<std::vector<std::vector<double>>, std::vector<double>> Data::loadBreastCancerSVC(){
+        const int BREAST_CANCER_SIZE = 30; // k = 30
+        std::vector<std::vector<double>> inputSet;
+        std::vector<double> outputSet;
+
+        setData(BREAST_CANCER_SIZE, "MLPP/Data/Datasets/BreastCancerSVM.csv", inputSet, outputSet);
+        return {inputSet, outputSet};
+    }
+
+    std::tuple<std::vector<std::vector<double>>, std::vector<std::vector<double>>> Data::loadIris(){
+        const int IRIS_SIZE = 4;
+        const int ONE_HOT_NUM = 3;
+        std::vector<std::vector<double>> inputSet;
+        std::vector<double> tempOutputSet;
+
+        setData(IRIS_SIZE, "/Users/marcmelikyan/Desktop/Data/Iris.csv", inputSet, tempOutputSet);
+        std::vector<std::vector<double>> outputSet = oneHotRep(tempOutputSet, ONE_HOT_NUM);
+        return {inputSet, outputSet};
+    }
+
+    std::tuple<std::vector<std::vector<double>>, std::vector<std::vector<double>>> Data::loadWine(){
+        const int WINE_SIZE = 4;
+        const int ONE_HOT_NUM = 3;
+        std::vector<std::vector<double>> inputSet;
+        std::vector<double> tempOutputSet;
+
+        setData(WINE_SIZE, "MLPP/Data/Datasets/Iris.csv", inputSet, tempOutputSet);
+        std::vector<std::vector<double>> outputSet = oneHotRep(tempOutputSet, ONE_HOT_NUM);
+        return {inputSet, outputSet};
+    }
+
+    std::tuple<std::vector<std::vector<double>>, std::vector<std::vector<double>>> Data::loadMnistTrain(){
+        const int MNIST_SIZE = 784;
+        const int ONE_HOT_NUM = 10;
+        std::vector<std::vector<double>> inputSet;
+        std::vector<double> tempOutputSet;
+
+        setData(MNIST_SIZE, "MLPP/Data/Datasets/MnistTrain.csv", inputSet, tempOutputSet);
+        std::vector<std::vector<double>> outputSet = oneHotRep(tempOutputSet, ONE_HOT_NUM);
+        return {inputSet, outputSet};
+    }
+
+    std::tuple<std::vector<std::vector<double>>, std::vector<std::vector<double>>> Data::loadMnistTest(){
+        const int MNIST_SIZE = 784;
+        const int ONE_HOT_NUM = 10;
+        std::vector<std::vector<double>> inputSet;
+        std::vector<double> tempOutputSet;
+
+        setData(MNIST_SIZE, "MLPP/Data/Datasets/MnistTest.csv", inputSet, tempOutputSet);
+        std::vector<std::vector<double>> outputSet = oneHotRep(tempOutputSet, ONE_HOT_NUM);
+        return {inputSet, outputSet};
+    }
+
+    std::tuple<std::vector<std::vector<double>>, std::vector<double>> Data::loadCaliforniaHousing(){
+        const int CALIFORNIA_HOUSING_SIZE = 13; // k = 30
+        std::vector<std::vector<double>> inputSet;
+        std::vector<double> outputSet;
+
+        setData(CALIFORNIA_HOUSING_SIZE, "MLPP/Data/Datasets/CaliforniaHousing.csv", inputSet, outputSet);
+        return {inputSet, outputSet};
+    }
+
+    std::tuple<std::vector<double>, std::vector<double>> Data::loadFiresAndCrime(){
+        std::vector<double> inputSet; // k is implicitly 1.
+        std::vector<double> outputSet;
+
+        setData("MLPP/Data/Datasets/FiresAndCrime.csv", inputSet, outputSet);
+        return {inputSet, outputSet};
+    }
+
+    std::tuple<std::vector<std::vector<double>>, std::vector<std::vector<double>>, std::vector<std::vector<double>>, std::vector<std::vector<double>>> Data::trainTestSplit(std::vector<std::vector<double>> inputSet, std::vector<std::vector<double>> outputSet, double testSize){
+        std::random_device rd;
+        std::default_random_engine generator(rd()); 
+
+        std::shuffle(inputSet.begin(), inputSet.end(), generator); // inputSet random shuffle
+        std::shuffle(outputSet.begin(), outputSet.end(), generator); // outputSet random shuffle)
+
+        std::vector<std::vector<double>> inputTestSet;
+        std::vector<std::vector<double>> outputTestSet; 
+
+        int testInputNumber = testSize * inputSet.size(); // implicit usage of floor
+        int testOutputNumber = testSize * outputSet.size(); // implicit usage of floor
+
+        for(int i = 0; i < testInputNumber; i++){
+            inputTestSet.push_back(inputSet[i]);
+            inputSet.erase(inputSet.begin());
+        }
+
+        for(int i = 0; i < testOutputNumber; i++){
+            outputTestSet.push_back(outputSet[i]);
+            outputSet.erase(outputSet.begin());
+        }
+
+        return {inputSet, outputSet, inputTestSet, outputTestSet};
+
+    }
+
     // MULTIVARIATE SUPERVISED
 
     void Data::setData(int k, std::string fileName, std::vector<std::vector<double>>& inputSet, std::vector<double>& outputSet){

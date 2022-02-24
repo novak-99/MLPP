@@ -13,44 +13,40 @@ namespace MLPP{
     class Stat{
       
         public:
-            double b0Estimation(std::vector<double> x, std::vector<double> y);
-            double b1Estimation(std::vector<double> x, std::vector<double> y);
+            // These functions are for univariate lin reg module- not for users. 
+            double b0Estimation(const std::vector<double>& x, const std::vector<double>& y);
+            double b1Estimation(const std::vector<double>& x, const std::vector<double>& y);
         
             // Statistical Functions
-            double mean(std::vector <double> x);
+            double mean(const std::vector <double>& x);
             double median(std::vector<double> x);
-            std::vector<double> mode(std::vector<double> x);
-            double range(std::vector<double> x);
-            double midrange(std::vector<double> x);
-            double absAvgDeviation(std::vector <double> x);
-            double standardDeviation(std::vector <double> x);
-            double variance(std::vector <double> x);
-            double covariance(std::vector <double> x, std::vector <double> y);
-            double correlation(std::vector <double> x, std::vector<double> y);
-            double R2(std::vector <double> x, std::vector<double> y);
-            double chebyshevIneq(double k);
+            std::vector<double> mode(const std::vector<double>& x);
+            double range(const std::vector<double>& x);
+            double midrange(const std::vector<double>& x);
+            double absAvgDeviation(const std::vector<double>& x);
+            double standardDeviation(const std::vector<double>& x);
+            double variance(const std::vector <double>& x);
+            double covariance(const std::vector<double>& x, const std::vector<double>& y);
+            double correlation(const std::vector <double>& x, const std::vector<double>& y);
+            double R2(const std::vector<double>& x, const std::vector<double>& y);
+            double chebyshevIneq(const double k);
         
 
             // Extras
-            double weightedMean(std::vector<double> x, std::vector<double> weights);
-            double geometricMean(std::vector <double> x);
-            double harmonicMean(std::vector <double> x);
-            double RMS(std::vector<double> x);
-            double powerMean(std::vector<double> x, double p);
-            double lehmerMean(std::vector<double> x, double p);
-            double weightedLehmerMean(std::vector<double> x, std::vector<double> weights, double p);
-            double contraharmonicMean(std::vector<double> x);
-            double heronianMean(double A, double B);
-            double heinzMean(double A, double B, double x);
-            double neumanSandorMean(double a, double b);
-            double stolarskyMean(double x, double y, double p);
-            double identricMean(double x, double y);
-            double logMean(double x, double y);
-
-        private:
-
-        
-        
+            double weightedMean(const std::vector<double>& x, const std::vector<double>& weights);
+            double geometricMean(const std::vector<double>& x);
+            double harmonicMean(const std::vector<double>& x);
+            double RMS(const std::vector<double>& x);
+            double powerMean(const std::vector<double>& x, const double p);
+            double lehmerMean(const std::vector<double>& x, const double p);
+            double weightedLehmerMean(const std::vector<double>& x, const std::vector<double>& weights, const double p);
+            double contraHarmonicMean(const std::vector<double>& x);
+            double heronianMean(const double A, const double B);
+            double heinzMean(const double A, const double B, const double x);
+            double neumanSandorMean(const double a, const double b);
+            double stolarskyMean(const double x, const double y, const double p);
+            double identricMean(const double x, const double y);
+            double logMean(const double x, const double y);
             
     };
 }

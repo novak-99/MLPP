@@ -196,11 +196,22 @@ The result will be the model's predictions for the entire dataset.
 17. ***Statistics Module***
 18. ***Data Processing Module***
     1. Setting and Printing Datasets 
-    2. Feature Scaling 
-    3. Mean Normalization
-    4. One Hot Representation
-    5. Reverse One Hot Representation
-    6. Supported Color Space Conversions 
+    2. Available Datasets
+        1. Wisconsin Breast Cancer Dataset
+            - Binary
+            - SVM 
+        2. MNIST Dataset
+            - Train
+            - Test
+        3. Iris Flower Dataset
+        4. Wine Dataset
+        5. California Housing Dataset
+        6. Fires and Crime Dataset (Chicago)
+    3. Feature Scaling 
+    4. Mean Normalization
+    5. One Hot Representation
+    6. Reverse One Hot Representation
+    7. Supported Color Space Conversions 
         - RGB to Grayscale
         - RGB to HSV
         - RGB to YCbCr

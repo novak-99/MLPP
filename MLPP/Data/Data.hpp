@@ -16,6 +16,18 @@
 namespace MLPP{
 class Data{
         public:
+        // Load Datasets
+            std::tuple<std::vector<std::vector<double>>, std::vector<double>> loadBreastCancer();
+            std::tuple<std::vector<std::vector<double>>, std::vector<double>> loadBreastCancerSVC();
+            std::tuple<std::vector<std::vector<double>>, std::vector<std::vector<double>>> loadIris();
+            std::tuple<std::vector<std::vector<double>>, std::vector<std::vector<double>>> loadWine();
+            std::tuple<std::vector<std::vector<double>>, std::vector<std::vector<double>>> loadMnistTrain();
+            std::tuple<std::vector<std::vector<double>>, std::vector<std::vector<double>>> loadMnistTest();
+            std::tuple<std::vector<std::vector<double>>, std::vector<double>> loadCaliforniaHousing();
+            std::tuple<std::vector<double>, std::vector<double>> loadFiresAndCrime();
+
+            std::tuple<std::vector<std::vector<double>>, std::vector<std::vector<double>>, std::vector<std::vector<double>>, std::vector<std::vector<double>>> trainTestSplit(std::vector<std::vector<double>> inputSet, std::vector<std::vector<double>> outputSet, double testSize);
+
         // Supervised
         void setData(int k, std::string fileName, std::vector<std::vector<double>>& inputSet, std::vector<double>& outputSet);
         void printData(std::vector <std::string> inputName, std::string outputName, std::vector<std::vector<double>> inputSet, std::vector<double> outputSet);
