@@ -68,6 +68,12 @@ namespace MLPP{
             std::vector<double> HingeLossDeriv(std::vector <double> y_hat, std::vector<double> y, double C); 
             std::vector<std::vector<double>> HingeLossDeriv(std::vector<std::vector<double>> y_hat, std::vector<std::vector<double>> y, double C);
 
+            double WassersteinLoss(std::vector<double> y_hat, std::vector<double> y);
+            double WassersteinLoss(std::vector<std::vector<double>> y_hat, std::vector<std::vector<double>> y);
+
+            std::vector<double> WassersteinLossDeriv(std::vector<double> y_hat, std::vector<double> y);
+            std::vector<std::vector<double>> WassersteinLossDeriv(std::vector<std::vector<double>> y_hat, std::vector<std::vector<double>> y);
+
             double dualFormSVM(std::vector<double> alpha, std::vector<std::vector<double>> X, std::vector<double> y); // TO DO: DON'T forget to add non-linear kernelizations. 
 
             std::vector<double> dualFormSVMDeriv(std::vector<double> alpha, std::vector<std::vector<double>> X, std::vector<double> y);

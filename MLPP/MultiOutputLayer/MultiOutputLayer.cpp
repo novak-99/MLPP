@@ -113,6 +113,8 @@ namespace MLPP {
         cost_map["CrossEntropy"] = &Cost::CrossEntropy;
         costDeriv_map["HingeLoss"] = &Cost::HingeLossDeriv;
         cost_map["HingeLoss"] = &Cost::HingeLoss;
+        costDeriv_map["WassersteinLoss"] = &Cost::HingeLossDeriv;
+        cost_map["WassersteinLoss"] = &Cost::HingeLoss;
     }
     
     void MultiOutputLayer::forwardPass(){

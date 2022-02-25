@@ -72,6 +72,7 @@ namespace MLPP{
 
     std::vector<double> Reg::regWeights(std::vector<double> weights, double lambda, double alpha, std::string reg){
         LinAlg alg;
+        if(reg == "WeightClipping"){ return regDerivTerm(weights, lambda, alpha, reg); }
         return alg.subtraction(weights, regDerivTerm(weights, lambda, alpha, reg));
         // for(int i = 0; i < weights.size(); i++){
         //     weights[i] -= regDerivTerm(weights, lambda, alpha, reg, i);
@@ -81,6 +82,7 @@ namespace MLPP{
 
     std::vector<std::vector<double>> Reg::regWeights(std::vector<std::vector<double>> weights, double lambda, double alpha, std::string reg){
         LinAlg alg;
+        if(reg == "WeightClipping"){ return regDerivTerm(weights, lambda, alpha, reg); }
         return alg.subtraction(weights, regDerivTerm(weights, lambda, alpha, reg));
         // for(int i = 0; i < weights.size(); i++){
         //     for(int j = 0; j < weights[i].size(); j++){
@@ -126,6 +128,19 @@ namespace MLPP{
         else if(reg == "ElasticNet"){
             return alpha * lambda * act.sign(weights[j]) + (1 - alpha) * lambda * weights[j];
         }
+        else if(reg == "WeightClipping"){ // Preparation for Wasserstein GANs. 
+            // We assume lambda is the lower clipping threshold, while alpha is the higher clipping threshold. 
+            // alpha > lambda. 
+            if(weights[j] > alpha){
+                return alpha;
+            }
+            else if(weights[j] < lambda){
+                return lambda;
+            }
+            else{
+                return weights[j];
+            }
+        }
         else {
             return 0;
         }
@@ -141,6 +156,19 @@ namespace MLPP{
         }
         else if(reg == "ElasticNet"){
             return alpha * lambda * act.sign(weights[i][j]) + (1 - alpha) * lambda * weights[i][j];
+        }
+        else if(reg == "WeightClipping"){ // Preparation for Wasserstein GANs.
+            // We assume lambda is the lower clipping threshold, while alpha is the higher clipping threshold. 
+            // alpha > lambda. 
+            if(weights[i][j] > alpha){
+                return alpha;
+            }
+            else if(weights[i][j] < lambda){
+               return lambda;
+            }
+            else{
+                return weights[i][j];
+            }
         }
         else {
             return 0;

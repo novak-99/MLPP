@@ -1,11 +1,11 @@
 //
-//  GAN.hpp
+//  WGAN.hpp
 //
 //  Created by Marc Melikyan on 11/4/20.
 //
 
-#ifndef GAN_hpp
-#define GAN_hpp
+#ifndef WGAN_hpp
+#define WGAN_hpp
 
 #include "HiddenLayer/HiddenLayer.hpp"
 #include "OutputLayer/OutputLayer.hpp"
@@ -16,10 +16,10 @@
 
 namespace  MLPP{
 
-class GAN{
+class WGAN{
         public:
-        GAN(double k, std::vector<std::vector<double>> outputSet);
-        ~GAN();
+        WGAN(double k, std::vector<std::vector<double>> outputSet);
+        ~WGAN();
         std::vector<std::vector<double>> generateExample(int n);
         void gradientDescent(double learning_rate, int max_epoch, bool UI = 1);
         double score(); 
@@ -29,8 +29,8 @@ class GAN{
         void addOutputLayer(std::string weightInit = "Default", std::string reg = "None", double lambda = 0.5, double alpha = 0.5); 
         
         private:
-            std::vector<std::vector<double>> modelSetTestGenerator(std::vector<std::vector<double>> X); // Evaluator for the generator of the gan.
-            std::vector<double> modelSetTestDiscriminator(std::vector<std::vector<double>> X); // Evaluator for the discriminator of the gan.
+            std::vector<std::vector<double>> modelSetTestGenerator(std::vector<std::vector<double>> X); // Evaluator for the generator of the WGAN.
+            std::vector<double> modelSetTestDiscriminator(std::vector<std::vector<double>> X); // Evaluator for the discriminator of the WGAN.
 
             double Cost(std::vector<double> y_hat, std::vector<double> y);
 
@@ -53,4 +53,4 @@ class GAN{
     };
 }
 
-#endif /* GAN_hpp */
+#endif /* WGAN_hpp */

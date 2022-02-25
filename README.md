@@ -119,10 +119,12 @@ The result will be the model's predictions for the entire dataset.
         - Log Loss
         - Cross Entropy
         - Hinge Loss
+        - Wasserstein Loss
     4. Possible Regularization Methods
         - Lasso
         - Ridge
         - ElasticNet
+        - Weight Clipping
     5. Possible Weight Initialization Methods
         - Uniform 
         - Xavier Normal
@@ -142,6 +144,7 @@ The result will be the model's predictions for the entire dataset.
     3. Softmax Network
 4. ***Generative Modeling***
     1. Tabular Generative Adversarial Networks
+    2. Tabular Wasserstein Generative Adversarial Networks
 5. ***Natural Language Processing***
     1. Word2Vec (Continous Bag of Words, Skip-Gram)
     2. Stemming

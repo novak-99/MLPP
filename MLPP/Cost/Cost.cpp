@@ -344,6 +344,35 @@ namespace MLPP{
         return deriv;
     }
 
+    double Cost::WassersteinLoss(std::vector <double> y_hat, std::vector<double> y){
+        double sum = 0;
+        for(int i = 0; i < y_hat.size(); i++){
+            sum += y_hat[i] * y[i];
+        }
+        return -sum / y_hat.size();
+    }
+
+    double Cost::WassersteinLoss(std::vector<std::vector<double>> y_hat, std::vector<std::vector<double>> y){
+        double sum = 0;
+        for(int i = 0; i < y_hat.size(); i++){
+            for(int j = 0; j < y_hat[i].size(); j++){
+                sum += y_hat[i][j] * y[i][j];
+            }
+        }        
+        return -sum / y_hat.size();
+    }
+
+    std::vector<double> Cost::WassersteinLossDeriv(std::vector<double> y_hat, std::vector<double> y){
+        LinAlg alg;
+        return alg.scalarMultiply(-1, y); // Simple.
+    }
+
+    std::vector<std::vector<double>> Cost::WassersteinLossDeriv(std::vector<std::vector<double>> y_hat, std::vector<std::vector<double>> y){
+        LinAlg alg;
+        return alg.scalarMultiply(-1, y); // Simple.
+    }
+
+
     double Cost::HingeLoss(std::vector <double> y_hat, std::vector<double> y, std::vector<double> weights, double C){
         LinAlg alg; 
         Reg regularization;
